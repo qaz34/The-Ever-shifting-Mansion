@@ -10,9 +10,11 @@ public class CharacterCont : MonoBehaviour
     public float walkSpeed = 5;
     public float sprintSpeed = 10;
     float yMovement;
-
+    [HideInInspector]
+    public bool aiming;
+    [HideInInspector]
     public Camera currentCamera;
-    public Camera prevCamera;
+    Camera prevCamera;
     bool cameraChanged;
     Vector3 heading;
     // Use this for initialization
@@ -38,8 +40,9 @@ public class CharacterCont : MonoBehaviour
     void Update()
     {
         InputDevice device = InputManager.ActiveDevice;
-        if (device == null)
+        if (device == null || aiming)
             return;
+
         Sprint(device);
         Movement(device);
     }
@@ -58,11 +61,9 @@ public class CharacterCont : MonoBehaviour
     {
 
         var movement = new Vector3(device.LeftStickX, 0, device.LeftStickY);
-
+       // transform.forward = Vector3.Lerp(transform.forward, movement.normalized, .2f);
         if (cameraChanged)
-        {
-            float sAngle = Vector3.SignedAngle(movement, heading, Vector3.up);
-
+        {        
             if (Vector3.Angle(movement, heading) > 50)
             {
                 cameraChanged = false;
@@ -77,9 +78,10 @@ public class CharacterCont : MonoBehaviour
             tempTransfrom = currentCamera.transform;
 
         Vector3 camForward = Vector3.Scale(tempTransfrom.forward, new Vector3(1, 0, 1)).normalized;
-        Vector3 camRight = new Vector3(camForward.z, 0, -camForward.x);       
+        Vector3 camRight = new Vector3(camForward.z, 0, -camForward.x);
         movement = movement.x * camRight + movement.z * camForward;
         movement.y = 0;
+        transform.forward = Vector3.Lerp(transform.forward, movement.normalized, .2f);
         movement *= moveSpeed;
         movement.y = yMovement += Physics.gravity.y * Time.deltaTime;
         if (cController.isGrounded)
