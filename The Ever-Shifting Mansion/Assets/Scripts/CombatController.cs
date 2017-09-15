@@ -16,9 +16,9 @@ public class CombatController : MonoBehaviour
     CharacterCont charCont;
     float timeLastShot;
     bool switched;
-    bool startAim;
+
     List<Target> validTargetsSorted = new List<Target>();
-    int currentTargetIndex;
+
     struct Target
     {
         public float xPos;
@@ -60,16 +60,14 @@ public class CombatController : MonoBehaviour
         if (validTargets.Count > 0)
         {
             validTargets.Sort(delegate (Target a, Target b) { return a.xPos.CompareTo(b.xPos); });
-            int closestTarget = 0;
+
             float distance = Mathf.Infinity;
             for (int i = 0; i < validTargets.Count; i++)
             {
                 float dis = Vector3.Distance(transform.position, validTargets[i].obj.transform.position);
                 if (dis < distance)
-                {
                     distance = dis;
-                    closestTarget = i;
-                }
+
             }
             validTargetsSorted = validTargets;
         }
@@ -106,29 +104,49 @@ public class CombatController : MonoBehaviour
                     transform.forward = Vector3.Lerp(transform.forward, (closestInAngle.obj.transform.position - transform.position).normalized, snapSpeed);
                     transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 }
-            }          
+            }
             if (device.RightTrigger.WasPressed)
             {
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, transform.forward, out hit))
+                if (equipWeapon.type == WepType.RANGED)
                 {
-                    Health targetHealth = hit.transform.GetComponent<Health>();
-                    if (targetHealth)
+                    RaycastHit hit;
+                    if (Physics.Raycast(transform.position, transform.forward, out hit))
                     {
-                        targetHealth.CurrentHealth -= equipWeapon.damage;
-                        GameObject particle = Instantiate(particleEffect);
-                        particle.transform.position = hit.point;
-                        particle.transform.up = (hit.transform.position - transform.position).normalized;
-                        particle.transform.parent = hit.transform.parent;
+                        Health targetHealth = hit.transform.GetComponent<Health>();
+                        if (targetHealth)
+                        {
+                            targetHealth.CurrentHealth -= equipWeapon.damage;
+                            GameObject particle = Instantiate(particleEffect);
+                            particle.transform.position = hit.point;
+                            particle.transform.up = (hit.transform.position - transform.position).normalized;
+                            particle.transform.parent = hit.transform.parent;
+                        }
                     }
                 }
+                else if (equipWeapon.type == WepType.MELEE)
+                {
+                    var hits = Physics.OverlapSphere(transform.position, ((MeleeWep)equipWeapon).arcRadius, 1 << LayerMask.NameToLayer("Target"));
+                    foreach (var hit in hits)
+                    {
+                        if (Vector3.Angle(transform.forward, hit.transform.position - transform.position) < ((MeleeWep)equipWeapon).arcAngle)
+                        {
+                            hit.transform.GetComponent<Health>().CurrentHealth -= equipWeapon.damage;
+                            Vector3 transformedVector = hit.transform.position - transform.position;
+                            transformedVector.y = 0;
+                            transformedVector.Normalize();
+                            transformedVector.y = Mathf.Tan(Mathf.Deg2Rad * ((MeleeWep)equipWeapon).knockBackAngle);
+                            hit.transform.GetComponent<HuskAI>().KnockBack(transformedVector * ((MeleeWep)equipWeapon).knockBackForce);
+
+                            Debug.Log("WAM");
+                        }
+                    }
+                }
+
             }
         }
         else
         {
             charCont.aiming = false;
-            startAim = false;
-            currentTargetIndex = -1;
         }
     }
 }

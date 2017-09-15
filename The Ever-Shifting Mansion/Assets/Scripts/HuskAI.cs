@@ -21,6 +21,15 @@ public class HuskAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (agent.enabled == false)
+        {
+            if (Physics.Raycast(transform.position, -transform.up, 1))
+            {
+                agent.enabled = true;
+                GetComponent<Rigidbody>().isKinematic = true;
+            }
+            return;
+        }
         int mask = 1 << LayerMask.NameToLayer("Target") | 1 << LayerMask.NameToLayer("Ignore Raycast");
         mask = ~mask;
         RaycastHit hit;
@@ -55,6 +64,13 @@ public class HuskAI : MonoBehaviour
         }
         else
             agent.isStopped = false;
+    }
+    public void KnockBack(Vector3 force)
+    {
+        agent.enabled = false;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.AddForce(force, ForceMode.Impulse);
     }
     IEnumerator SetPath()
     {
