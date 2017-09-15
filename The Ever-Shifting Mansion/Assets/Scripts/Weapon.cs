@@ -11,5 +11,7 @@ public class Weapon : ScriptableObject
     [Tooltip("Seconds for full reload")]
     public float reloadSpeed = 1;
     public bool holdToFire;
- 
+    [Tooltip("Mesh")]
+    public GameObject weaponPrefab;
+
 }
