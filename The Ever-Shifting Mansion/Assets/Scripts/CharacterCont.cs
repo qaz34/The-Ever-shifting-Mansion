@@ -9,6 +9,9 @@ public class CharacterCont : MonoBehaviour
     float moveSpeed;
     public float walkSpeed = 5;
     public float sprintSpeed = 10;
+    [Tooltip("Angle before can move")]
+    public float moveAngle = 45;
+    public float turnSpeed = .2f;
     float yMovement;
     [HideInInspector]
     public bool aiming;
@@ -40,9 +43,6 @@ public class CharacterCont : MonoBehaviour
     void Update()
     {
         InputDevice device = InputManager.ActiveDevice;
-        if (device == null || aiming)
-            return;
-
         Sprint(device);
         Movement(device);
     }
@@ -61,31 +61,38 @@ public class CharacterCont : MonoBehaviour
     {
 
         var movement = new Vector3(device.LeftStickX, 0, device.LeftStickY);
-       // transform.forward = Vector3.Lerp(transform.forward, movement.normalized, .2f);
-        if (cameraChanged)
-        {        
-            if (Vector3.Angle(movement, heading) > 50)
+        // transform.forward = Vector3.Lerp(transform.forward, movement.normalized, .2f);
+        if (!aiming)
+        {
+            if (cameraChanged)
             {
-                cameraChanged = false;
+                if (Vector3.Angle(movement, heading) > 50)
+                {
+                    cameraChanged = false;
+                }
+                else if (movement.magnitude == 0)
+                    cameraChanged = false;
             }
-            else if (movement.magnitude == 0)
-                cameraChanged = false;
-        }
-        Transform tempTransfrom;
-        if (cameraChanged)
-            tempTransfrom = PreviousCamera.transform;
-        else
-            tempTransfrom = currentCamera.transform;
+            Transform tempTransfrom;
+            if (cameraChanged)
+                tempTransfrom = PreviousCamera.transform;
+            else
+                tempTransfrom = currentCamera.transform;
 
-        Vector3 camForward = Vector3.Scale(tempTransfrom.forward, new Vector3(1, 0, 1)).normalized;
-        Vector3 camRight = new Vector3(camForward.z, 0, -camForward.x);
-        movement = movement.x * camRight + movement.z * camForward;
-        movement.y = 0;
-        transform.forward = Vector3.Lerp(transform.forward, movement.normalized, .2f);
-        movement *= moveSpeed;
-        movement.y = yMovement += Physics.gravity.y * Time.deltaTime;
+            Vector3 camForward = Vector3.Scale(tempTransfrom.forward, new Vector3(1, 0, 1)).normalized;
+            Vector3 camRight = new Vector3(camForward.z, 0, -camForward.x);
+            movement = movement.x * camRight + movement.z * camForward;
+            movement.y = 0;
+            transform.forward = Vector3.Lerp(transform.forward, movement.normalized, turnSpeed);
+            movement *= moveSpeed;
+            if (Vector3.Angle(transform.forward, movement) < moveAngle)
+                cController.Move(movement * (1 - Vector3.Angle(transform.forward, movement) / moveAngle) * Time.deltaTime);
+        }
+        yMovement += Physics.gravity.y * Time.deltaTime;
         if (cController.isGrounded)
             yMovement = Physics.gravity.y * Time.deltaTime;
-        cController.Move(movement * Time.deltaTime);
+        cController.Move(new Vector3(0, yMovement) * Time.deltaTime);
+
+
     }
 }
