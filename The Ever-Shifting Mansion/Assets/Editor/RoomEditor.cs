@@ -34,7 +34,7 @@ public class RoomEditor : Editor
     protected virtual void OnSceneGUI(SceneView sceneView)
     {
         RoomScriptable room = target as RoomScriptable;
-
+        Handles.color = Color.black;
         for (int x = 0; x <= room.Size.x; x++)
         {
             Handles.DrawLine(new Vector3(x, 0, 0), new Vector3(x, 0, room.Size.y));
@@ -43,9 +43,11 @@ public class RoomEditor : Editor
         {
             Handles.DrawLine(new Vector3(0, 0, y), new Vector3(room.Size.x, 0, y));
         }
-
-        Quaternion rotation = new Quaternion();
-        rotation.eulerAngles = new Vector3(90, 0, 0);
+        Handles.color = Color.white;
+        Quaternion rotation = new Quaternion
+        {
+            eulerAngles = new Vector3(90, 0, 0)
+        };
         // Handles.color = Color.blue;
         for (int x = 0; x < room.Size.x; x++)
         {
@@ -56,7 +58,7 @@ public class RoomEditor : Editor
                     bool set = true;
                     foreach (var door in room.doors)
                     {
-                        if (door.posOnGrid == new Vector2(x, y))
+                        if (door.GridPos == new Vector2(x, y))
                             set = false;
                     }
                     if (set)
@@ -72,13 +74,13 @@ public class RoomEditor : Editor
         {
             Color color = Color.red;
             color.a = .2f;
-            Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(door.posOnGrid.x, 0, door.posOnGrid.y), new Vector3(door.posOnGrid.x, 0, door.posOnGrid.y + 1), new Vector3(door.posOnGrid.x + 1, 0, door.posOnGrid.y + 1), new Vector3(door.posOnGrid.x + 1, 0, door.posOnGrid.y) }, color, Color.blue);
+            Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(door.GridPos.x, 0, door.GridPos.y), new Vector3(door.GridPos.x, 0, door.GridPos.y + 1), new Vector3(door.GridPos.x + 1, 0, door.GridPos.y + 1), new Vector3(door.GridPos.x + 1, 0, door.GridPos.y) }, color, Color.blue);
 
 
 
             //draw Door
             //
-            Vector2 center = new Vector2(door.posOnGrid.x + .5f, door.posOnGrid.y + .5f);
+            Vector2 center = new Vector2(door.GridPos.x + .5f, door.GridPos.y + .5f);
             Vector2 doorCenter = center + (door.Direction() / 2);
 
             if (door.direction == RoomScriptable.EnumDirection.NORTH || door.direction == RoomScriptable.EnumDirection.SOUTH)
@@ -140,7 +142,10 @@ public class RoomEditor : Editor
                             else if (unitVec.y > unitVec.x && unitVec.y < -unitVec.x)
                                 dir = RoomScriptable.EnumDirection.WEST;
 
-                            RoomScriptable.Door door = new RoomScriptable.Door(pos, dir);
+                            RoomScriptable.Door door = new RoomScriptable.Door(pos, dir, RoomScriptable.Rotated.ZERO)
+                            {
+                                size = room.Size
+                            };
                             if (room.doors.Contains(door))
                                 room.doors.Remove(door);
                             else
@@ -161,6 +166,13 @@ public class RoomEditor : Editor
             EditorUtility.SetDirty(room);
             room.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
             newGrid(room);
+        }
+        EditorGUI.BeginChangeCheck();
+        RoomScriptable.Rotated rotated = (RoomScriptable.Rotated)EditorGUILayout.EnumPopup("Rotated", room.rotation);
+        if (EditorGUI.EndChangeCheck())
+        {
+            room.rotation = rotated;
+            room.RotateTo(rotated);
         }
         DrawDefaultInspector();
     }

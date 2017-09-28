@@ -6,17 +6,43 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public class RoomScriptable : ScriptableObject
 {
+    public RoomScriptable(RoomScriptable room)
+    {
+        Size = room.Size;
+        roomGrid1D = room.roomGrid1D;
+        roomGrid = room.roomGrid;
+        rotation = room.rotation;
+        doors = room.doors;
+        roomScene = room.roomScene;
+    }
     [System.Serializable]
     public struct DimensionalAnchor
     {
         public bool[] Grid;
         public int Columns, Rows;
+        public Rotated rotation;
 
         public bool this[int column, int row]
         {
             get
             {
-                return Grid[Columns * row + column];
+                switch (rotation)
+                {
+                    case Rotated.ZERO:
+                        return Grid[Columns * row + column];//
+
+                    case Rotated.DEG90:
+                        return Grid[Columns * column + (Columns - 1 - row)];//
+
+                    case Rotated.DEG180:
+                        return Grid[Columns * (Rows - 1 - row) + (Columns - 1 - column)];//
+
+                    case Rotated.DEG270:
+                        return Grid[Columns * (Rows - 1 - column) + row];
+
+                    default:
+                        return Grid[Columns * row + column];
+                }
             }
             set
             {
@@ -24,6 +50,62 @@ public class RoomScriptable : ScriptableObject
             }
         }
     }
+    public enum Rotated
+    {
+        ZERO,
+        DEG90,
+        DEG180,
+        DEG270,
+    }
+
+    public void RotateClockwise90()
+    {
+        roomGrid.rotation = (Rotated)(((int)roomGrid.rotation + 1) & 3);
+        rotation = roomGrid.rotation;
+        foreach (Door door in doors)
+        {
+            door.rotation = roomGrid.rotation;
+        }
+    }
+
+    public void Rotate180()
+    {
+        roomGrid.rotation = (Rotated)(((int)roomGrid.rotation + 2) & 3);
+        rotation = roomGrid.rotation;
+        foreach (Door door in doors)
+        {
+            door.rotation = roomGrid.rotation;
+        }
+    }
+    public void Rotate0()
+    {
+        roomGrid.rotation = Rotated.ZERO;
+        rotation = roomGrid.rotation;
+        foreach (Door door in doors)
+        {
+            door.rotation = roomGrid.rotation;
+        }
+    }
+    public void RotateTo(Rotated rotation)
+    {
+        roomGrid.rotation = rotation;
+        rotation = roomGrid.rotation;
+        foreach (Door door in doors)
+        {
+            door.rotation = roomGrid.rotation;
+        }
+    }
+    public void RotateAnitclockwise90()
+    {
+        roomGrid.rotation = (Rotated)(((int)roomGrid.rotation + 3) & 3);
+        rotation = roomGrid.rotation;
+        foreach (Door door in doors)
+        {
+            door.rotation = roomGrid.rotation;
+        }
+    }
+
+
 
     public enum EnumDirection
     {
@@ -33,44 +115,124 @@ public class RoomScriptable : ScriptableObject
         WEST
     }
     [System.Serializable]
-    public struct Door
+
+    public class Door
     {
-        public Door(Vector2 pos, EnumDirection dir)
+        public Door(Vector2 pos, EnumDirection dir, Rotated rot)
         {
             posOnGrid = pos;
             direction = dir;
+            rotation = rot;
         }
-        public Vector2 posOnGrid;
+        private Vector2 posOnGrid;
+
+        public Rotated rotation;
         public EnumDirection direction;
+        public Vector2 size;
+
+        public Vector2 GridPos
+        {
+            get
+            {
+                Vector2 posRotated = posOnGrid;
+                switch (rotation)
+                {
+                    case Rotated.DEG90:
+                        posRotated = new Vector2(posRotated.y, size.x - 1 - posRotated.x);
+                        break;
+
+                    case Rotated.DEG180:
+                        posRotated = new Vector2(size.x - 1 - posRotated.x, size.y - 1 - posRotated.y);
+                        break;
+
+                    case Rotated.DEG270:
+                        posRotated = new Vector2(size.y - 1 - posRotated.y, posRotated.x);
+                        break;
+                }
+
+                return posRotated;
+            }
+
+            set
+            {
+                posOnGrid = value;
+            }
+        }
+
         public Vector2 Direction()
         {
+            Vector2 posRotated = new Vector2(0, 1);
             switch (direction)
             {
                 case EnumDirection.NORTH:
-                    return new Vector2(0, 1);
+                    posRotated = new Vector2(0, 1);
+                    break;
                 case EnumDirection.EAST:
-                    return new Vector2(1, 0);
+                    posRotated = new Vector2(1, 0);
+                    break;
                 case EnumDirection.SOUTH:
-                    return new Vector2(0, -1);
+                    posRotated = new Vector2(0, -1);
+                    break;
                 case EnumDirection.WEST:
-                    return new Vector2(-1, 0);
+                    posRotated = new Vector2(-1, 0);
+                    break;
             }
-            return new Vector2();
+            switch (rotation)
+            {
+                case Rotated.DEG90:
+                    posRotated = new Vector2(posRotated.y, -posRotated.x);
+                    break;
+
+                case Rotated.DEG180:
+                    posRotated = new Vector2(posRotated.x, -posRotated.y);
+                    break;
+
+                case Rotated.DEG270:
+                    posRotated = new Vector2(-posRotated.y, posRotated.x);
+                    break;
+            }
+            return posRotated;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var door = obj as Door;
+            return door != null &&
+                   EqualityComparer<Vector2>.Default.Equals(posOnGrid, door.posOnGrid) &&
+                   rotation == door.rotation &&
+                   direction == door.direction;
+
         }
     }
 
     public Scene roomScene;
     [HideInInspector]
-    Vector2 size;
+    public Vector2 size;
     public List<Door> doors = new List<Door>();
     public bool[] roomGrid1D = new bool[0];
     public DimensionalAnchor roomGrid;
-
+    [HideInInspector]
+    public Rotated rotation;
     public Vector2 Size
     {
         get
         {
-            return size;
+            Vector2 posRotated = size;
+            switch (rotation)
+            {
+                case Rotated.DEG90:
+                    posRotated = new Vector2(posRotated.y, posRotated.x);
+                    break;
+
+                case Rotated.DEG180:
+                    posRotated = new Vector2(posRotated.x, posRotated.y);
+                    break;
+
+                case Rotated.DEG270:
+                    posRotated = new Vector2(posRotated.y, posRotated.x);
+                    break;
+            }
+            return posRotated;
         }
         set
         {
@@ -91,7 +253,23 @@ public class RoomScriptable : ScriptableObject
             }
             roomGrid1D = newArray;
             roomGrid = new DimensionalAnchor() { Grid = roomGrid1D, Rows = (int)endSize.y, Columns = (int)endSize.x };
-  
+            bool done = false;
+            while (!done)
+            {
+                done = true;
+                foreach (Door door in doors)
+                {
+                    if (door.GridPos.x < endSize.x || door.GridPos.y < endSize.y)
+                    {
+                        done = false;
+                        doors.Remove(door);
+                        break;
+                    }
+                    else
+                        door.size = endSize;
+                }
+
+            }
             size = endSize;
         }
     }

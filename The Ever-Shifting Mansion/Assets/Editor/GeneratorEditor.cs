@@ -18,6 +18,7 @@ public class GeneratorEditor : Editor
     protected virtual void OnSceneGUI(SceneView sceneView)
     {
         MapGenScriptiable gen = target as MapGenScriptiable;
+        Handles.color = Color.black;
         for (int x = 0; x <= gen.Size.x; x++)
         {
             Handles.DrawLine(new Vector3(x, 0, 0), new Vector3(x, 0, gen.Size.y));
@@ -26,7 +27,7 @@ public class GeneratorEditor : Editor
         {
             Handles.DrawLine(new Vector3(0, 0, y), new Vector3(gen.Size.x, 0, y));
         }
-
+        Handles.color = Color.white;
         for (int x = 0; x < gen.Size.x; x++)
         {
             for (int y = 0; y < gen.Size.y; y++)
@@ -93,28 +94,8 @@ public class GeneratorEditor : Editor
                 Debug.Log("Make Grid Bigger");
                 return;
             }
-            foreach (var door in gen.startRoom.doors)
-                NewRoom(gen, gen.startRoom, startPos, 0);
+            NewRoom(gen, gen.startRoom, startPos, 0);
             Debug.Log("Job Done!");
-            //RoomScriptable currentRoom = gen.startRoom;
-            //Vector2 globalPosCurrent = startPos;
-            //SetMap(gen, gen.startRoom, startPos);
-            //foreach (var doorHost in currentRoom.doors)
-            //{
-            //    RoomScriptable testingRoom = gen.useableRooms[Random.Range(0, gen.useableRooms.Count)];
-            //    foreach (var doorClient in testingRoom.doors)
-            //    {
-            //        if ((doorHost.Direction() + doorClient.Direction()).magnitude == 0)
-            //        {
-            //            Vector2 pos = globalPosCurrent + doorHost.posOnGrid - doorClient.posOnGrid + doorHost.Direction();
-            //            if (CanFit(gen, testingRoom, pos))
-            //            {
-            //                Debug.Log("somehting fit");
-            //                SetMap(gen, testingRoom, pos);
-            //            }
-            //        }
-            //    }
-            //}
         }
 
     }
@@ -135,20 +116,28 @@ public class GeneratorEditor : Editor
                 bool fit = false;
                 while (i < 10 && !fit)
                 {
-                    room = RollDoor(gen);
-                    foreach (var door in room.doors)
+                    room = new RoomScriptable(RollDoor(gen));
+                    for (int it = 0; it < 4; it++)
                     {
-                        if ((hostDoor.Direction() + door.Direction()).magnitude == 0)
+                        foreach (var door in room.doors)
                         {
-                            pos = globalPos + hostDoor.posOnGrid - door.posOnGrid + hostDoor.Direction();
-                            if (CanFit(gen, room, pos))
+
+                            if ((hostDoor.Direction() + door.Direction()).magnitude == 0)
                             {
-                                NewRoom(gen, room, pos, count + 1);
-                                fit = true;
-                                break;
+                                pos = globalPos + hostDoor.GridPos - door.GridPos + hostDoor.Direction();
+                                if (CanFit(gen, room, pos))
+                                {
+                                    NewRoom(gen, room, pos, count + 1);
+                                    fit = true;
+                                    break;
+                                }
                             }
+
                         }
+                        if (!fit)
+                            room.RotateClockwise90();
                     }
+                    room.Rotate0();
                     i++;
                 }
             }
