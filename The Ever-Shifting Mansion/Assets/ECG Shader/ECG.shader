@@ -8,7 +8,8 @@ Shader "Unlit/ECG"
 		_OriginX("OriginX", float) = 0.5
 		_OriginY("OriginY", float) = 0.5
 		_Scale("Scale", float) = 3
-	    _Timer("Timer", float) = 0
+		_Timer("Timer", float) = 0
+		_Color("Color", Color) = (0,1,0,1)
 	}
 	SubShader
 	{
@@ -44,6 +45,7 @@ Shader "Unlit/ECG"
 			float _OriginY;
 			float _Scale;
 			float _Timer;
+			fixed4 _Color;
 
 			v2f vert (appdata v)
 			{
@@ -101,7 +103,9 @@ Shader "Unlit/ECG"
 				fixed4 green = fixed4(intensity*0.1f, intensity, intensity*0.1f, 1) * tex2D(_MainTex, i.uv);
 				fixed4 red = fixed4(intensity * 0.1f, 0, 0, 1) * tex2D(_MainTex, i.uv);
 
-				fixed4 col = red;
+				fixed4 col;
+				col.xyz = _Color.xyz * intensity * tex2D(_MainTex, i.uv);
+				col.a = 1;
 
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);				
