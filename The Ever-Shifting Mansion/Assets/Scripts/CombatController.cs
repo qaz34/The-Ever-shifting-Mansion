@@ -80,7 +80,7 @@ public class CombatController : MonoBehaviour
     void Update()
     {
 
-        InputDevice device = InputManager.ActiveDevice;
+        InputDevice device = InputManager.ActiveDevice;      
         if (device.LeftTrigger.IsPressed)
         {
             charCont.aiming = true;
