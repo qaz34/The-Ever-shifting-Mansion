@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour
     void Update()
     {
         InputDevice device = InputManager.ActiveDevice;
-        GameObject go = Instantiate(equippedWeapon1, slot1.transform.position, slot1.transform.localRotation);        
+              
         if (device.DPad.Left.WasPressed)
         {
             index--;
@@ -29,7 +29,8 @@ public class Inventory : MonoBehaviour
             CombatController chara = new CombatController();
             chara.equipWeapon = weapons[index];
             equippedWeapon1 = weapon2;
-            print("Space was pressed!");
+            Instantiate(equippedWeapon1, slot1.transform.position, slot1.transform.localRotation);
+            print("Weapon was changed(left)!");
         }
         if (device.DPad.Right.WasPressed)
         {
@@ -38,26 +39,24 @@ public class Inventory : MonoBehaviour
             CombatController chara = new CombatController();
             chara.equipWeapon = weapons[index];
             equippedWeapon1 = weapon2;
-            print("Space was pressed!");
+            Instantiate(equippedWeapon1, slot1.transform.position, slot1.transform.localRotation);
+            print("Weapon was changed(Right)!");
         }
     }
 
-
     void Start()
     {
-        //CombatController chara = new CombatController();
-        //equippedWeapon1 = chara.equipWeapon.weaponPrefab;
-        equippedWeapon1 = weapon1;
-
-
-
-
         slot1 = GameObject.Find("WeaponSlot1").transform;
         slot2 = GameObject.Find("WeaponSlot2").transform;
         slot3 = GameObject.Find("WeaponSlot3").transform;
 
-        //  GameObject go2 = Instantiate(weapon2, slot2.transform.position, slot2.transform.localRotation);
-        //   GameObject go3 = Instantiate(weapon3, slot3.transform.position, slot3.transform.localRotation);
+        equippedWeapon1 = weapon1;
+        equippedWeapon2 = weapon2;
+        equippedWeapon3 = weapon3;
+
+        Instantiate(equippedWeapon1, slot1.transform.position, slot1.transform.localRotation);
+        Instantiate(equippedWeapon2, slot2.transform.position, slot2.transform.localRotation);
+        Instantiate(equippedWeapon3, slot3.transform.position, slot3.transform.localRotation);
     }
 
 }
