@@ -12,7 +12,6 @@ public class Door : MonoBehaviour
     bool loading = false;
     bool wasPressed = false;
     bool started = false;
-
     public VideoClip video;
     public GameObject canvas;
     public void LoadScene()

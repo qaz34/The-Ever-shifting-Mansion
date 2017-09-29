@@ -2,12 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 [CustomEditor(typeof(MapGenScriptiable))]
 public class GeneratorEditor : Editor
 {
+    ReorderableList list;
     protected virtual void OnEnable()
     {
         MapGenScriptiable gen = target as MapGenScriptiable;
+
+        //list = new ReorderableList(serializedObject, serializedObject.FindProperty("useableRooms"), true, true, true, true);
+        //list.drawHeaderCallback = (Rect rect) =>
+        //{
+        //    EditorGUI.LabelField(rect, "Useable Rooms");
+        //};
+
+        //list.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
+        //{
+        //    var element = list.serializedProperty.GetArrayElementAtIndex(index);
+        //    rect.y += 2;
+        //    EditorGUI.PropertyField(new Rect(rect.x, rect.y, 60, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("Type"), GUIContent.none);
+        //    //EditorGUI.PropertyField(
+        //    //    new Rect(rect.x + 60, rect.y, rect.width - 60 - 30, EditorGUIUtility.singleLineHeight),
+        //    //    element.FindPropertyRelative("Prefab"), GUIContent.none);
+        //    //EditorGUI.PropertyField(
+        //    //    new Rect(rect.x + rect.width - 30, rect.y, 30, EditorGUIUtility.singleLineHeight),
+        //    //    element.FindPropertyRelative("Count"), GUIContent.none);
+        //};
+
+
         SceneView.onSceneGUIDelegate += OnSceneGUI;
         gen.Initilise();
     }
@@ -40,43 +63,15 @@ public class GeneratorEditor : Editor
                 }
             }
         }
-        //foreach (var door in room.doors)
-        //{
-        //    Color color = Color.red;
-        //    color.a = .2f;
-        //    Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(door.posOnGrid.x, 0, door.posOnGrid.y), new Vector3(door.posOnGrid.x, 0, door.posOnGrid.y + 1), new Vector3(door.posOnGrid.x + 1, 0, door.posOnGrid.y + 1), new Vector3(door.posOnGrid.x + 1, 0, door.posOnGrid.y) }, color, Color.blue);
-
-
-
-        //    //draw Door
-        //    //
-        //    Vector2 center = new Vector2(door.posOnGrid.x + .5f, door.posOnGrid.y + .5f);
-        //    Vector2 doorCenter = VectorAdd.Vector2Add.Vec2Add(center, (door.Direction() / 2));
-
-        //    if (door.direction == RoomScriptable.EnumDirection.NORTH || door.direction == RoomScriptable.EnumDirection.SOUTH)
-        //        Handles.DrawSolidRectangleWithOutline(new Vector3[] {
-        //        new Vector3(doorCenter.x - 0.4f, 0,doorCenter.y - 0.1f),
-        //        new Vector3(doorCenter.x- 0.4f, 0, doorCenter.y +0.1f),
-        //        new Vector3(doorCenter.x + 0.4f, 0, doorCenter.y + 0.1f),
-        //        new Vector3(doorCenter.x + 0.4f, 0, doorCenter.y -0.1f) },
-        //            color, Color.blue);
-        //    else
-        //        Handles.DrawSolidRectangleWithOutline(new Vector3[] {
-        //        new Vector3(doorCenter.x - 0.1f, 0,doorCenter.y -0.4f),
-        //        new Vector3(doorCenter.x- 0.1f, 0, doorCenter.y +0.4f),
-        //        new Vector3(doorCenter.x +0.1f, 0, doorCenter.y +0.4f),
-        //        new Vector3(doorCenter.x + 0.1f, 0, doorCenter.y -0.4f) },
-        //           color, Color.blue);
-
-
-        //}
-
     }
 
     public override void OnInspectorGUI()
     {
         MapGenScriptiable gen = target as MapGenScriptiable;
 
+        //serializedObject.Update();
+        //list.DoLayoutList();
+        //serializedObject.ApplyModifiedProperties();
         DrawDefaultInspector();
         EditorGUI.BeginChangeCheck();
         Vector3 size = EditorGUILayout.Vector2Field("Room Size", gen.Size);
@@ -110,18 +105,19 @@ public class GeneratorEditor : Editor
             SetMap(gen, currentRoom, globalPos);
             RoomScriptable room = null;
             Vector2 pos = Vector2.zero;
-            int i = 0;
+
             foreach (var hostDoor in currentRoom.doors)
             {
                 bool fit = false;
+                int i = 0;
                 while (i < 10 && !fit)
                 {
-                    room = new RoomScriptable(RollDoor(gen));
+                    room = Instantiate(RollDoor(gen));
+                    room.RotateTo((RoomScriptable.Rotated)(int)Random.Range(0, 3));
                     for (int it = 0; it < 4; it++)
                     {
                         foreach (var door in room.doors)
                         {
-
                             if ((hostDoor.Direction() + door.Direction()).magnitude == 0)
                             {
                                 pos = globalPos + hostDoor.GridPos - door.GridPos + hostDoor.Direction();
@@ -132,10 +128,11 @@ public class GeneratorEditor : Editor
                                     break;
                                 }
                             }
-
                         }
                         if (!fit)
-                            room.RotateClockwise90();
+                            room.RotateTo((RoomScriptable.Rotated)(int)Random.Range(0, 3));
+                        else
+                            break;
                     }
                     room.Rotate0();
                     i++;

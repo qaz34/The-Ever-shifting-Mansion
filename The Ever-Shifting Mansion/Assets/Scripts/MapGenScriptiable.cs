@@ -1,10 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Specialized;
 [CreateAssetMenu(fileName = "Map Gen", menuName = "Map/Generator", order = 1)]
 
 public class MapGenScriptiable : ScriptableObject
 {
+    
+    public List<RoomScriptable> useableRooms;
+    public RoomScriptable startRoom;
+    [HideInInspector]
+    public bool[] grid1D;
+    [HideInInspector]
+    public Vector2 gridSize;
+    public int iterations;
+    [HideInInspector]
+    public DimensionalAnchor grid;
+
     [System.Serializable]
     public struct DimensionalAnchor
     {
@@ -23,17 +35,6 @@ public class MapGenScriptiable : ScriptableObject
             }
         }
     }
-
-
-    public List<RoomScriptable> useableRooms;
-    public RoomScriptable startRoom;
-    public bool[] grid1D;
-    [HideInInspector]
-    public Vector2 gridSize;
-    public int iterations;
-
-    public DimensionalAnchor grid;
-
     public void Initilise()
     {
         grid = new DimensionalAnchor() { Grid = grid1D, Columns = (int)gridSize.x, Rows = (int)gridSize.y };
@@ -41,12 +42,8 @@ public class MapGenScriptiable : ScriptableObject
         {
             grid1D = new bool[(int)gridSize.x * (int)gridSize.y];
             for (int x = 0; x < gridSize.x; x++)
-            {
                 for (int y = 0; y < gridSize.y; y++)
-                {
                     grid[x, y] = false;
-                }
-            }
         }
     }
     public void NewGrid()
@@ -54,12 +51,9 @@ public class MapGenScriptiable : ScriptableObject
         grid = new DimensionalAnchor() { Grid = grid1D, Columns = (int)gridSize.x, Rows = (int)gridSize.y };
         grid1D = new bool[(int)gridSize.x * (int)gridSize.y];
         for (int x = 0; x < gridSize.x; x++)
-        {
             for (int y = 0; y < gridSize.y; y++)
-            {
                 grid[x, y] = false;
-            }
-        }
+
     }
     public Vector2 Size
     {
@@ -83,7 +77,7 @@ public class MapGenScriptiable : ScriptableObject
                     else
                         newArray[(int)endSize.x * y + x] = grid1D[(int)smallX * y + x];
                 }
-            }            
+            }
             grid1D = newArray;
             grid = new DimensionalAnchor() { Grid = grid1D, Rows = (int)endSize.y, Columns = (int)endSize.x };
             gridSize = endSize;

@@ -6,15 +6,18 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public class RoomScriptable : ScriptableObject
 {
-    public RoomScriptable(RoomScriptable room)
-    {
-        Size = room.Size;
-        roomGrid1D = room.roomGrid1D;
-        roomGrid = room.roomGrid;
-        rotation = room.rotation;
-        doors = room.doors;
-        roomScene = room.roomScene;
-    }
+    [HideInInspector, SerializeField]
+    public Object connectedScene;
+    [HideInInspector, SerializeField]
+    public string connectedSceneName;
+    [HideInInspector]
+    public Vector2 size = new Vector2(1, 1);
+    public List<Door> doors = new List<Door>();
+    public bool[] roomGrid1D;
+    public DimensionalAnchor roomGrid;
+    [HideInInspector]
+    public Rotated rotation;
+
     [System.Serializable]
     public struct DimensionalAnchor
     {
@@ -86,9 +89,9 @@ public class RoomScriptable : ScriptableObject
             door.rotation = roomGrid.rotation;
         }
     }
-    public void RotateTo(Rotated rotation)
+    public void RotateTo(Rotated _rotation)
     {
-        roomGrid.rotation = rotation;
+        roomGrid.rotation = (Rotated)(((int)_rotation) & 3);
         rotation = roomGrid.rotation;
         foreach (Door door in doors)
         {
@@ -124,7 +127,8 @@ public class RoomScriptable : ScriptableObject
             direction = dir;
             rotation = rot;
         }
-        private Vector2 posOnGrid;
+        [HideInInspector, SerializeField]
+        public Vector2 posOnGrid;
 
         public Rotated rotation;
         public EnumDirection direction;
@@ -184,7 +188,7 @@ public class RoomScriptable : ScriptableObject
                     break;
 
                 case Rotated.DEG180:
-                    posRotated = new Vector2(posRotated.x, -posRotated.y);
+                    posRotated = new Vector2(-posRotated.x, -posRotated.y);
                     break;
 
                 case Rotated.DEG270:
@@ -203,16 +207,7 @@ public class RoomScriptable : ScriptableObject
                    direction == door.direction;
 
         }
-    }
-
-    public Scene roomScene;
-    [HideInInspector]
-    public Vector2 size;
-    public List<Door> doors = new List<Door>();
-    public bool[] roomGrid1D = new bool[0];
-    public DimensionalAnchor roomGrid;
-    [HideInInspector]
-    public Rotated rotation;
+    }   
     public Vector2 Size
     {
         get

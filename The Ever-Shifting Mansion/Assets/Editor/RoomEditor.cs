@@ -20,6 +20,13 @@ public class RoomEditor : Editor
     protected virtual void OnEnable()
     {
         RoomScriptable room = target as RoomScriptable;
+        if (room.roomGrid1D == null)
+        {
+            room.roomGrid1D = new bool[1];
+            newGrid(room);
+            room.Size = new Vector2(1, 1);
+            room.doors = new List<RoomScriptable.Door>();
+        }
         if (!(room.roomGrid1D.Length > 0))
             newGrid(room);
         if (room.roomGrid.Grid == null)
@@ -174,6 +181,14 @@ public class RoomEditor : Editor
             room.rotation = rotated;
             room.RotateTo(rotated);
         }
-        DrawDefaultInspector();
+
+        EditorGUI.BeginChangeCheck();
+        SceneAsset scene = (SceneAsset)EditorGUILayout.ObjectField("scene object", room.connectedScene, typeof(SceneAsset), true);
+        if (EditorGUI.EndChangeCheck())
+        {
+            room.connectedScene = scene;
+            room.connectedSceneName = scene.name;
+        }
+
     }
 }
