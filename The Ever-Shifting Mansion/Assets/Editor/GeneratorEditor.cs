@@ -6,34 +6,61 @@ using UnityEditorInternal;
 [CustomEditor(typeof(MapGenScriptiable))]
 public class GeneratorEditor : Editor
 {
-    ReorderableList list;
+    ReorderableList Prop;
     protected virtual void OnEnable()
     {
         MapGenScriptiable gen = target as MapGenScriptiable;
-
-        //list = new ReorderableList(serializedObject, serializedObject.FindProperty("useableRooms"), true, true, true, true);
-        //list.drawHeaderCallback = (Rect rect) =>
-        //{
-        //    EditorGUI.LabelField(rect, "Useable Rooms");
-        //};
-
-        //list.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
-        //{
-        //    var element = list.serializedProperty.GetArrayElementAtIndex(index);
-        //    rect.y += 2;
-        //    EditorGUI.PropertyField(new Rect(rect.x, rect.y, 60, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("Type"), GUIContent.none);
-        //    //EditorGUI.PropertyField(
-        //    //    new Rect(rect.x + 60, rect.y, rect.width - 60 - 30, EditorGUIUtility.singleLineHeight),
-        //    //    element.FindPropertyRelative("Prefab"), GUIContent.none);
-        //    //EditorGUI.PropertyField(
-        //    //    new Rect(rect.x + rect.width - 30, rect.y, 30, EditorGUIUtility.singleLineHeight),
-        //    //    element.FindPropertyRelative("Count"), GUIContent.none);
-        //};
-
+        Prop = new ReorderableList(serializedObject, serializedObject.FindProperty("useableRooms"), true, true, true, true)
+        {
+            drawElementCallback = DrawElementP
+        };
 
         SceneView.onSceneGUIDelegate += OnSceneGUI;
         gen.Initilise();
     }
+
+
+    void DrawHeader(Rect rect)
+    {
+        MapGenScriptiable gen = target as MapGenScriptiable;
+        EditorGUI.LabelField(rect, "Useable Rooms");
+    }
+    void DrawElementP(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        var element = Prop.serializedProperty.GetArrayElementAtIndex(index);
+        rect.y += 2;
+        float posX = rect.x;
+        float width = EditorGUIUtility.currentViewWidth / 2;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("room"), GUIContent.none);
+        posX += width;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.TextField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "Weight", GUIStyle.none);
+        posX += width;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("chanceToPlace"), GUIContent.none);
+    }
+    void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        MapGenScriptiable gen = target as MapGenScriptiable;
+        RoomScriptable room = gen.useableRooms[index].room;
+        float weight = gen.useableRooms[index].chanceToPlace;
+        rect.y += 2;
+        EditorGUI.ObjectField(new Rect(rect.x, rect.y, 240, EditorGUIUtility.singleLineHeight), room, typeof(RoomScriptable), false);
+    }
+    void OnAdd(ReorderableList _list)
+    {
+        MapGenScriptiable gen = target as MapGenScriptiable;
+        if (gen.startRoom != null)
+        {
+            RoomScriptable room = Instantiate(gen.startRoom);
+            gen.useableRooms.Add(new MapGenScriptiable.RoomWithWeighting() { room = room, chanceToPlace = .5f });
+        }
+        else
+            Debug.Log("Set StartRoom");
+        EditorUtility.SetDirty(target);
+    }
+
+
     protected virtual void OnDisable()
     {
         SceneView.onSceneGUIDelegate -= OnSceneGUI;
@@ -69,10 +96,17 @@ public class GeneratorEditor : Editor
     {
         MapGenScriptiable gen = target as MapGenScriptiable;
 
-        //serializedObject.Update();
-        //list.DoLayoutList();
-        //serializedObject.ApplyModifiedProperties();
-        DrawDefaultInspector();
+
+        serializedObject.Update();
+        Prop.DoLayoutList();
+        serializedObject.ApplyModifiedProperties();
+        EditorGUI.BeginChangeCheck();
+        RoomScriptable startRoom = (RoomScriptable)EditorGUILayout.ObjectField(gen.startRoom, typeof(RoomScriptable), false);
+        if (EditorGUI.EndChangeCheck())
+        {
+            EditorUtility.SetDirty(gen);
+            gen.startRoom = startRoom;
+        }
         EditorGUI.BeginChangeCheck();
         Vector3 size = EditorGUILayout.Vector2Field("Room Size", gen.Size);
         if (EditorGUI.EndChangeCheck())
@@ -80,89 +114,11 @@ public class GeneratorEditor : Editor
             EditorUtility.SetDirty(gen);
             gen.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
         }
+       
         if (GUILayout.Button("Generate Map"))
         {
-            gen.NewGrid();
-            Vector2 startPos = new Vector2(Mathf.Ceil(gen.gridSize.x / 2) - Mathf.Floor(gen.startRoom.Size.x / 2), 0);
-            if (gen.startRoom.Size.x * 2 >= gen.gridSize.x || gen.startRoom.Size.y * 2 >= gen.gridSize.y)
-            {
-                Debug.Log("Make Grid Bigger");
-                return;
-            }
-            NewRoom(gen, gen.startRoom, startPos, 0);
-            Debug.Log("Job Done!");
+            gen.GenMap();
         }
-
-    }
-    RoomScriptable RollDoor(MapGenScriptiable gen)
-    {
-        return gen.useableRooms[Random.Range(0, gen.useableRooms.Count)];
-    }
-    void NewRoom(MapGenScriptiable gen, RoomScriptable currentRoom, Vector2 globalPos, int count)
-    {
-        if (count <= gen.iterations)
-        {
-            SetMap(gen, currentRoom, globalPos);
-            RoomScriptable room = null;
-            Vector2 pos = Vector2.zero;
-
-            foreach (var hostDoor in currentRoom.doors)
-            {
-                bool fit = false;
-                int i = 0;
-                while (i < 10 && !fit)
-                {
-                    room = Instantiate(RollDoor(gen));
-                    room.RotateTo((RoomScriptable.Rotated)(int)Random.Range(0, 3));
-                    for (int it = 0; it < 4; it++)
-                    {
-                        foreach (var door in room.doors)
-                        {
-                            if ((hostDoor.Direction() + door.Direction()).magnitude == 0)
-                            {
-                                pos = globalPos + hostDoor.GridPos - door.GridPos + hostDoor.Direction();
-                                if (CanFit(gen, room, pos))
-                                {
-                                    NewRoom(gen, room, pos, count + 1);
-                                    fit = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!fit)
-                            room.RotateTo((RoomScriptable.Rotated)(int)Random.Range(0, 3));
-                        else
-                            break;
-                    }
-                    room.Rotate0();
-                    i++;
-                }
-            }
-        }
-    }
-    //start is the client rooms 0,0 coord in global
-    void SetMap(MapGenScriptiable gen, RoomScriptable room, Vector2 start)
-    {
-        for (int x = (int)start.x; x < start.x + room.Size.x; x++)
-            for (int y = (int)start.y; y < start.y + room.Size.y; y++)
-                if (!gen.grid[x, y])
-                    gen.grid[x, y] = room.roomGrid[x - (int)start.x, y - (int)start.y];
-
-    }
-    //start is the client rooms 0,0 coord in global
-    bool CanFit(MapGenScriptiable gen, RoomScriptable room, Vector2 start)
-    {
-        for (int x = (int)start.x; x < start.x + room.Size.x; x++)
-        {
-            for (int y = (int)start.y; y < start.y + room.Size.y; y++)
-            {
-                if (x >= gen.Size.x || x < 0 || y >= gen.Size.y || y < 0)
-                    return false;
-                if (gen.grid[x, y] == true && room.roomGrid[x - (int)start.x, y - (int)start.y] == true)
-                    return false;
-            }
-        }
-        return true;
 
     }
 }

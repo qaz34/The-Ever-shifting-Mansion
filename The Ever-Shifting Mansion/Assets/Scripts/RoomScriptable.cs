@@ -63,7 +63,7 @@ public class RoomScriptable : ScriptableObject
 
     public void RotateClockwise90()
     {
-        roomGrid.rotation = (Rotated)(((int)roomGrid.rotation + 1) & 3);
+        roomGrid.rotation = (Rotated)(((int)roomGrid.rotation + 1) & 4);
         rotation = roomGrid.rotation;
         foreach (Door door in doors)
         {
@@ -73,7 +73,7 @@ public class RoomScriptable : ScriptableObject
 
     public void Rotate180()
     {
-        roomGrid.rotation = (Rotated)(((int)roomGrid.rotation + 2) & 3);
+        roomGrid.rotation = (Rotated)(((int)roomGrid.rotation + 2) & 4);
         rotation = roomGrid.rotation;
         foreach (Door door in doors)
         {
@@ -91,7 +91,7 @@ public class RoomScriptable : ScriptableObject
     }
     public void RotateTo(Rotated _rotation)
     {
-        roomGrid.rotation = (Rotated)(((int)_rotation) & 3);
+        roomGrid.rotation = _rotation;
         rotation = roomGrid.rotation;
         foreach (Door door in doors)
         {
@@ -100,7 +100,7 @@ public class RoomScriptable : ScriptableObject
     }
     public void RotateAnitclockwise90()
     {
-        roomGrid.rotation = (Rotated)(((int)roomGrid.rotation + 3) & 3);
+        roomGrid.rotation = (Rotated)(((int)roomGrid.rotation + 3) & 4);
         rotation = roomGrid.rotation;
         foreach (Door door in doors)
         {
@@ -207,7 +207,7 @@ public class RoomScriptable : ScriptableObject
                    direction == door.direction;
 
         }
-    }   
+    }
     public Vector2 Size
     {
         get

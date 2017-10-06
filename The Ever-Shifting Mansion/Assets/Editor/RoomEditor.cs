@@ -183,7 +183,7 @@ public class RoomEditor : Editor
         }
 
         EditorGUI.BeginChangeCheck();
-        SceneAsset scene = (SceneAsset)EditorGUILayout.ObjectField("scene object", room.connectedScene, typeof(SceneAsset), true);
+        SceneAsset scene = (SceneAsset)EditorGUILayout.ObjectField("scene object", (room.connectedScene == null) ? new SceneAsset() : room.connectedScene, typeof(SceneAsset), true);
         if (EditorGUI.EndChangeCheck())
         {
             room.connectedScene = scene;
