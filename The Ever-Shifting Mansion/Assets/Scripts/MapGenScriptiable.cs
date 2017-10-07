@@ -164,7 +164,6 @@ public class MapGenScriptiable : ScriptableObject
                         else
                             break;
                     }
-                    room.Rotate0();
                     i++;
                 }
             }

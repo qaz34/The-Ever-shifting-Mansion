@@ -114,7 +114,15 @@ public class GeneratorEditor : Editor
             EditorUtility.SetDirty(gen);
             gen.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
         }
-       
+
+        EditorGUI.BeginChangeCheck();
+        int iterations = EditorGUILayout.IntField("Iterations", gen.iterations);
+        if (EditorGUI.EndChangeCheck())
+        {
+            EditorUtility.SetDirty(gen);
+            gen.iterations = iterations;
+        }
+
         if (GUILayout.Button("Generate Map"))
         {
             gen.GenMap();
