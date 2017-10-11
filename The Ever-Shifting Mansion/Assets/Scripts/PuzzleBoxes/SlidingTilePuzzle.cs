@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using System;
 
 namespace PuzzleBox
@@ -192,21 +191,6 @@ namespace PuzzleBox
 				tile = _tile;
 				position = _pos;
 				Debug.Log(position.ToString());
-			}
-		}
-	}
-
-	[CustomEditor(typeof(SlidingTilePuzzle))]
-	public class SlidingTilePuzzleInspector : Editor
-	{
-		public override void OnInspectorGUI()
-		{
-			SlidingTilePuzzle puzzle = (SlidingTilePuzzle)target;
-
-			base.OnInspectorGUI();
-			if (GUILayout.Button("Randomise Tiles"))
-			{
-				puzzle.RandomTest();
 			}
 		}
 	}
