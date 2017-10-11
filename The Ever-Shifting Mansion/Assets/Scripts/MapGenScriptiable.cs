@@ -19,6 +19,7 @@ public class MapGenScriptiable : ScriptableObject
         public bool door;
         public bool placed;
     }
+    public List<RoomScriptable> rooms;
     public List<RoomWithWeighting> useableRooms;
     public RoomScriptable startRoom;
     [HideInInspector]
@@ -101,14 +102,15 @@ public class MapGenScriptiable : ScriptableObject
     public void GenMap()
     {
         NewGrid();
+        rooms = new List<RoomScriptable>();
         Vector2 startPos = new Vector2(Mathf.Ceil(gridSize.x / 2) - Mathf.Floor(startRoom.Size.x / 2), 0);
         if (startRoom.Size.x * 2 >= gridSize.x || startRoom.Size.y * 2 >= gridSize.y)
         {
             Debug.Log("Make Grid Bigger");
             return;
         }
+        rooms.Add(startRoom);
         NewRoom(this, startRoom, startPos, 0);
-        Debug.Log("Job Done!");
     }
     RoomScriptable RollDoor(MapGenScriptiable gen)
     {
@@ -130,9 +132,10 @@ public class MapGenScriptiable : ScriptableObject
     }
     void NewRoom(MapGenScriptiable gen, RoomScriptable currentRoom, Vector2 globalPos, int count)
     {
+
+        SetMap(gen, currentRoom, globalPos);
         if (count <= gen.iterations)
         {
-            SetMap(gen, currentRoom, globalPos);
             RoomScriptable room = null;
             Vector2 pos = Vector2.zero;
 
@@ -153,6 +156,13 @@ public class MapGenScriptiable : ScriptableObject
                                 pos = globalPos + hostDoor.GridPos - door.GridPos + hostDoor.Direction();
                                 if (CanFit(gen, room, pos))
                                 {
+
+                                    hostDoor.connectedDoor = door;
+                                    hostDoor.connectedScene = room;
+                                    door.connectedDoor = hostDoor;
+                                    door.connectedScene = currentRoom;
+                                    rooms.Add(room);
+
                                     NewRoom(gen, room, pos, count + 1);
                                     fit = true;
                                     break;

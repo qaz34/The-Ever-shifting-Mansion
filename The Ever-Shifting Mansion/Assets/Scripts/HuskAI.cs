@@ -58,7 +58,6 @@ public class HuskAI : MonoBehaviour
             if (Time.time - lastAttacked > weapon.fireRate)
             {
                 lastAttacked = Time.time;
-                Debug.Log("Done doing an attack");
                 player.GetComponent<Health>().CurrentHealth -= weapon.damage;
             }
         }

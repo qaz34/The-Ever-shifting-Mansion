@@ -4,36 +4,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 using InControl;
-public class Door : MonoBehaviour
+public class DoorInScene : MonoBehaviour
 {
     [HideInInspector, SerializeField]
-    public Object connectedScene;
+    public RoomScriptable connectedRoom;
     AsyncOperation op;
     bool loading = false;
     bool wasPressed = false;
     bool started = false;
-    public VideoClip video;
-    public GameObject canvas;
+
     public void LoadScene()
     {
-        StartCoroutine(SceneLoading());
-        StartCoroutine(VideoDone());
-    }
-    IEnumerator SceneLoading()
-    {
-        op = SceneManager.LoadSceneAsync(connectedScene.name);
-        op.allowSceneActivation = false;
-        yield return op;
-    }
-    IEnumerator VideoDone()
-    {
-        canvas.SetActive(true);
-        yield return new WaitForSeconds((float)video.length);
-        SwitchScene();
-    }
-    public void SwitchScene()
-    {
-        op.allowSceneActivation = true;
+        GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().Load(connectedRoom);
     }
     private void OnTriggerStay(Collider other)
     {
