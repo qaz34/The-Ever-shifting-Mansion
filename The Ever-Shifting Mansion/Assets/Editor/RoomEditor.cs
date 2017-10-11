@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 [CustomEditor(typeof(RoomScriptable))]
 public class RoomEditor : Editor
 {
@@ -17,9 +18,11 @@ public class RoomEditor : Editor
             }
         }
     }
+
     protected virtual void OnEnable()
     {
         RoomScriptable room = target as RoomScriptable;
+
         if (room.roomGrid1D == null)
         {
             room.roomGrid1D = new bool[1];
@@ -35,7 +38,7 @@ public class RoomEditor : Editor
     }
     protected virtual void OnDisable()
     {
-        RoomScriptable room = target as RoomScriptable;
+
         SceneView.onSceneGUIDelegate -= OnSceneGUI;
     }
     protected virtual void OnSceneGUI(SceneView sceneView)
@@ -51,10 +54,6 @@ public class RoomEditor : Editor
             Handles.DrawLine(new Vector3(0, 0, y), new Vector3(room.Size.x, 0, y));
         }
         Handles.color = Color.white;
-        Quaternion rotation = new Quaternion
-        {
-            eulerAngles = new Vector3(90, 0, 0)
-        };
         // Handles.color = Color.blue;
         for (int x = 0; x < room.Size.x; x++)
         {
@@ -166,6 +165,7 @@ public class RoomEditor : Editor
     public override void OnInspectorGUI()
     {
         RoomScriptable room = target as RoomScriptable;
+
         EditorGUI.BeginChangeCheck();
         Vector3 size = EditorGUILayout.Vector2Field("Room Size", room.Size);
         if (EditorGUI.EndChangeCheck())
@@ -183,12 +183,17 @@ public class RoomEditor : Editor
         }
 
         EditorGUI.BeginChangeCheck();
-        SceneAsset scene = (SceneAsset)EditorGUILayout.ObjectField("scene object", (room.connectedScene == null) ? new SceneAsset() : room.connectedScene, typeof(SceneAsset), true);
+        SceneAsset scene = (SceneAsset)EditorGUILayout.ObjectField("Scene object", (room.connectedScene == null) ? new SceneAsset() : room.connectedScene, typeof(SceneAsset), true);
         if (EditorGUI.EndChangeCheck())
         {
             room.connectedScene = scene;
             room.connectedSceneName = scene.name;
         }
-
+        EditorGUI.BeginChangeCheck();
+        GameObject door = (GameObject)EditorGUILayout.ObjectField("Door object", room.doorObject, typeof(GameObject), false);
+        if (EditorGUI.EndChangeCheck())
+        {
+            room.doorObject = door;
+        }
     }
 }

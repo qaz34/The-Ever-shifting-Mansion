@@ -83,7 +83,10 @@ public class CharacterCont : MonoBehaviour
             Vector3 camRight = new Vector3(camForward.z, 0, -camForward.x);
             movement = movement.x * camRight + movement.z * camForward;
             movement.y = 0;
-            transform.forward = Vector3.Lerp(transform.forward, movement.normalized, turnSpeed);
+            if ((transform.forward + movement.normalized).magnitude < .01f)
+                transform.forward = Vector3.Lerp(transform.forward, movement.normalized + transform.right, turnSpeed);
+            else
+                transform.forward = Vector3.Lerp(transform.forward, movement.normalized, turnSpeed);
             movement *= moveSpeed;
             if (Vector3.Angle(transform.forward, movement) < moveAngle)
                 cController.Move(movement * (1 - Vector3.Angle(transform.forward, movement) / moveAngle) * Time.deltaTime);

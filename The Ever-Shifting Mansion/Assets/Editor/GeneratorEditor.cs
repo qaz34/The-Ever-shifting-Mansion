@@ -22,7 +22,6 @@ public class GeneratorEditor : Editor
 
     void DrawHeader(Rect rect)
     {
-        MapGenScriptiable gen = target as MapGenScriptiable;
         EditorGUI.LabelField(rect, "Useable Rooms");
     }
     void DrawElementP(Rect rect, int index, bool isActive, bool isFocused)
@@ -43,7 +42,6 @@ public class GeneratorEditor : Editor
     {
         MapGenScriptiable gen = target as MapGenScriptiable;
         RoomScriptable room = gen.useableRooms[index].room;
-        float weight = gen.useableRooms[index].chanceToPlace;
         rect.y += 2;
         EditorGUI.ObjectField(new Rect(rect.x, rect.y, 240, EditorGUIUtility.singleLineHeight), room, typeof(RoomScriptable), false);
     }

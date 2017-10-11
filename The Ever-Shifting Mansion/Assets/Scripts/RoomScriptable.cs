@@ -10,6 +10,7 @@ public class RoomScriptable : ScriptableObject
     public Object connectedScene;
     [HideInInspector, SerializeField]
     public string connectedSceneName;
+    public GameObject doorObject;
     [HideInInspector]
     public Vector2 size = new Vector2(1, 1);
     public List<Door> doors = new List<Door>();
@@ -17,6 +18,17 @@ public class RoomScriptable : ScriptableObject
     public DimensionalAnchor roomGrid;
     [HideInInspector]
     public Rotated rotation;
+
+
+
+    public void Load()
+    {
+
+        //go to load scene
+        //start loading new room
+        //set up room with stuff
+        //load into room;
+    }
 
     [System.Serializable]
     public struct DimensionalAnchor
@@ -119,21 +131,25 @@ public class RoomScriptable : ScriptableObject
     }
     [System.Serializable]
 
+#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public class Door
+#pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
+
+        [HideInInspector, SerializeField]
+        public Vector2 posOnGrid;
+        public Rotated rotation;
+        public EnumDirection direction;
+        public Vector2 size;
+        public Door connectedDoor;
+        public RoomScriptable connectedScene;
+
         public Door(Vector2 pos, EnumDirection dir, Rotated rot)
         {
             posOnGrid = pos;
             direction = dir;
             rotation = rot;
         }
-        [HideInInspector, SerializeField]
-        public Vector2 posOnGrid;
-
-        public Rotated rotation;
-        public EnumDirection direction;
-        public Vector2 size;
-
         public Vector2 GridPos
         {
             get
@@ -197,7 +213,26 @@ public class RoomScriptable : ScriptableObject
             }
             return posRotated;
         }
-
+        public Vector2 Direction(bool rotated)
+        {
+            Vector2 posRotated = new Vector2(0, 1);
+            switch (direction)
+            {
+                case EnumDirection.NORTH:
+                    posRotated = new Vector2(0, 1);
+                    break;
+                case EnumDirection.EAST:
+                    posRotated = new Vector2(1, 0);
+                    break;
+                case EnumDirection.SOUTH:
+                    posRotated = new Vector2(0, -1);
+                    break;
+                case EnumDirection.WEST:
+                    posRotated = new Vector2(-1, 0);
+                    break;
+            }
+            return posRotated;
+        }
         public override bool Equals(object obj)
         {
             var door = obj as Door;
@@ -207,6 +242,7 @@ public class RoomScriptable : ScriptableObject
                    direction == door.direction;
 
         }
+
     }
     public Vector2 Size
     {
