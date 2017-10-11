@@ -8,6 +8,8 @@ namespace PuzzleBox
 	{
 		[SerializeField]
 		SpriteRenderer tileImage;
+		[HideInInspector]
+		public SlidingTilePuzzle.Position position;
 
 		public void SetImage(Sprite newImage)
 		{

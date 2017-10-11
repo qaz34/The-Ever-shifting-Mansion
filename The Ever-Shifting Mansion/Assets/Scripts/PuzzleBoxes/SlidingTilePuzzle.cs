@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using System;
 
 namespace PuzzleBox
@@ -50,6 +49,7 @@ namespace PuzzleBox
 
 				SlidingTile newTile = Instantiate(tileObject, transform).GetComponent<SlidingTile>();
 				newTile.SetImage(tileImages[i]);
+				newTile.position = tilePos;
 				newTile.transform.localPosition = tileCoord;
 
 				tiles.Add(new TileSlot(newTile, tilePos));
@@ -126,6 +126,23 @@ namespace PuzzleBox
 			}
 		}
 
+		void ResetTiles()
+		{
+			List<SlidingTile> tileObjs = new List<SlidingTile>();
+			foreach (TileSlot tile in tiles)
+			{
+				tileObjs.Add(tile.tile);
+			}
+
+			foreach (SlidingTile tile in tileObjs)
+			{
+				TileAtPos(tile.position).tile = tile;
+				SetTileCoords(tile, tile.position);
+			}
+
+
+		}
+
 		void SlideTile(TileSlot movedTile, Direction direction)
 		{
 			if (!movedTile.neighbours.ContainsKey(direction)) { return; }
@@ -158,6 +175,8 @@ namespace PuzzleBox
 				emptySlot.tile.gameObject.SetActive(true);
 				emptySlot = null;
 			}
+
+			ResetTiles();
 			RandomiseTiles();
 		}
 
@@ -172,21 +191,6 @@ namespace PuzzleBox
 				tile = _tile;
 				position = _pos;
 				Debug.Log(position.ToString());
-			}
-		}
-	}
-
-	[CustomEditor(typeof(SlidingTilePuzzle))]
-	public class SlidingTilePuzzleInspector : Editor
-	{
-		public override void OnInspectorGUI()
-		{
-			SlidingTilePuzzle puzzle = (SlidingTilePuzzle)target;
-
-			base.OnInspectorGUI();
-			if (GUILayout.Button("Randomise Tiles"))
-			{
-				puzzle.RandomTest();
 			}
 		}
 	}
