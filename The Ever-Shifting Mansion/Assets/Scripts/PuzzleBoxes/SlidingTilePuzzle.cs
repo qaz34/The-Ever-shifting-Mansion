@@ -50,6 +50,7 @@ namespace PuzzleBox
 
 				SlidingTile newTile = Instantiate(tileObject, transform).GetComponent<SlidingTile>();
 				newTile.SetImage(tileImages[i]);
+				newTile.position = tilePos;
 				newTile.transform.localPosition = tileCoord;
 
 				tiles.Add(new TileSlot(newTile, tilePos));
@@ -126,6 +127,23 @@ namespace PuzzleBox
 			}
 		}
 
+		void ResetTiles()
+		{
+			List<SlidingTile> tileObjs = new List<SlidingTile>();
+			foreach (TileSlot tile in tiles)
+			{
+				tileObjs.Add(tile.tile);
+			}
+
+			foreach (SlidingTile tile in tileObjs)
+			{
+				TileAtPos(tile.position).tile = tile;
+				SetTileCoords(tile, tile.position);
+			}
+
+
+		}
+
 		void SlideTile(TileSlot movedTile, Direction direction)
 		{
 			if (!movedTile.neighbours.ContainsKey(direction)) { return; }
@@ -158,6 +176,8 @@ namespace PuzzleBox
 				emptySlot.tile.gameObject.SetActive(true);
 				emptySlot = null;
 			}
+
+			ResetTiles();
 			RandomiseTiles();
 		}
 
