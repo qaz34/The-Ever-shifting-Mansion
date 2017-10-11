@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using InControl;
 public class UIController : MonoBehaviour
+
 {
     GameObject[] pauseObjects;
     public GameObject gameOverPanel;
+    public GameObject inventory;
     public GameObject PauseMenu;
+    public Camera connectedCamera;
+    private CharacterCont player;
+
 
     // Use this for initialization
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>();
+        player.currentCamera = connectedCamera;
         Time.timeScale = 1;
         pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
         hidePaused();
@@ -34,6 +41,10 @@ public class UIController : MonoBehaviour
                 Debug.Log("Time has been restored");
             }
         }
+        if (device.Action4 || Input.GetKeyDown(KeyCode.Tab))
+        {
+            showInventory();
+        }
     }
 
     public void showPaused()
@@ -44,6 +55,11 @@ public class UIController : MonoBehaviour
             PauseMenu.SetActive(true);
             Time.timeScale = 0;
         }
+    }
+
+    public void showInventory()
+    {
+        
     }
 
     public void hidePaused()
