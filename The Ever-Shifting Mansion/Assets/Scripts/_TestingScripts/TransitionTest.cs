@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
-public class TransitionTest : MonoBehaviour
+public class TransitionTest : PlayableBehaviour
 {
 	[HideInInspector]
 	public bool complete = false;
@@ -14,6 +15,6 @@ public class TransitionTest : MonoBehaviour
 
 	void Update()
 	{
-		if (complete) { Debug.Log("Who's the better programmer? That's right, Connor is!"); gameObject.SetActive(false); }
+		//if (complete) { Debug.Log("Who's the better programmer? That's right, Connor is!"); gameObject.SetActive(false); }
 	}
 }
