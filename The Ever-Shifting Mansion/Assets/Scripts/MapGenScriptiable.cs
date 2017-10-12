@@ -29,7 +29,7 @@ public class MapGenScriptiable : ScriptableObject
     public int iterations;
     [HideInInspector]
     public DimensionalAnchor grid;
-
+    public int targetEnemies;
     [System.Serializable]
     public struct DimensionalAnchor
     {
@@ -98,20 +98,39 @@ public class MapGenScriptiable : ScriptableObject
 
     }
 
-
+    void RandomEnemies()
+    {
+        int enemiesSpawned = 0;
+        var roomsAvaliable = new List<RoomScriptable>(rooms);
+        while (enemiesSpawned < targetEnemies && roomsAvaliable.Count > 0)
+        {
+            var room = roomsAvaliable[Random.Range(0, roomsAvaliable.Count)];
+            if (room.enemiesInRoom < room.maxEnemies)
+            {
+                enemiesSpawned++;
+                room.enemiesInRoom++;
+            }
+            else
+                roomsAvaliable.Remove(room);
+        }
+    }
     public void GenMap()
     {
         NewGrid();
         rooms = new List<RoomScriptable>();
         Vector2 startPos = new Vector2(Mathf.Ceil(gridSize.x / 2) - Mathf.Floor(startRoom.Size.x / 2), 0);
-        if (startRoom.Size.x * 2 >= gridSize.x || startRoom.Size.y * 2 >= gridSize.y)
+        RoomScriptable room = Instantiate(startRoom);
+        if (room.Size.x * 2 >= gridSize.x || room.Size.y * 2 >= gridSize.y)
         {
             Debug.Log("Make Grid Bigger");
             return;
         }
-        rooms.Add(startRoom);
-        NewRoom(this, startRoom, startPos, 0);
+        rooms.Add(room);
+        room.posOnGrid = startPos;
+        NewRoom(this, room, startPos, 0);
+        RandomEnemies();
     }
+
     RoomScriptable RollDoor(MapGenScriptiable gen)
     {
         float percentile = 0;
@@ -134,7 +153,7 @@ public class MapGenScriptiable : ScriptableObject
     {
 
         SetMap(gen, currentRoom, globalPos);
-        if (count <= gen.iterations)
+        if (count < gen.iterations)
         {
             RoomScriptable room = null;
             Vector2 pos = Vector2.zero;
@@ -156,11 +175,10 @@ public class MapGenScriptiable : ScriptableObject
                                 pos = globalPos + hostDoor.GridPos - door.GridPos + hostDoor.Direction();
                                 if (CanFit(gen, room, pos))
                                 {
-
-                                    hostDoor.connectedDoor = door;
                                     hostDoor.connectedScene = room;
-                                    door.connectedDoor = hostDoor;
                                     door.connectedScene = currentRoom;
+                                    DontDestroyOnLoad(room);
+                                    room.posOnGrid = pos;
                                     rooms.Add(room);
 
                                     NewRoom(gen, room, pos, count + 1);
@@ -192,7 +210,6 @@ public class MapGenScriptiable : ScriptableObject
     bool CanFit(MapGenScriptiable gen, RoomScriptable room, Vector2 start)
     {
         for (int x = (int)start.x; x < start.x + room.Size.x; x++)
-        {
             for (int y = (int)start.y; y < start.y + room.Size.y; y++)
             {
                 if (x >= gen.Size.x || x < 0 || y >= gen.Size.y || y < 0)
@@ -200,7 +217,8 @@ public class MapGenScriptiable : ScriptableObject
                 if (gen.grid[x, y] == true && room.roomGrid[x - (int)start.x, y - (int)start.y] == true)
                     return false;
             }
-        }
+
+
         return true;
 
     }

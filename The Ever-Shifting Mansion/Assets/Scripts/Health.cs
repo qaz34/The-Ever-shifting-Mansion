@@ -19,6 +19,14 @@ public class Health : MonoBehaviour
             {
                 health = 0;
                 isDead = true;
+                if (tag == "player")
+                {
+
+                }
+                else
+                {
+                    GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().currentRoom.enemiesInRoom--;
+                }
                 gameObject.SetActive(false);
             }
         }

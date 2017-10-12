@@ -117,8 +117,9 @@ public class RoomEditor : Editor
         {
             mouseDown = false;
         }
-        if (mouseDown)
+        if (mouseDown && !(Event.current.alt))
         {
+            Undo.RecordObject(room, "room changed");
             Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
             //var ray = Camera.current.ScreenPointToRay(Event.current.mousePosition);
             GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -170,7 +171,7 @@ public class RoomEditor : Editor
         Vector3 size = EditorGUILayout.Vector2Field("Room Size", room.Size);
         if (EditorGUI.EndChangeCheck())
         {
-            EditorUtility.SetDirty(room);
+            Undo.RecordObject(room, "Scene changed");
             room.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
             newGrid(room);
         }
@@ -178,6 +179,7 @@ public class RoomEditor : Editor
         RoomScriptable.Rotated rotated = (RoomScriptable.Rotated)EditorGUILayout.EnumPopup("Rotated", room.rotation);
         if (EditorGUI.EndChangeCheck())
         {
+            Undo.RecordObject(room, "Scene changed");
             room.rotation = rotated;
             room.RotateTo(rotated);
         }
@@ -186,6 +188,7 @@ public class RoomEditor : Editor
         SceneAsset scene = (SceneAsset)EditorGUILayout.ObjectField("Scene object", (room.connectedScene == null) ? new SceneAsset() : room.connectedScene, typeof(SceneAsset), true);
         if (EditorGUI.EndChangeCheck())
         {
+            Undo.RecordObject(room, "Scene changed");
             room.connectedScene = scene;
             room.connectedSceneName = scene.name;
         }
@@ -193,7 +196,16 @@ public class RoomEditor : Editor
         GameObject door = (GameObject)EditorGUILayout.ObjectField("Door object", room.doorObject, typeof(GameObject), false);
         if (EditorGUI.EndChangeCheck())
         {
+            Undo.RecordObject(room, "Scene changed");
             room.doorObject = door;
+
+        }
+        EditorGUI.BeginChangeCheck();
+        int enemies = EditorGUILayout.IntField("Max enemies", room.maxEnemies);
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(room, "Scene changed");
+            room.maxEnemies = enemies;
         }
     }
 }
