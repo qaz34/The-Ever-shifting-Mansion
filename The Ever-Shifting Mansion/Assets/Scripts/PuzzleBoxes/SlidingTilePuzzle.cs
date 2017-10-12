@@ -9,6 +9,8 @@ namespace PuzzleBox
 	{
 		public enum Position { TopLeft = 1, TopCenter = 2, TopRight = 3, MidLeft = 4, MidCenter = 5, MidRight = 6, BotLeft = 7, BotCenter = 8, BotRight = 9 }
 		public enum Direction { UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3 }
+		public enum Difficulty { EASY = 0, MEDIUM = 1, HARD = 2}
+
 		Dictionary<Position, Vector2> offset = new Dictionary<Position, Vector2>()
 		{
 			{ Position.TopLeft, new Vector2(-1, 1) },
@@ -20,6 +22,12 @@ namespace PuzzleBox
 			{ Position.BotLeft, new Vector2(-1, -1) },
 			{ Position.BotCenter, new Vector2(0, -1) },
 			{ Position.BotRight, new Vector2(1, -1) }
+		};
+		Dictionary<Difficulty, SlideDifficulty> difficulties = new Dictionary<Difficulty, SlideDifficulty>()
+		{
+			{ Difficulty.EASY, new SlideDifficulty(12, 4) },
+			{ Difficulty.MEDIUM, new SlideDifficulty(24, 5) },
+			{ Difficulty.HARD, new SlideDifficulty(50, 8) }
 		};
 
 		public GameObject tileObject;
@@ -116,13 +124,15 @@ namespace PuzzleBox
 				emptySlot.tile.gameObject.SetActive(false);
 			}
 
-			for(int i = 0; i < randomMovements; i += 1)
+			int blockedDir = -1;
+			for (int i = 0; i < randomMovements; i += 1)
 			{
 				int direction;
-				do { direction = UnityEngine.Random.Range(0, 4); } while (!emptySlot.neighbours.ContainsKey((Direction)direction));
+				do { direction = UnityEngine.Random.Range(0, 4); } while (!emptySlot.neighbours.ContainsKey((Direction)direction) || direction == blockedDir);
 
 				SlideTile(emptySlot, (Direction)direction);
 				emptySlot = emptySlot.neighbours[(Direction)direction];
+				blockedDir = (direction + 2) % 4;
 			}
 		}
 
@@ -139,8 +149,6 @@ namespace PuzzleBox
 				TileAtPos(tile.position).tile = tile;
 				SetTileCoords(tile, tile.position);
 			}
-
-
 		}
 
 		void SlideTile(TileSlot movedTile, Direction direction)
@@ -191,6 +199,18 @@ namespace PuzzleBox
 				tile = _tile;
 				position = _pos;
 				Debug.Log(position.ToString());
+			}
+		}
+
+		public class SlideDifficulty
+		{
+			public int movements;
+			public int posChanges;
+
+			public SlideDifficulty(int move, int change)
+			{
+				movements = move;
+				posChanges = change;
 			}
 		}
 	}
