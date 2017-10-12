@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 public class MainMenuGen : MonoBehaviour
 {
     public MapGenScriptiable mapGen;
     RoomScriptable roomLoading;
+    public RoomScriptable currentRoom;
     AsyncOperation op;
+    public bool transitionTime = false;
+    public GameObject playerPrefab;
+    GameObject player;
     public void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -15,28 +20,61 @@ public class MainMenuGen : MonoBehaviour
     {
         MapGenScriptiable gen = Instantiate(mapGen);
         gen.GenMap();
+        mapGen = gen;
+        DontDestroyOnLoad(mapGen);
+        currentRoom = gen.rooms[0];
+        player = Instantiate(playerPrefab);
+        player.transform.position = new Vector3(-100, -100, -100);
+        DontDestroyOnLoad(player);
         Load(gen.rooms[0]);
     }
     public void Load(RoomScriptable room)
     {
         roomLoading = room;
-        StartCoroutine(SceneLoading(room));
+        SceneManager.LoadScene("DoorTransitionScene");
+       
+    }
+    void StartLoad()
+    {
+        StartCoroutine(SceneLoading(roomLoading));
     }
     IEnumerator SceneLoading(RoomScriptable room)
     {
         op = SceneManager.LoadSceneAsync(room.connectedScene.name);
-        op.allowSceneActivation = true;
+        op.allowSceneActivation = false;
         yield return op;
-        foreach (var door in room.doors)
-        {
+    }
+    public void Set()
+    {
+        op.allowSceneActivation = true;
+        SceneManager.activeSceneChanged += Loaded;
+    }
+    public void Loaded(Scene sc, Scene sc2)
+    {
+        SceneManager.activeSceneChanged -= Loaded;
+        Vector3 spawnPos = Vector3.zero;
+        foreach (var door in roomLoading.doors)
             if (door.connectedScene != null)
             {
-                GameObject go = Instantiate(room.doorObject);
-                go.transform.position = new Vector3(door.posOnGrid.x + .5f, room.doorObject.transform.localScale.y / 2, door.posOnGrid.y + .5f);
+                GameObject go = Instantiate(roomLoading.doorObject);
+                go.transform.position = new Vector3(door.posOnGrid.x + .5f, roomLoading.doorObject.transform.localScale.y / 2, door.posOnGrid.y + .5f);
+                if (door.connectedScene == currentRoom)
+                    spawnPos = go.transform.position;
                 go.transform.Translate(new Vector3(door.Direction(false).x / 2, 0, door.Direction(false).y / 2));
                 go.transform.Rotate(transform.up, 90 * (int)door.direction);
                 go.GetComponentInChildren<DoorInScene>().connectedRoom = door.connectedScene;
             }
+        List<Spawner> spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponentsInChildren<Spawner>().ToList();
+
+        for (int i = 0; i < roomLoading.enemiesInRoom; i++)
+        {
+            GameObject go = Instantiate(spawner[i].enemy);
+            go.transform.position = spawner[i].transform.position;
+            spawner.RemoveAt(i);
         }
+        currentRoom = roomLoading;
+        player.transform.position = spawnPos;
+
+        transitionTime = false;
     }
 }

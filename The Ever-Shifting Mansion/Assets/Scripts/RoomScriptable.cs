@@ -18,18 +18,9 @@ public class RoomScriptable : ScriptableObject
     public DimensionalAnchor roomGrid;
     [HideInInspector]
     public Rotated rotation;
-
-
-
-    public void Load()
-    {
-
-        //go to load scene
-        //start loading new room
-        //set up room with stuff
-        //load into room;
-    }
-
+    public Vector2 posOnGrid;
+    public int maxEnemies;
+    public int enemiesInRoom;
     [System.Serializable]
     public struct DimensionalAnchor
     {
@@ -141,7 +132,6 @@ public class RoomScriptable : ScriptableObject
         public Rotated rotation;
         public EnumDirection direction;
         public Vector2 size;
-        public Door connectedDoor;
         public RoomScriptable connectedScene;
 
         public Door(Vector2 pos, EnumDirection dir, Rotated rot)

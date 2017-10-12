@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
+using System.Linq;
 [CustomEditor(typeof(MapGenScriptiable))]
 public class GeneratorEditor : Editor
 {
@@ -88,6 +89,48 @@ public class GeneratorEditor : Editor
                 }
             }
         }
+
+        foreach (var room in gen.rooms)
+        {
+            Vector3 lablePos = new Vector3(room.size.x/ 2 + room.posOnGrid.x, 0, room.size.y / 2 + room.posOnGrid.y);
+            Handles.Label(lablePos, room.enemiesInRoom.ToString());
+            foreach (var door in room.doors.Where(door => door.connectedScene != null))
+            {
+
+                Color color = Color.red;
+                color.a = .2f;
+                Vector2 pos = room.posOnGrid + door.GridPos;
+                Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(pos.x, 0, pos.y), new Vector3(pos.x, 0, pos.y + 1), new Vector3(pos.x + 1, 0, pos.y + 1), new Vector3(pos.x + 1, 0, pos.y) }, color, Color.blue);
+                foreach (var otherDoor in door.connectedScene.doors.Where(otherDoor => otherDoor.connectedScene == room))
+                {
+                    Vector2 posO = door.connectedScene.posOnGrid + otherDoor.GridPos;
+                    Handles.DrawLine(new Vector3(pos.x + .5f, 0, pos.y + .5f), new Vector3(posO.x + .5f, 0, posO.y + .5f));
+                }
+
+                //draw Door
+                //
+                Vector2 center = new Vector2(pos.x + .5f, pos.y + .5f);
+                Vector2 doorCenter = center + (door.Direction() / 2);
+
+                if (door.direction == RoomScriptable.EnumDirection.NORTH || door.direction == RoomScriptable.EnumDirection.SOUTH)
+                    Handles.DrawSolidRectangleWithOutline(new Vector3[] {
+                new Vector3(doorCenter.x - 0.4f, 0,doorCenter.y - 0.1f),
+                new Vector3(doorCenter.x- 0.4f, 0, doorCenter.y +0.1f),
+                new Vector3(doorCenter.x + 0.4f, 0, doorCenter.y + 0.1f),
+                new Vector3(doorCenter.x + 0.4f, 0, doorCenter.y -0.1f) },
+                        color, Color.blue);
+                else
+                    Handles.DrawSolidRectangleWithOutline(new Vector3[] {
+                new Vector3(doorCenter.x - 0.1f, 0,doorCenter.y -0.4f),
+                new Vector3(doorCenter.x- 0.1f, 0, doorCenter.y +0.4f),
+                new Vector3(doorCenter.x +0.1f, 0, doorCenter.y +0.4f),
+                new Vector3(doorCenter.x + 0.1f, 0, doorCenter.y -0.4f) },
+                       color, Color.blue);
+
+
+            }
+        }
+
     }
 
     public override void OnInspectorGUI()
@@ -102,14 +145,14 @@ public class GeneratorEditor : Editor
         RoomScriptable startRoom = (RoomScriptable)EditorGUILayout.ObjectField(gen.startRoom, typeof(RoomScriptable), false);
         if (EditorGUI.EndChangeCheck())
         {
-            EditorUtility.SetDirty(gen);
+            Undo.RecordObject(gen, "gen changed");
             gen.startRoom = startRoom;
         }
         EditorGUI.BeginChangeCheck();
         Vector3 size = EditorGUILayout.Vector2Field("Room Size", gen.Size);
         if (EditorGUI.EndChangeCheck())
         {
-            EditorUtility.SetDirty(gen);
+            Undo.RecordObject(gen, "gen changed");
             gen.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
         }
 
@@ -117,12 +160,19 @@ public class GeneratorEditor : Editor
         int iterations = EditorGUILayout.IntField("Iterations", gen.iterations);
         if (EditorGUI.EndChangeCheck())
         {
-            EditorUtility.SetDirty(gen);
+            Undo.RecordObject(gen, "gen changed");
             gen.iterations = iterations;
         }
-
+        EditorGUI.BeginChangeCheck();
+        int enemies = EditorGUILayout.IntField("Target enemies", gen.targetEnemies);
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(gen, "gen changed");
+            gen.targetEnemies = enemies;
+        }
         if (GUILayout.Button("Generate Map"))
         {
+            Undo.RecordObject(gen, "gen changed");
             gen.GenMap();
         }
 

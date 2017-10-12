@@ -42,6 +42,8 @@ public class CharacterCont : MonoBehaviour
 
     void Update()
     {
+        if (!currentCamera)
+            return;
         InputDevice device = InputManager.ActiveDevice;
         Sprint(device);
         Movement(device);
