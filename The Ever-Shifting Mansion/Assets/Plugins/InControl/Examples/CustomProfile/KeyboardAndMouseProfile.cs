@@ -76,9 +76,9 @@ namespace CustomProfileExample
                 },
                 new InputControlMapping
                 {
-                    Handle = "Jump",
+                    Handle = "Inventory",
                     Target = InputControlType.Action4,
-                    Source = KeyCodeButton( KeyCode.Space )
+                    Source = KeyCodeButton( KeyCode.Tab )
                 },
                 new InputControlMapping
                 {

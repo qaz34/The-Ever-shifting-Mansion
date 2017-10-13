@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 [CreateAssetMenu(fileName = "Map Room", menuName = "Map/Room", order = 1)]
-[System.Serializable]
 public class RoomScriptable : ScriptableObject
 {
-    [HideInInspector, SerializeField]
+    [HideInInspector]
     public Object connectedScene;
-    [HideInInspector, SerializeField]
+    [HideInInspector]
     public string connectedSceneName;
     public GameObject doorObject;
     [HideInInspector]
