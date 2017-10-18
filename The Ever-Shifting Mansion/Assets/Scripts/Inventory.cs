@@ -6,8 +6,11 @@ public class Inventory : MonoBehaviour
 {
     int currentlyEquipWeapon = 0;
     public List<Weapon> weapons;
-
-
+    public Transform weaponLocation;
+    void Start()
+    {
+        Instantiate(GetComponent<CombatController>().equipWeapon.weaponPrefab, weaponLocation.position, weaponLocation.rotation, weaponLocation);
+    }
     void Update()
     {
         InputDevice device = InputManager.ActiveDevice;

@@ -79,14 +79,7 @@ namespace CustomProfileExample
                     Handle = "Inventory",
                     Target = InputControlType.Action4,
                     Source = KeyCodeButton( KeyCode.Tab )
-                },
-                new InputControlMapping
-                {
-                    Handle = "Combo",
-                    Target = InputControlType.LeftBumper,
-					// KeyCodeComboButton requires that all KeyCode params are down simultaneously.
-					Source = KeyCodeComboButton( KeyCode.LeftAlt, KeyCode.Alpha1 )
-                },
+                },            
                  new InputControlMapping
                 {
                     Handle = "LeftBumper",

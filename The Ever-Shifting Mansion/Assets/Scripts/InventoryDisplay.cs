@@ -18,6 +18,7 @@ public class InventoryDisplay : MonoBehaviour
     {
         inventoryCamera.SetActive(!inventoryCamera.activeSelf);
         var player = GameObject.FindGameObjectWithTag("Player");
+        player.SendMessage("SetEnabled", !inventoryCamera.activeSelf);
         player.GetComponent<CharacterCont>().enabled = !inventoryCamera.activeSelf;
         for (int i = 0; i < slots.Count; i++)
         {
@@ -25,10 +26,7 @@ public class InventoryDisplay : MonoBehaviour
                 Destroy(child.gameObject);
             if (player.GetComponent<Inventory>().weapons[i])
             {
-                var go = Instantiate(player.GetComponent<Inventory>().weapons[i].weaponPrefab);
-                go.transform.position = slots[i].position;
-                go.transform.rotation = slots[i].rotation;
-                go.transform.parent = slots[i];
+                var go = Instantiate(player.GetComponent<Inventory>().weapons[i].weaponPrefab, slots[i].position, slots[i].rotation, slots[i]);
             }
         }
     }

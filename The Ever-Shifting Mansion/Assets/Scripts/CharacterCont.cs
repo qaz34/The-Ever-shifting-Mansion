@@ -20,6 +20,16 @@ public class CharacterCont : MonoBehaviour
     Camera prevCamera;
     bool cameraChanged;
     Vector3 heading;
+    public void ToggleEnabled()
+    {
+        enabled = !enabled;
+        GetComponent<CombatController>().enabled = enabled;
+    }
+    public void SetEnabled(bool _enabled)
+    {
+        enabled = _enabled;
+        GetComponent<CombatController>().enabled = _enabled;
+    }
     // Use this for initialization
     void Start()
     {
