@@ -7,11 +7,17 @@ public enum WepType
     MELEE,
     RANGED
 }
-
-public class Weapon : ScriptableObject
+public enum AmmoType
 {
-    [Tooltip("Mesh")]
-    public GameObject weaponPrefab;
+    PISTOL,
+    RIFLE,
+    SHOTGUN,
+    NADES
+}
+
+public class Weapon : Item
+{
+
     public int damage = 10;
     [Tooltip("Rounds per second")]
     public float fireRate = 1;
@@ -27,8 +33,8 @@ public class MeleeWep : Weapon
     public float arcAngle = 10;
 
     public float knockBackForce = 1;
-    public float knockBackAngle = 10;  
- 
+    public float knockBackAngle = 10;
+
 }
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Ranged", order = 1)]
@@ -37,6 +43,6 @@ public class RangedWep : Weapon
     public int ammoCap = 5;
     [Tooltip("Seconds for full reload")]
     public float reloadSpeed = 1;
-  
+    public AmmoType ammoType;
 }
 

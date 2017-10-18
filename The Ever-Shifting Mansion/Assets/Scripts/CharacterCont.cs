@@ -43,7 +43,10 @@ public class CharacterCont : MonoBehaviour
     void Update()
     {
         if (!currentCamera)
+        {
+            Debug.Log("No Camera Set");
             return;
+        }
         InputDevice device = InputManager.ActiveDevice;
         Sprint(device);
         Movement(device);

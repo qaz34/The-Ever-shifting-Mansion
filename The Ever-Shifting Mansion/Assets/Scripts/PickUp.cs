@@ -2,19 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUp : MonoBehaviour
+public class PickUp : ScriptableObject
 {
-    void Update()
-    {
-        if(gameObject.tag == "weapon")
-        {
-            //currentWeapon = this;
-        }
-        if(gameObject.tag == "consumable")
-        {
-            //add 1 of this
-        }
-
-    }
-
+   
 }
