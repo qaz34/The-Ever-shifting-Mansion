@@ -19,6 +19,7 @@ public class MainMenuGen : MonoBehaviour
 	public void NewGame()
 	{
 		MapGenScriptiable gen = Instantiate(mapGen);
+        //instansiate new copies of the rooms into the gen
 		gen.GenMap();
 		mapGen = gen;
 		DontDestroyOnLoad(mapGen);

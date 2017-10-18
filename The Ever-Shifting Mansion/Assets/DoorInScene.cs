@@ -6,7 +6,7 @@ using UnityEngine.Video;
 using InControl;
 public class DoorInScene : MonoBehaviour
 {
-    [HideInInspector, SerializeField]
+    [HideInInspector]
     public RoomScriptable connectedRoom;
     AsyncOperation op;
     bool loading = false;
