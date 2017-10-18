@@ -158,6 +158,13 @@ namespace PuzzleBox
 			}
 		}
 
+		public void SlideTileIntoEmpty(Direction selectedTile)
+		{
+			if (!emptySlot.neighbours.ContainsKey(selectedTile)) { return; }
+
+			SlideTile(emptySlot, selectedTile);
+		}
+
 		void SlideTile(TileSlot movedTile, Direction direction)
 		{
 			if (!movedTile.neighbours.ContainsKey(direction)) { return; }
@@ -170,6 +177,8 @@ namespace PuzzleBox
 
 			SetTileCoords(tileA, movedTile.neighbours[direction].position);
 			SetTileCoords(tileB, movedTile.position);
+
+			UpdateEmptySlot();
 		}
 
 		void SetTileCoords(SlidingTile tile, Position pos)
@@ -181,6 +190,17 @@ namespace PuzzleBox
 		TileSlot TileAtPos(Position pos)
 		{
 			return tiles[((int)pos) - 1];
+		}
+
+		void UpdateEmptySlot()
+		{
+			for (int i = 0; i < tiles.Count; i += 1)
+			{
+				if (!tiles[i].tile.gameObject.activeSelf)
+				{
+					emptySlot = tiles[i];
+				}
+			}
 		}
 
 		public int GetTileDisplacements()
