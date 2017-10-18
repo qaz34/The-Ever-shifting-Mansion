@@ -33,7 +33,10 @@ namespace PuzzleBox
 		public GameObject tileObject;
 		public float tileSize;
 		public Texture2D puzzleImage;
-		public int randomMovements = 6;
+		public Difficulty difficulty;
+
+		[HideInInspector]
+		public bool isFocused = false;
 
 		private List<TileSlot> tiles = new List<TileSlot>();
 		private TileSlot emptySlot = null;
@@ -125,15 +128,19 @@ namespace PuzzleBox
 			}
 
 			int blockedDir = -1;
-			for (int i = 0; i < randomMovements; i += 1)
+			do
 			{
-				int direction;
-				do { direction = UnityEngine.Random.Range(0, 4); } while (!emptySlot.neighbours.ContainsKey((Direction)direction) || direction == blockedDir);
+				for (int i = 0; i < difficulties[difficulty].movements; i += 1)
+				{
+					int direction;
+					do { direction = UnityEngine.Random.Range(0, 4); } while (!emptySlot.neighbours.ContainsKey((Direction)direction) || direction == blockedDir);
 
-				SlideTile(emptySlot, (Direction)direction);
-				emptySlot = emptySlot.neighbours[(Direction)direction];
-				blockedDir = (direction + 2) % 4;
+					SlideTile(emptySlot, (Direction)direction);
+					emptySlot = emptySlot.neighbours[(Direction)direction];
+					blockedDir = (direction + 2) % 4;
+				}
 			}
+			while (GetTileDisplacements() < difficulties[difficulty].posChanges);
 		}
 
 		void ResetTiles()
@@ -151,6 +158,13 @@ namespace PuzzleBox
 			}
 		}
 
+		public void SlideTileIntoEmpty(Direction selectedTile)
+		{
+			if (!emptySlot.neighbours.ContainsKey(selectedTile)) { return; }
+
+			SlideTile(emptySlot, selectedTile);
+		}
+
 		void SlideTile(TileSlot movedTile, Direction direction)
 		{
 			if (!movedTile.neighbours.ContainsKey(direction)) { return; }
@@ -163,6 +177,8 @@ namespace PuzzleBox
 
 			SetTileCoords(tileA, movedTile.neighbours[direction].position);
 			SetTileCoords(tileB, movedTile.position);
+
+			UpdateEmptySlot();
 		}
 
 		void SetTileCoords(SlidingTile tile, Position pos)
@@ -174,6 +190,30 @@ namespace PuzzleBox
 		TileSlot TileAtPos(Position pos)
 		{
 			return tiles[((int)pos) - 1];
+		}
+
+		void UpdateEmptySlot()
+		{
+			for (int i = 0; i < tiles.Count; i += 1)
+			{
+				if (!tiles[i].tile.gameObject.activeSelf)
+				{
+					emptySlot = tiles[i];
+				}
+			}
+		}
+
+		public int GetTileDisplacements()
+		{
+			int displaced = 0;
+			for (int i = 0; i < tiles.Count; i += 1)
+			{
+				if (tiles[i].position != tiles[i].tile.position)
+				{
+					displaced += 1;
+				}
+			}
+			return displaced;
 		}
 
 		public void RandomTest()

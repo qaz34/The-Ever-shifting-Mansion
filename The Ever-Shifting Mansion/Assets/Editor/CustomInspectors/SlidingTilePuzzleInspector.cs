@@ -16,5 +16,24 @@ public class SlidingTilePuzzleInspector : Editor
 		{
 			obj.RandomTest();
 		}
+
+		if (obj.isFocused)
+		{
+			GUI.color = Color.green;
+			if (GUILayout.Button("Enabled"))
+			{
+				obj.isFocused = false;
+			}
+			GUI.color = Color.white;
+		}
+		else
+		{
+			GUI.color = Color.red;
+			if (GUILayout.Button("Disabled"))
+			{
+				obj.isFocused = true;
+			}
+			GUI.color = Color.white;
+		}
 	}
 }
