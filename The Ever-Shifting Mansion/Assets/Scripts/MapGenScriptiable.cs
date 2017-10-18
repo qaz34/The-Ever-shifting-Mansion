@@ -12,13 +12,6 @@ public class MapGenScriptiable : ScriptableObject
         public RoomScriptable room;
         public float chanceToPlace;
     }
-    [System.Serializable]
-    public struct RoomTile
-    {
-        public RoomScriptable room;
-        public bool door;
-        public bool placed;
-    }
     public List<RoomScriptable> rooms;
     public List<RoomWithWeighting> useableRooms;
     public RoomScriptable startRoom;
