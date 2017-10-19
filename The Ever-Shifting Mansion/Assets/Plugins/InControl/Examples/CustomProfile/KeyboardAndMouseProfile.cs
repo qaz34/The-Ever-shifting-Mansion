@@ -31,12 +31,6 @@ namespace CustomProfileExample
 
             ButtonMappings = new[]
             {
-                new InputControlMapping
-                {
-                    Handle = "Fire - Mouse",
-                    Target = InputControlType.Action1,
-                    Source = MouseButton0
-                },
                  new InputControlMapping
                 {
                     Handle = "Fire - Mouse(alt)",
@@ -56,11 +50,19 @@ namespace CustomProfileExample
 					// KeyCodeButton fires when any of the provided KeyCode params are down.
 					Source = KeyCodeButton( KeyCode.F, KeyCode.Return )
                 },
-                new InputControlMapping
+                        new InputControlMapping
                 {
-                    Handle = "AltFire",
+                    Handle = "Sprint",
+                    Target = InputControlType.Action3,
+					// KeyCodeButton fires when any of the provided KeyCode params are down.
+					Source = KeyCodeButton( KeyCode.LeftShift )
+                },
+                     new InputControlMapping
+                {
+                    Handle = "Fire - Keyboard",
                     Target = InputControlType.Action2,
-                    Source = MouseButton2
+					// KeyCodeButton fires when any of the provided KeyCode params are down.
+					Source = KeyCodeButton( KeyCode.Escape )
                 },
                     new InputControlMapping
                 {
@@ -70,27 +72,21 @@ namespace CustomProfileExample
                 },
                 new InputControlMapping
                 {
-                    Handle = "Middle",
-                    Target = InputControlType.Action3,
-                    Source = MouseButton1
-                },
-                new InputControlMapping
-                {
                     Handle = "Inventory",
                     Target = InputControlType.Action4,
                     Source = KeyCodeButton( KeyCode.Tab )
-                },            
+                },
                  new InputControlMapping
                 {
                     Handle = "LeftBumper",
-                    Target = InputControlType.LeftBumper,
+                    Target = InputControlType.DPadLeft,
 					// KeyCodeComboButton requires that all KeyCode params are down simultaneously.
 					Source = KeyCodeButton( KeyCode.Q )
         },
                   new InputControlMapping
                 {
                     Handle = "RightBumper",
-                    Target = InputControlType.RightBumper,
+                    Target = InputControlType.DPadRight,
 					// KeyCodeComboButton requires that all KeyCode params are down simultaneously.
 					Source = KeyCodeButton( KeyCode.E )
                 },

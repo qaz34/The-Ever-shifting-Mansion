@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using InControl;
 public class Health : MonoBehaviour
 {
     int health;
@@ -41,6 +41,10 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        InputDevice device = InputManager.ActiveDevice;
+        if (device.DPad.Left.WasPressed)
+        {
+            CurrentHealth -= 10;
+        }
     }
 }

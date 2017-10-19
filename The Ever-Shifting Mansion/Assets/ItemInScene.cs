@@ -6,7 +6,8 @@ public class ItemInScene : MonoBehaviour
 {
     public Transform itemPos;
     public Item item;
-    bool isLooking = false;
+    [HideInInspector]
+    public bool isLooking = false;
     bool playerIsIn = false;
     void Start()
     {
@@ -15,25 +16,15 @@ public class ItemInScene : MonoBehaviour
     public void Spawn(Item _item)
     {
         item = _item;
-        Instantiate(item.weaponPrefab, itemPos.transform.position, itemPos.transform.rotation, itemPos);
+        GameObject go = Instantiate(item.weaponDisplay, itemPos.transform.position, itemPos.transform.rotation, itemPos);
     }
     void Update()
     {
         InputDevice device = InputManager.ActiveDevice;
-        if (playerIsIn && device.Action2.WasPressed)
+        if (playerIsIn && device.Action1.WasPressed && !isLooking)
         {
-            if (!isLooking)
-            {
-                Debug.Log("Start");
-                GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().BeginLook(item);
-                isLooking = true;
-            }
-            else if (isLooking)
-            {
-                Debug.Log("End");
-                GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().LeaveLook();
-                isLooking = false;
-            }
+            GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().BeginLook(item, this);
+            isLooking = true;
         }
     }
     void OnTriggerExit(Collider other)
