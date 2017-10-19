@@ -5,7 +5,8 @@ using UnityEngine;
 public enum WepType
 {
     MELEE,
-    RANGED
+    RANGED,
+    SPECIAL
 }
 public enum AmmoType
 {
@@ -17,12 +18,17 @@ public enum AmmoType
 
 public class Weapon : Item
 {
-
     public int damage = 10;
     [Tooltip("Rounds per second")]
     public float fireRate = 1;
     public bool holdToFire;
     public WepType type;
+    public override void PickUp()
+    {
+        Inventory inv = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        inv.weapons[(int)type] = this;
+        inv.Equip(true);
+    }
 }
 
 [CreateAssetMenu(fileName = "Melee", menuName = "Weapons/Melee", order = 1)]
@@ -34,15 +40,14 @@ public class MeleeWep : Weapon
 
     public float knockBackForce = 1;
     public float knockBackAngle = 10;
-
 }
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Ranged", order = 1)]
 public class RangedWep : Weapon
 {
+    public AmmoType ammoType;
     public int ammoCap = 5;
     [Tooltip("Seconds for full reload")]
     public float reloadSpeed = 1;
-    public AmmoType ammoType;
 }
 

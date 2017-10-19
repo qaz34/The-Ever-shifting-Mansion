@@ -2,25 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using InControl;
+using UnityEngine.UI;
 public class Inspect : MonoBehaviour
 {
     public Item item;
-
+    [HideInInspector]
+    public bool justEntered;
+    public Text inspectText;
+    public float rotateSpeed;
+    [HideInInspector]
+    public ItemInScene thingInspecting;
+    public Space rotateSpace;
+    [HideInInspector]
+    public bool looking = false;
     void LookAt()
     {
         foreach (Transform child in transform)
             Destroy(child.gameObject);
-        Instantiate(item.weaponPrefab, transform.position, new Quaternion(), transform);
+        Instantiate(item.weaponDisplay, transform.position, new Quaternion(), transform);
     }
-    public void BeginLook(Item _item)
+    public void BeginLook(Item _item, ItemInScene itemInScene)
     {
+        thingInspecting = itemInScene;
         foreach (Transform child in transform)
             Destroy(child.gameObject);
         item = _item;
         GetComponentInParent<Camera>().enabled = true;
         GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().enabled = false;
         transform.rotation = new Quaternion();
-        Instantiate(item.weaponPrefab, transform.position, new Quaternion(), transform);
+        transform.Rotate(Vector3.up, 45);
+        Instantiate(item.weaponDisplay, transform.position, new Quaternion(), transform);
+        justEntered = true;
+        inspectText.text = item.description.text;
+        looking = true;
     }
     public void LeaveLook()
     {
@@ -28,12 +42,29 @@ public class Inspect : MonoBehaviour
             Destroy(child.gameObject);
         GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().enabled = true;
         GetComponentInParent<Camera>().enabled = false;
+        looking = false;
     }
     void Update()
     {
-        InputDevice device = InputManager.ActiveDevice;
-        Vector2 moveDir = new Vector2(device.LeftStick.Y, device.LeftStick.X);
-        moveDir *= 500 * Time.deltaTime;
-        transform.Rotate(moveDir, Space.World);
+        if (looking)
+        {
+            InputDevice device = InputManager.ActiveDevice;
+            Vector3 moveDir = new Vector3(device.LeftStick.Y, 0, device.LeftStick.X);
+            moveDir *= rotateSpeed * 100 * Time.deltaTime;
+            transform.Rotate(moveDir, rotateSpace);
+            if (device.Action1.WasPressed && !justEntered)
+            {
+                thingInspecting.isLooking = false;
+                item.PickUp();
+                Destroy(thingInspecting.gameObject);
+                LeaveLook();
+            }
+            else if (device.Action2.WasPressed || device.MenuWasPressed && !justEntered)
+            {
+                thingInspecting.isLooking = false;
+                LeaveLook();
+            }
+            justEntered = false;
+        }
     }
 }

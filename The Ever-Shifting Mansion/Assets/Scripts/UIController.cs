@@ -19,7 +19,7 @@ public class UIController : MonoBehaviour
     void Update()
     {
         InputDevice device = InputManager.ActiveDevice;
-        if (device.MenuWasPressed)
+        if (device.MenuWasPressed && !GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().looking)
         {
             if (Time.timeScale == 1)
             {
@@ -29,6 +29,7 @@ public class UIController : MonoBehaviour
             }
             else if (Time.timeScale == 0)
             {
+                Time.timeScale = 1;
                 HidePaused();
                 Debug.Log("Time has been restored");
             }

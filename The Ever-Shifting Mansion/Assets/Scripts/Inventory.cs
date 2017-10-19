@@ -4,12 +4,37 @@ using UnityEngine;
 using InControl;
 public class Inventory : MonoBehaviour
 {
-    int currentlyEquipWeapon = 0;
+    [HideInInspector]
+    public int currentlyEquipWeapon = 0;
     public List<Weapon> weapons;
+    public List<Ammo> ammo;
     public Transform weaponLocation;
     void Start()
     {
-        Instantiate(GetComponent<CombatController>().equipWeapon.weaponPrefab, weaponLocation.position, weaponLocation.rotation, weaponLocation);
+        Instantiate(GetComponent<CombatController>().equipWeapon.weaponInGame, weaponLocation.position, weaponLocation.rotation, weaponLocation);
+    }
+    public void Equip(bool left)
+    {
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            CombatController combat = GetComponent<CombatController>();
+            if (weapons[currentlyEquipWeapon])
+            {
+                combat.equipWeapon = weapons[currentlyEquipWeapon];
+                foreach (Transform trans in weaponLocation)
+                    Destroy(trans.gameObject);
+                Instantiate(GetComponent<CombatController>().equipWeapon.weaponInGame, weaponLocation.position, weaponLocation.rotation, weaponLocation);
+                return;
+            }
+            else
+            {
+                if (left)
+                    currentlyEquipWeapon = (currentlyEquipWeapon + weapons.Count - 1) % weapons.Count;
+                else
+                    currentlyEquipWeapon = (currentlyEquipWeapon + 1) % weapons.Count;
+            }
+        }
+        Debug.Log("NO WEAPONS");
     }
     void Update()
     {
@@ -17,16 +42,12 @@ public class Inventory : MonoBehaviour
         if (device.DPad.Left.WasPressed)
         {
             currentlyEquipWeapon = (currentlyEquipWeapon + weapons.Count - 1) % weapons.Count;
-            CombatController combat = GetComponent<CombatController>();
-            combat.equipWeapon = weapons[currentlyEquipWeapon];
-            //equip wep on player
+            Equip(true);
         }
         if (device.DPad.Right.WasPressed)
         {
             currentlyEquipWeapon = (currentlyEquipWeapon + 1) % weapons.Count;
-            CombatController combat = GetComponent<CombatController>();
-            combat.equipWeapon = weapons[currentlyEquipWeapon];
-            //equip wep on player
+            Equip(false);
         }
     }
 }
