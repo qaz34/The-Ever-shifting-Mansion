@@ -11,9 +11,12 @@ public class HuskAI : MonoBehaviour
     float lastAttacked;
     List<Vector3> positions = new List<Vector3>();
     bool hasSeen = false;
+	Animator animator;
+
     // Use this for initialization
     void Start()
     {
+		animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
@@ -63,7 +66,15 @@ public class HuskAI : MonoBehaviour
         }
         else
             agent.isStopped = false;
+
+		UpdateAnimator();
     }
+
+	void UpdateAnimator()
+	{
+		animator.SetFloat("Move", agent.velocity.magnitude);
+	}
+
     public void KnockBack(Vector3 force)
     {
         agent.enabled = false;
