@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+public enum Type
+{
+    WEAPON,
+    AMMO,
+    CONSUMABLE
+}
+
+
 public class Item : ScriptableObject
 {
+
     [Tooltip("Mesh")]
     public GameObject weaponDisplay;
     public GameObject weaponInGame;
     public TextAsset description;
-    public virtual void PickUp()
-    {
-
-    }
+    public Type typeOf;
+    public virtual void PickUp() { }
+    public virtual void Interact() { }
 }
 [CreateAssetMenu(fileName = "Item", menuName = "Items/Ammo", order = 1)]
 public class Ammo : Item
@@ -28,5 +36,16 @@ public class Ammo : Item
                 return;
             }
         inv.ammo.Add(Instantiate(this));
+    }
+    public override void Interact()
+    {
+        Inventory inv = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        foreach (var wep in inv.weapons.Where(i => i.type != WepType.MELEE))
+        {
+            if (((RangedWep)wep).ammoType == ammoType)
+            {
+                ((RangedWep)wep).InstantReload(this);
+            }
+        }
     }
 }

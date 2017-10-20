@@ -25,7 +25,13 @@ public class ItemInScene : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().BeginLook(item, this);
             isLooking = true;
+            GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().stopLookDelegate += StopLooking;
         }
+    }
+    void StopLooking(bool interact)
+    {
+        isLooking = false;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().SetEnabled(true);
     }
     void OnTriggerExit(Collider other)
     {

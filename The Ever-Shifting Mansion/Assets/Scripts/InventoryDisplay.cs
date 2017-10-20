@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using InControl;
+using System.Linq;
 public class InventoryDisplay : MonoBehaviour
 {
+    public struct ItemAndContainer
+    {
+        public GameObject itemInGame;
+        public Item itemScript;
+    }
+
     public List<Transform> slots;
     public GameObject inventoryCamera;
     public GameObject ammoPlaceBox;
     public Transform ammoParent;
     public GameObject AmmoNumber;
-    List<GameObject> items = new List<GameObject>();
+    List<ItemAndContainer> items = new List<ItemAndContainer>();
     int currentlySelected;
     public float selectSpeed = 1;
     float timeSinceSwitch;
+    bool inspecting = false;
     bool inventoryOpen = false;
     void Update()
     {
@@ -24,25 +32,39 @@ public class InventoryDisplay : MonoBehaviour
         }
         if (inventoryOpen)
         {
-            if (device.LeftStick.Left && (Time.time - timeSinceSwitch) > selectSpeed)
+            if (device.LeftStick.Left && (Time.time - timeSinceSwitch) > selectSpeed && !inspecting)
             {
                 timeSinceSwitch = Time.time;
-                items[currentlySelected % items.Count].GetComponent<cakeslice.Outline>().enabled = false;
+                items[currentlySelected % items.Count].itemInGame.GetComponent<cakeslice.Outline>().enabled = false;
                 currentlySelected = (currentlySelected + items.Count - 1) % items.Count;
-                items[currentlySelected].GetComponent<cakeslice.Outline>().enabled = true;
+                items[currentlySelected].itemInGame.GetComponent<cakeslice.Outline>().enabled = true;
             }
-            else if (device.LeftStick.Right && (Time.time - timeSinceSwitch) > selectSpeed)
+            else if (device.LeftStick.Right && (Time.time - timeSinceSwitch) > selectSpeed && !inspecting)
             {
-                items[currentlySelected % items.Count].GetComponent<cakeslice.Outline>().enabled = false;
+                items[currentlySelected % items.Count].itemInGame.GetComponent<cakeslice.Outline>().enabled = false;
                 currentlySelected = (currentlySelected + 1) % items.Count;
-                items[currentlySelected].GetComponent<cakeslice.Outline>().enabled = true;
+                items[currentlySelected].itemInGame.GetComponent<cakeslice.Outline>().enabled = true;
                 timeSinceSwitch = Time.time;
             }
             if (device.LeftStick.Vector.magnitude == 0)
             {
                 timeSinceSwitch = 0;
             }
+            if (device.Action1.WasPressed && !inspecting)
+            {
+                GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().stopLookDelegate += ToggleLook;
+                inspecting = true;
+                GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().BeginLook(items[currentlySelected % items.Count].itemScript, null);
+            }
         }
+    }
+    void ToggleLook(bool interact)
+    {
+        GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().stopLookDelegate -= ToggleLook;
+        if (interact)
+            items[currentlySelected].itemScript.Interact();
+   
+        inspecting = false;
     }
     public void ToggleInventory()
     {
@@ -52,7 +74,7 @@ public class InventoryDisplay : MonoBehaviour
         inventoryOpen = inventoryCamera.activeSelf;
         if (inventoryOpen)
         {
-            items = new List<GameObject>();
+            items = new List<ItemAndContainer>();
             for (int i = 0; i < slots.Count; i++)
             {
                 foreach (Transform child in slots[i])
@@ -61,7 +83,7 @@ public class InventoryDisplay : MonoBehaviour
                 {
                     var go = Instantiate(player.GetComponent<Inventory>().weapons[i].weaponDisplay, slots[i].position, slots[i].rotation, slots[i]);
                     go.AddComponent<cakeslice.Outline>().enabled = false;
-                    items.Add(go);
+                    items.Add(new ItemAndContainer() { itemInGame = go, itemScript = player.GetComponent<Inventory>().weapons[i] });
                 }
             }
             List<Vector3> takenPositions = new List<Vector3>();
@@ -97,9 +119,9 @@ public class InventoryDisplay : MonoBehaviour
                 var ammoText = Instantiate(AmmoNumber, new Vector3(x, 0, y), Quaternion.Euler(90, 0, 0), ammoParent);
                 ammoText.GetComponent<TextMesh>().text = ammo.amount.ToString();
                 ammoBox.AddComponent<cakeslice.Outline>().enabled = false;
-                items.Add(ammoBox);
+                items.Add(new ItemAndContainer() { itemInGame = ammoBox, itemScript = ammo });
             }
-            items[currentlySelected % items.Count].GetComponent<cakeslice.Outline>().enabled = true;
+            items[currentlySelected % items.Count].itemInGame.GetComponent<cakeslice.Outline>().enabled = true;
         }
     }
 }

@@ -15,6 +15,9 @@ public class Inspect : MonoBehaviour
     public Space rotateSpace;
     [HideInInspector]
     public bool looking = false;
+    public delegate void StopLook(bool interact);
+    public StopLook stopLookDelegate;
+
     void LookAt()
     {
         foreach (Transform child in transform)
@@ -28,7 +31,7 @@ public class Inspect : MonoBehaviour
             Destroy(child.gameObject);
         item = _item;
         GetComponentInParent<Camera>().enabled = true;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().enabled = false;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().SetEnabled(false);
         transform.rotation = new Quaternion();
         transform.Rotate(Vector3.up, 45);
         Instantiate(item.weaponDisplay, transform.position, new Quaternion(), transform);
@@ -40,9 +43,11 @@ public class Inspect : MonoBehaviour
     {
         foreach (Transform child in transform)
             Destroy(child.gameObject);
-        GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().enabled = true;
+        //GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().SetEnabled(false);
         GetComponentInParent<Camera>().enabled = false;
         looking = false;
+
+
     }
     void Update()
     {
@@ -54,15 +59,23 @@ public class Inspect : MonoBehaviour
             transform.Rotate(moveDir, rotateSpace);
             if (device.Action1.WasPressed && !justEntered)
             {
-                thingInspecting.isLooking = false;
-                item.PickUp();
-                Destroy(thingInspecting.gameObject);
+                if (thingInspecting)
+                {
+                    thingInspecting.isLooking = false;
+                    item.PickUp();
+                    Destroy(thingInspecting.gameObject);
+                }
                 LeaveLook();
+                if (stopLookDelegate != null)
+                    stopLookDelegate(true);
             }
             else if (device.Action2.WasPressed || device.MenuWasPressed && !justEntered)
             {
-                thingInspecting.isLooking = false;
+                if (thingInspecting)
+                    thingInspecting.isLooking = false;
                 LeaveLook();
+                if (stopLookDelegate != null)
+                    stopLookDelegate(false);
             }
             justEntered = false;
         }
