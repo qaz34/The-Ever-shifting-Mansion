@@ -11,12 +11,12 @@ public class HuskAI : MonoBehaviour
     float lastAttacked;
     List<Vector3> positions = new List<Vector3>();
     bool hasSeen = false;
-	Animator animator;
+    Animator animator;
 
     // Use this for initialization
     void Start()
     {
-		animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
@@ -43,6 +43,7 @@ public class HuskAI : MonoBehaviour
             positions = new List<Vector3>();
             if (hit.transform.tag == "Player")
             {
+
                 agent.SetDestination(player.transform.position);
             }
         }
@@ -67,13 +68,13 @@ public class HuskAI : MonoBehaviour
         else
             agent.isStopped = false;
 
-		UpdateAnimator();
+        UpdateAnimator();
     }
 
-	void UpdateAnimator()
-	{
-		animator.SetFloat("Move", agent.velocity.magnitude);
-	}
+    void UpdateAnimator()
+    {
+        animator.SetFloat("Move", agent.velocity.magnitude);
+    }
 
     public void KnockBack(Vector3 force)
     {
@@ -84,7 +85,7 @@ public class HuskAI : MonoBehaviour
     }
     IEnumerator SetPath()
     {
-        for (;;)
+        for (; ; )
         {
             positions.Add(player.transform.position);
             yield return new WaitForSeconds(.5f);
