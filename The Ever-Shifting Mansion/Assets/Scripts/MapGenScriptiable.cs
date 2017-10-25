@@ -23,6 +23,8 @@ public class MapGenScriptiable : ScriptableObject
     [HideInInspector]
     public DimensionalAnchor grid;
     public int targetEnemies;
+
+    public int targetConsumables;
     [System.Serializable]
     public struct DimensionalAnchor
     {
@@ -107,22 +109,17 @@ public class MapGenScriptiable : ScriptableObject
                 roomsAvaliable.Remove(room);
         }
     }
-    //void RandomConsumables()
-    //{
-    //    int consumablesSpawned = 0;
-    //    var roomsAvaliable = new List<RoomScriptable>(rooms);
-    //    while (enemiesSpawned < targetEnemies && roomsAvaliable.Count > 0)
-    //    {
-    //        var room = roomsAvaliable[Random.Range(0, roomsAvaliable.Count)];
-    //        if (room.enemiesInRoom < room.maxEnemies)
-    //        {
-    //            enemiesSpawned++;
-    //            room.enemiesInRoom++;
-    //        }
-    //        else
-    //            roomsAvaliable.Remove(room);
-    //    }
-    //}
+    void RandomConsumables()
+    {
+        int consumablesSpawned = 0;
+        var roomsAvaliable = new List<RoomScriptable>(rooms);
+        while (consumablesSpawned < targetConsumables && roomsAvaliable.Count > 0)
+        {
+            var room = roomsAvaliable[Random.Range(0, roomsAvaliable.Count)];
+            room.spawnableItems[Random.Range(0, room.spawnableItems.)]
+           
+        }
+    }
     public void GenMap()
     {
         NewGrid();
