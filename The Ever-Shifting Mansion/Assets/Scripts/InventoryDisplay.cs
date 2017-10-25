@@ -26,7 +26,7 @@ public class InventoryDisplay : MonoBehaviour
     {
         InputDevice device = InputManager.ActiveDevice;
 
-        if (device.Action4.WasPressed)
+        if (device.Action4.WasPressed && !inspecting)
         {
             ToggleInventory();
         }
@@ -63,8 +63,12 @@ public class InventoryDisplay : MonoBehaviour
         GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().stopLookDelegate -= ToggleLook;
         if (interact)
             items[currentlySelected].itemScript.Interact();
-   
         inspecting = false;
+        TextMesh textMesh = items[currentlySelected].itemInGame.GetComponentInChildren<TextMesh>();
+        if (textMesh)
+        {
+            textMesh.text = ((Ammo)items[currentlySelected].itemScript).amount.ToString();
+        }
     }
     public void ToggleInventory()
     {
@@ -118,6 +122,7 @@ public class InventoryDisplay : MonoBehaviour
                 var ammoBox = Instantiate(ammo.weaponDisplay, new Vector3(x, 0, y), Quaternion.Euler(0, Random.Range(0, 360), 0), ammoParent);
                 var ammoText = Instantiate(AmmoNumber, new Vector3(x, 0, y), Quaternion.Euler(90, 0, 0), ammoParent);
                 ammoText.GetComponent<TextMesh>().text = ammo.amount.ToString();
+                ammoText.transform.parent = ammoBox.transform;
                 ammoBox.AddComponent<cakeslice.Outline>().enabled = false;
                 items.Add(new ItemAndContainer() { itemInGame = ammoBox, itemScript = ammo });
             }

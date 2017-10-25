@@ -11,7 +11,8 @@ public class Inventory : MonoBehaviour
     public Transform weaponLocation;
     void Start()
     {
-        Instantiate(GetComponent<CombatController>().equipWeapon.weaponInGame, weaponLocation.position, weaponLocation.rotation, weaponLocation);
+        if (GetComponent<CombatController>().equipWeapon)
+            Instantiate(GetComponent<CombatController>().equipWeapon.weaponInGame, weaponLocation.position, weaponLocation.rotation, weaponLocation);
     }
     public void Equip(bool left)
     {

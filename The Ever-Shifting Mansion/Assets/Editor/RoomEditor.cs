@@ -7,7 +7,7 @@ using UnityEditorInternal;
 public class RoomEditor : Editor
 {
     bool mouseDown = false;
-    void newGrid(RoomScriptable room)
+    void NewGrid(RoomScriptable room)
     {
         room.roomGrid = new RoomScriptable.DimensionalAnchor() { Grid = room.roomGrid1D, Columns = (int)room.Size.x, Rows = (int)room.Size.y };
         for (int x = 0; x < room.Size.x; x++)
@@ -26,12 +26,12 @@ public class RoomEditor : Editor
         if (room.roomGrid1D == null)
         {
             room.roomGrid1D = new bool[1];
-            newGrid(room);
+            NewGrid(room);
             room.Size = new Vector2(1, 1);
             room.doors = new List<RoomScriptable.Door>();
         }
         if (!(room.roomGrid1D.Length > 0))
-            newGrid(room);
+            NewGrid(room);
         if (room.roomGrid.Grid == null)
             room.roomGrid = new RoomScriptable.DimensionalAnchor() { Grid = room.roomGrid1D, Columns = (int)room.Size.x, Rows = (int)room.Size.y };
         SceneView.onSceneGUIDelegate += OnSceneGUI;
@@ -173,7 +173,7 @@ public class RoomEditor : Editor
         {
             Undo.RecordObject(room, "Scene changed");
             room.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
-            newGrid(room);
+            NewGrid(room);
         }
         EditorGUI.BeginChangeCheck();
         RoomScriptable.Rotated rotated = (RoomScriptable.Rotated)EditorGUILayout.EnumPopup("Rotated", room.rotation);

@@ -107,6 +107,22 @@ public class MapGenScriptiable : ScriptableObject
                 roomsAvaliable.Remove(room);
         }
     }
+    //void RandomConsumables()
+    //{
+    //    int consumablesSpawned = 0;
+    //    var roomsAvaliable = new List<RoomScriptable>(rooms);
+    //    while (enemiesSpawned < targetEnemies && roomsAvaliable.Count > 0)
+    //    {
+    //        var room = roomsAvaliable[Random.Range(0, roomsAvaliable.Count)];
+    //        if (room.enemiesInRoom < room.maxEnemies)
+    //        {
+    //            enemiesSpawned++;
+    //            room.enemiesInRoom++;
+    //        }
+    //        else
+    //            roomsAvaliable.Remove(room);
+    //    }
+    //}
     public void GenMap()
     {
         NewGrid();

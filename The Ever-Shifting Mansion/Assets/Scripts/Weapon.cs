@@ -89,9 +89,8 @@ public class RangedWep : Weapon
         GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().Equip(true);
     }
     public void Reload(Ammo ammo)
-    {
-
-        CoroutineStarter.instance.StartCoroutine(Reloading(ammo));
+    { 
+       GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().StartCoroutine(Reloading(ammo));
     }
     public void InstantReload(Ammo ammo)
     {

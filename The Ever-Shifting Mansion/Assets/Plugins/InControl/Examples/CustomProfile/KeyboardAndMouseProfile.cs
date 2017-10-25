@@ -33,7 +33,7 @@ namespace CustomProfileExample
             {
                  new InputControlMapping
                 {
-                    Handle = "Fire - Mouse(alt)",
+                    Handle = "Fire - Mouse",
                     Target = InputControlType.RightTrigger,
                     Source = MouseButton0
                 },
@@ -45,7 +45,7 @@ namespace CustomProfileExample
                 },
                 new InputControlMapping
                 {
-                    Handle = "Fire - Keyboard",
+                    Handle = "Interact",
                     Target = InputControlType.Action1,
 					// KeyCodeButton fires when any of the provided KeyCode params are down.
 					Source = KeyCodeButton( KeyCode.F, KeyCode.Return )
@@ -57,12 +57,12 @@ namespace CustomProfileExample
 					// KeyCodeButton fires when any of the provided KeyCode params are down.
 					Source = KeyCodeButton( KeyCode.LeftShift )
                 },
-                     new InputControlMapping
+             new InputControlMapping
                 {
-                    Handle = "Fire - Keyboard",
-                    Target = InputControlType.Action2,
+                    Handle = "Reload",
+                    Target = InputControlType.Action3,
 					// KeyCodeButton fires when any of the provided KeyCode params are down.
-					Source = KeyCodeButton( KeyCode.Escape )
+					Source = KeyCodeButton( KeyCode.R )
                 },
                     new InputControlMapping
                 {

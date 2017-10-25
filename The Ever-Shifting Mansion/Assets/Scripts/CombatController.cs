@@ -109,81 +109,18 @@ public class CombatController : MonoBehaviour
             {
                 equipWeapon.Fire(transform);
             }
+            if (device.Action3.WasPressed)
+            {
+                if ((RangedWep)equipWeapon)
+                    foreach (var ammo in GetComponent<Inventory>().ammo.Where(i => i.ammoType == ((RangedWep)equipWeapon).ammoType))
+                    {
+                        ((RangedWep)equipWeapon).Reload(ammo);
+                    }
+            }
         }
         else
         {
             charCont.aiming = false;
         }
     }
-    public void Reload()
-    {
-
-    }
 }
-
-
-//if (currentTargetIndex == -1)
-//{
-//    switched = true;
-//    GetValidTargets();
-//    currentTargetIndex = 0;
-//}
-//if (currentTargetIndex != -1)
-//{
-//    transform.forward = Vector3.Lerp(transform.forward, validTargetsSorted[currentTargetIndex].obj.transform.position - transform.position, .2f);
-
-
-//    if (device.LeftStickX < -.5f && !switched)
-//    {
-//        currentTargetIndex = (currentTargetIndex - 1 < 0) ? validTargetsSorted.Count - 1 : currentTargetIndex - 1;
-//        switched = true;
-//    }
-//    else if (device.LeftStickX > .5f && !switched)
-//    {
-//        currentTargetIndex = (currentTargetIndex + 1) % validTargetsSorted.Count;
-//        switched = true;
-//    }
-//    else if (Within(device.LeftStickX, -0.4f, 0.4f))
-//    {
-//        switched = false;
-//    }
-//}
-//charCont.aiming = true;
-//if (device.RightTrigger.IsPressed)
-//{
-
-//    if (equipWeapon.holdToFire)
-//    {
-//        if (Time.time - timeLastShot > equipWeapon.fireRate)
-//        {
-//            timeLastShot = Time.time;
-
-//            RaycastHit hit;
-//            var dir = validTargetsSorted[currentTargetIndex].obj.transform.position - transform.position;
-//            if (Physics.Raycast(transform.position, dir.normalized, out hit, dir.magnitude))
-//            {
-//                hit.transform.gameObject.SetActive(false);
-//                currentTargetIndex = 0;
-//            }
-//            Debug.Log("Bang!!");
-
-//            GetValidTargets();
-//        }
-//    }
-//    else
-//    {
-//        if (device.RightTrigger.WasPressed)
-//        {
-//            timeLastShot = Time.time;
-//            RaycastHit hit;
-//            var dir = validTargetsSorted[currentTargetIndex].obj.transform.position - transform.position;
-//            if (Physics.Raycast(transform.position, dir.normalized, out hit, dir.magnitude))
-//            {
-//                hit.transform.gameObject.SetActive(false);
-//                currentTargetIndex = 0;
-//            }
-//            Debug.Log("Bang");
-//            GetValidTargets();
-//        }
-//    }
-//}

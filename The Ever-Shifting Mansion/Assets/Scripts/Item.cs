@@ -40,7 +40,7 @@ public class Ammo : Item
     public override void Interact()
     {
         Inventory inv = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
-        foreach (var wep in inv.weapons.Where(i => i.type != WepType.MELEE))
+        foreach (var wep in inv.weapons.Where(i => i && i.type != WepType.MELEE))
         {
             if (((RangedWep)wep).ammoType == ammoType)
             {
