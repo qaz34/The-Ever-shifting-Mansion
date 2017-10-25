@@ -11,6 +11,10 @@ public class HuskAI : MonoBehaviour
     float lastAttacked;
     List<Vector3> positions = new List<Vector3>();
     bool hasSeen = false;
+
+
+    Vector3 prevPos = new Vector3();
+    Vector3 prevDir = new Vector3();
     Animator animator;
 
     // Use this for initialization
@@ -19,6 +23,9 @@ public class HuskAI : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        prevPos = transform.position;
+        prevDir = transform.forward;
     }
 
     // Update is called once per frame
@@ -43,7 +50,6 @@ public class HuskAI : MonoBehaviour
             positions = new List<Vector3>();
             if (hit.transform.tag == "Player")
             {
-
                 agent.SetDestination(player.transform.position);
             }
         }
@@ -56,24 +62,31 @@ public class HuskAI : MonoBehaviour
                 agent.SetDestination(positions[0]);
             }
         }
-        if (Vector3.Distance(transform.position, player.transform.position) < 2)
+        if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
         {
             agent.isStopped = true;
-            if (Time.time - lastAttacked > weapon.fireRate)
+            if (weapon && Time.time - lastAttacked > weapon.fireRate)
             {
                 lastAttacked = Time.time;
                 player.GetComponent<Health>().CurrentHealth -= weapon.damage;
+                animator.SetTrigger("AttackWeak");
             }
         }
         else
             agent.isStopped = false;
 
         UpdateAnimator();
+        prevPos = transform.position;
+        prevDir = transform.forward;
     }
 
     void UpdateAnimator()
     {
-        animator.SetFloat("Move", agent.velocity.magnitude);
+        float speed = (transform.position - prevPos).magnitude / Time.deltaTime;
+        float turn = Vector3.SignedAngle(prevDir, transform.forward, Vector3.up);
+        animator.SetFloat("Move", (speed / agent.speed));
+        animator.SetFloat("Turn", turn);
+
     }
 
     public void KnockBack(Vector3 force)

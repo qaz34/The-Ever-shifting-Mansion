@@ -80,7 +80,7 @@ public class CombatController : MonoBehaviour
     void Update()
     {
 
-        InputDevice device = InputManager.ActiveDevice;      
+        InputDevice device = InputManager.ActiveDevice;
         if (device.LeftTrigger.IsPressed)
         {
             charCont.aiming = true;
@@ -107,47 +107,17 @@ public class CombatController : MonoBehaviour
             }
             if (device.RightTrigger.WasPressed)
             {
-                if (equipWeapon.type == WepType.RANGED)
-                {
-                    RaycastHit hit;
-                    if (Physics.Raycast(transform.position, transform.forward, out hit))
-                    {
-                        Health targetHealth = hit.transform.GetComponent<Health>();
-                        if (targetHealth)
-                        {
-                            targetHealth.CurrentHealth -= equipWeapon.damage;
-                            GameObject particle = Instantiate(particleEffect);
-                            particle.transform.position = hit.point;
-                            particle.transform.up = (hit.transform.position - transform.position).normalized;
-                            particle.transform.parent = hit.transform.parent;
-                        }
-                    }
-                }
-                else if (equipWeapon.type == WepType.MELEE)
-                {
-                    var hits = Physics.OverlapSphere(transform.position, ((MeleeWep)equipWeapon).arcRadius, 1 << LayerMask.NameToLayer("Target"));
-                    foreach (var hit in hits)
-                    {
-                        if (Vector3.Angle(transform.forward, hit.transform.position - transform.position) < ((MeleeWep)equipWeapon).arcAngle)
-                        {
-                            hit.transform.GetComponent<Health>().CurrentHealth -= equipWeapon.damage;
-                            Vector3 transformedVector = hit.transform.position - transform.position;
-                            transformedVector.y = 0;
-                            transformedVector.Normalize();
-                            transformedVector.y = Mathf.Tan(Mathf.Deg2Rad * ((MeleeWep)equipWeapon).knockBackAngle);
-                            hit.transform.GetComponent<HuskAI>().KnockBack(transformedVector * ((MeleeWep)equipWeapon).knockBackForce);
-
-                            Debug.Log("WAM");
-                        }
-                    }
-                }
-
+                equipWeapon.Fire(transform);
             }
         }
         else
         {
             charCont.aiming = false;
         }
+    }
+    public void Reload()
+    {
+
     }
 }
 
