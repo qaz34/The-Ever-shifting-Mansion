@@ -138,17 +138,17 @@ public class GeneratorEditor : Editor
                 new Vector3(doorCenter.x + 0.1f, 0, doorCenter.y -0.4f) },
                        color, Color.blue);
 
-                Handles.color = Random.ColorHSV();
-                color = Handles.color;
+
+                color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
 
                 for (int x = (int)room.posOnGrid.x; x < room.posOnGrid.x + room.Size.x; x++)
                 {
                     for (int y = (int)room.posOnGrid.y; y < room.posOnGrid.y + room.Size.y; y++)
-                    {                        
+                    {
                         if (room.roomGrid[x - (int)room.posOnGrid.x, y - (int)room.posOnGrid.y])
                         {
                             color.a = .2f;
-                            Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(x, 0, y), new Vector3(x, 0, y + 1), new Vector3(x + 1, 0, y + 1), new Vector3(x + 1, 0, y) }, color, Color.red);
+                            Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(x, 0, y), new Vector3(x, 0, y + 1), new Vector3(x + 1, 0, y + 1), new Vector3(x + 1, 0, y) }, color, color);
                         }
                     }
                 }
@@ -173,6 +173,7 @@ public class GeneratorEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
+            EditorUtility.SetDirty(gen);
             gen.startRoom = startRoom;
         }
         EditorGUI.BeginChangeCheck();
@@ -180,6 +181,7 @@ public class GeneratorEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
+            EditorUtility.SetDirty(gen);
             gen.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
         }
 
@@ -188,6 +190,7 @@ public class GeneratorEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
+            EditorUtility.SetDirty(gen);
             gen.iterations = iterations;
         }
         EditorGUI.BeginChangeCheck();
@@ -195,11 +198,14 @@ public class GeneratorEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
+
+            EditorUtility.SetDirty(gen);
             gen.targetEnemies = enemies;
         }
         if (GUILayout.Button("Generate Map"))
         {
-            Undo.RecordObject(gen, "gen changed");
+            Undo.RecordObject(gen, "gen changed");           
+            EditorUtility.SetDirty(gen);
             gen.GenMap();
         }
 

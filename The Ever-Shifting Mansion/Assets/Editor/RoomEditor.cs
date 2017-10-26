@@ -9,7 +9,7 @@ public class RoomEditor : Editor
     bool mouseDown = false;
     void NewGrid(RoomScriptable room)
     {
-        
+
         room.roomGrid = new RoomScriptable.DimensionalAnchor() { Grid = room.roomGrid1D, Columns = (int)room.Size.x, Rows = (int)room.Size.y };
         for (int x = 0; x < room.Size.x; x++)
         {
@@ -173,6 +173,7 @@ public class RoomEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
+            EditorUtility.SetDirty(room);
             room.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
             NewGrid(room);
         }
@@ -181,6 +182,7 @@ public class RoomEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
+            EditorUtility.SetDirty(room);
             room.rotation = rotated;
             room.RotateTo(rotated);
         }
@@ -190,6 +192,7 @@ public class RoomEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
+            EditorUtility.SetDirty(room);
             room.connectedScene = scene;
             room.connectedSceneName = scene.name;
         }
@@ -198,6 +201,7 @@ public class RoomEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
+            EditorUtility.SetDirty(room);
             room.doorObject = door;
 
         }
@@ -206,6 +210,7 @@ public class RoomEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
+            EditorUtility.SetDirty(room);
             room.maxEnemies = enemies;
         }
     }
