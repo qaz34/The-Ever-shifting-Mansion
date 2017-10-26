@@ -133,7 +133,7 @@ public class BoneWolfAI : MonoBehaviour
 
     void ChooseAttack()
     {
-        if (Vector3.Distance(player.transform.position, transform.position) < 10.f)
+        if (Vector3.Distance(player.transform.position, transform.position) < 10.0f)
             StartAttack();
         else
             StartCharge();
