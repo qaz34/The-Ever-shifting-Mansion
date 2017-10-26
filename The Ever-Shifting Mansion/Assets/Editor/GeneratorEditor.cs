@@ -91,6 +91,11 @@ public class GeneratorEditor : Editor
         int i = 0;
         foreach (var room in gen.rooms)
         {
+            if (!room)
+            {
+                gen.rooms.Remove(room);
+                break;
+            }
             Random.InitState(i);
             i++;
             Handles.color = Color.white;
@@ -168,7 +173,7 @@ public class GeneratorEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
-            
+
             gen.startRoom = startRoom;
             EditorUtility.SetDirty(gen);
         }
@@ -177,7 +182,7 @@ public class GeneratorEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
-           
+
             gen.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
             EditorUtility.SetDirty(gen);
         }
@@ -187,7 +192,7 @@ public class GeneratorEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
-       
+
             gen.iterations = iterations;
             EditorUtility.SetDirty(gen);
         }
@@ -197,17 +202,17 @@ public class GeneratorEditor : Editor
         {
             Undo.RecordObject(gen, "gen changed");
 
-           
+
             gen.targetEnemies = enemies;
             EditorUtility.SetDirty(gen);
         }
         if (GUILayout.Button("Generate Map"))
         {
             Undo.RecordObject(gen, "gen changed");
-           
+
             gen.GenMap();
             EditorUtility.SetDirty(gen);
         }
-
+        AssetDatabase.SaveAssets();
     }
 }
