@@ -255,17 +255,47 @@ public class MapGenScriptiable : ScriptableObject
         }
         return true;
     }
+    public void ConnectDoors()
+    {
+        foreach (var roomA in rooms)
+        {
+            foreach (var doorA in roomA.doors.Where(i => !i.connectedScene))
+            {
+                foreach (var roomB in rooms.Where(i => i != roomA))
+                {
+                    if (Vector2.Distance(roomB.posOnGrid, roomA.posOnGrid) < Mathf.Max(roomA.Size.magnitude, roomB.Size.magnitude))
+                    {
+                        foreach (var doorB in roomB.doors.Where(i => !i.connectedScene))
+                        {
+                            if ((doorA.Direction() + doorB.Direction()).magnitude == 0)
+                            {
+                                Vector2 posA = roomA.posOnGrid + doorA.GridPos;
+                                Vector2 posB = roomB.posOnGrid + doorB.GridPos;
+                                if (Vector2.Distance(posA, posB) == 1)
+                                {
+                                    doorA.connectedScene = roomB;
+                                    doorB.connectedScene = roomA;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     public void GenMap()
     {
         while (true)
         {
             NewGrid();
             RandomMap();
-            RandomEnemies();
-            RandomConsumables();
             //RandomWeapons();
             if (CheckMap())
                 break;
+            RandomEnemies();
+            RandomConsumables();
+            ConnectDoors();
+
         }
     }
     RoomScriptable RollDoor(MapGenScriptiable gen, int distanceFromStart)
