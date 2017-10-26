@@ -79,7 +79,7 @@ public class CharacterCont : MonoBehaviour
     {
         float turnAmount = 0;
         var movement = new Vector3(device.LeftStickX, 0, device.LeftStickY);
-
+        Debug.Log(movement);
         // transform.forward = Vector3.Lerp(transform.forward, movement.normalized, .2f);
         if (!aiming)
         {

@@ -9,12 +9,11 @@ public class BoneWolfAI : MonoBehaviour
     GameObject player;
     Animator animator;
     public float walkRadius = 5;
-    State state = State.Wander;
+    State state = State.Howl;
     public float wanderSpeed = 2;
     public float chargeSpeed = 10;
     public float chaseSpeed = 5;
-
-
+    Vector3 chargeDirection;
 
     enum State
     {
@@ -45,13 +44,13 @@ public class BoneWolfAI : MonoBehaviour
                 UpdateWander();
                 break;
             case State.Howl:
-                UpdateHowl();
+                StartHowl();
                 break;
             case State.ChargeAttack:
                 UpdateWander();
                 break;
             case State.Attack:
-                UpdateWander();
+                UpdateAttack();
                 break;
 
         }
@@ -80,12 +79,6 @@ public class BoneWolfAI : MonoBehaviour
 
     }
 
-
-    void UpdateHowl()
-    {
-        // count down timer, and then StartAttack
-    }
-
     void UpdateCharge()
     {
         // move fast along charge vector
@@ -100,20 +93,55 @@ public class BoneWolfAI : MonoBehaviour
         //play animationm
         // do damage if player in range
         // countdown
+        agent.speed = wanderSpeed;
+        animator.SetFloat("Speed", agent.velocity.magnitude / 2);
+        agent.SetDestination(player.transform.position);
+        if (Vector3.Distance(transform.position, player.transform.position) < 2)
+        {
+            //attack
+            animator.SetBool("Attacking", true);
+            agent.isStopped = true;
+        }
+        else
+        {
+            animator.SetBool("Attacking", false);
+            agent.isStopped = false;
+        }
+
 
         //when finihsed, startattack
     }
 
     void StartHowl()
     {
-        state = State.Howl;
-        // animmation
+        animator.SetBool("Howling", true);
+        StartCoroutine(Howling());
+    }
 
-        // noise
+
+    IEnumerator Howling()
+    {
+        yield return new WaitForSeconds(1f);
+        while (!animator.IsInTransition(0))
+        {
+            yield return new WaitForSeconds(.01f);
+        }
+        animator.SetBool("Howling", false);
+        ChooseAttack();
+    }
+
+
+    void ChooseAttack()
+    {
+        if (Vector3.Distance(player.transform.position, transform.position) < 10.f)
+            StartAttack();
+        else
+            StartCharge();
     }
 
     void StartCharge()
     {
+        chargeDirection = (player.transform.position - transform.position).normalized;
         state = State.ChargeAttack;
     }
 

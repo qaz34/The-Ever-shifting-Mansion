@@ -2,18 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections.Specialized;
+using System.Linq;
 [CreateAssetMenu(fileName = "Map Gen", menuName = "Map/Generator", order = 1)]
 
 public class MapGenScriptiable : ScriptableObject
 {
+    public delegate void unPlace(RoomScriptable room);
+    unPlace noFit;
     [System.Serializable]
     public struct RoomWithWeighting
     {
         public RoomScriptable room;
         public float chanceToPlace;
     }
+    [System.Serializable]
+    public struct SpecialRoom
+    {
+        public RoomScriptable room;
+        public bool needToBePlaced;
+    }
     public List<RoomScriptable> rooms;
     public List<RoomWithWeighting> useableRooms;
+    public List<SpecialRoom> specialRooms = new List<SpecialRoom>();
+    List<SpecialRoom> placed = new List<SpecialRoom>();
     public RoomScriptable startRoom;
     [HideInInspector]
     public bool[] grid1D;
@@ -109,6 +120,18 @@ public class MapGenScriptiable : ScriptableObject
                 roomsAvaliable.Remove(room);
         }
     }
+    void DeleteFromList(RoomScriptable room)
+    {
+        foreach (var roomS in placed)
+        {
+            if (roomS.room == room)
+            {
+                placed.Remove(roomS);
+                break;
+            }
+        }
+        noFit -= DeleteFromList;
+    }
     Item GetItemWeighted(RoomScriptable room)
     {
         //var items = room.spawnableItems[Random.Range(0, room.spawnableItems.Count)];
@@ -129,20 +152,7 @@ public class MapGenScriptiable : ScriptableObject
 
         return room.spawnableItems[Random.Range(0, room.spawnableItems.Count)].item;
     }
-    void RandomMap()
-    {
-        rooms = new List<RoomScriptable>();
-        Vector2 startPos = new Vector2(Mathf.Ceil(gridSize.x / 2) - Mathf.Floor(startRoom.Size.x / 2), 0);
-        RoomScriptable room = Instantiate(startRoom);
-        if (room.Size.x * 2 >= gridSize.x || room.Size.y * 2 >= gridSize.y)
-        {
-            Debug.Log("Make Grid Bigger");
-            return;
-        }
-        rooms.Add(room);
-        room.posOnGrid = startPos;
-        NewRoom(this, room, startPos, 0);
-    }
+
     void RandomConsumables()
     {
         int consumablesSpawned = 0;
@@ -159,20 +169,125 @@ public class MapGenScriptiable : ScriptableObject
                 roomsAvaliable.Remove(room);
         }
     }
+    struct DoorRoom
+    {
+        public RoomScriptable room;
+        public RoomScriptable.Door door;
+    }
+    void RandomMap()
+    {
+        rooms = new List<RoomScriptable>();
+        placed = new List<SpecialRoom>();
+        List<DoorRoom> doors = new List<DoorRoom>();
+        Vector2 startPos = new Vector2(Mathf.Ceil(gridSize.x / 2) - Mathf.Floor(startRoom.Size.x / 2), 0);
+        RoomScriptable room = Instantiate(startRoom);
+        if (room.Size.x * 2 >= gridSize.x || room.Size.y * 2 >= gridSize.y)
+        {
+            Debug.Log("Make Grid Bigger");
+            return;
+        }
+        rooms.Add(room);
+        room.posOnGrid = startPos;
+        //place room
+        SetMap(this, room, startPos);
+        //store doors
+        foreach (var door in room.doors)
+            doors.Add(new DoorRoom { room = room, door = door });
+
+        //loop
+
+        while (true)
+        {
+            //pop first door on list
+            var door = doors[0];
+            doors.RemoveAt(0);
+            if (door.room.distanceFromStart < iterations)
+            {
+                RoomScriptable roomBase = RollDoor(this, door.room.distanceFromStart + 1);
+                //place room
+                room = Instantiate(roomBase);
+                room.RotateTo((RoomScriptable.Rotated)Random.Range(0, 4));
+                bool fit = false;
+                for (int it = 0; it < 10; it++)
+                {
+                    foreach (var connectedDoor in room.doors)
+                    {
+                        if ((door.door.Direction() + connectedDoor.Direction()).magnitude == 0)
+                        {
+                            Vector2 pos = door.room.posOnGrid + door.door.GridPos - connectedDoor.GridPos + door.door.Direction();
+                            if (CanFit(this, room, pos))
+                            {
+                                door.door.connectedScene = room;
+                                connectedDoor.connectedScene = door.room;
+                                room.posOnGrid = pos;
+                                rooms.Add(room);
+                                foreach (var doorInRoom in room.doors)
+                                    doors.Add(new DoorRoom { room = room, door = doorInRoom });
+                                room.distanceFromStart = door.room.distanceFromStart + 1;
+                                fit = true;
+                                SetMap(this, room, pos);
+                                break;
+                            }
+                        }
+                    }
+                    if (!fit)
+                        room.RotateTo((RoomScriptable.Rotated)Random.Range(0, 4));
+                    else
+                        break;
+                }
+                if (!fit)
+                    noFit?.Invoke(roomBase);
+            }
+            if (doors.Count == 0)
+            {
+                break;
+            }
+        }
+    }
+    bool CheckMap()
+    {
+        if (iterations < 4)
+            return true;
+        foreach (var room in specialRooms.Where(i => !placed.Contains(i)))
+        {
+            if (room.needToBePlaced == true)
+                return false;
+        }
+        return true;
+    }
     public void GenMap()
     {
-        NewGrid();
-        RandomMap();
-        RandomEnemies();
-        RandomConsumables();
-        //RandomWeapons();
+        while (true)
+        {
+            NewGrid();
+            RandomMap();
+            RandomEnemies();
+            RandomConsumables();
+            //RandomWeapons();
+            if (CheckMap())
+                break;
+        }
     }
-
-    RoomScriptable RollDoor(MapGenScriptiable gen)
+    RoomScriptable RollDoor(MapGenScriptiable gen, int distanceFromStart)
     {
         float percentile = 0;
         float full = 0;
         float percent = Random.Range(0, 100);
+        if (distanceFromStart >= 4 && distanceFromStart <= 6 && percent > 50)
+        {
+            foreach (var room in gen.specialRooms.Where(i => !placed.Contains(i)))
+            {
+                percentile++;
+                if ((percentile / gen.specialRooms.Count - gen.placed.Count) * 100 > percent)
+                {
+                    placed.Add(room);
+                    noFit += DeleteFromList;
+                    return room.room;
+                }
+            }
+        }
+
+        percent = Random.Range(0, 100);
         foreach (var room in gen.useableRooms)
             full += room.chanceToPlace;
         foreach (var room in gen.useableRooms)
@@ -183,56 +298,7 @@ public class MapGenScriptiable : ScriptableObject
                 return room.room;
             }
         }
-
         return gen.useableRooms[Random.Range(0, gen.useableRooms.Count)].room;
-    }
-    void NewRoom(MapGenScriptiable gen, RoomScriptable currentRoom, Vector2 globalPos, int count)
-    {
-
-        SetMap(gen, currentRoom, globalPos);
-        if (count < gen.iterations)
-        {
-            RoomScriptable room = null;
-            Vector2 pos = Vector2.zero;
-
-            foreach (var hostDoor in currentRoom.doors)
-            {
-                bool fit = false;
-                int i = 0;
-                while (i < 10 && !fit)
-                {
-                    room = Instantiate(RollDoor(gen));
-                    room.RotateTo((RoomScriptable.Rotated)(int)Random.Range(0, 3));
-                    for (int it = 0; it < 10; it++)
-                    {
-                        foreach (var door in room.doors)
-                        {
-                            if ((hostDoor.Direction() + door.Direction()).magnitude == 0)
-                            {
-                                pos = globalPos + hostDoor.GridPos - door.GridPos + hostDoor.Direction();
-                                if (CanFit(gen, room, pos))
-                                {
-                                    hostDoor.connectedScene = room;
-                                    door.connectedScene = currentRoom;
-                                    DontDestroyOnLoad(room);
-                                    room.posOnGrid = pos;
-                                    rooms.Add(room);
-
-                                    NewRoom(gen, room, pos, count + 1);
-                                    fit = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!fit)
-                            room.RotateTo((RoomScriptable.Rotated)(int)Random.Range(0, 4));
-                        else
-                            break;
-                    }
-                    i++;
-                }
-            }
-        }
     }
     //start is the client rooms 0,0 coord in global
     void SetMap(MapGenScriptiable gen, RoomScriptable room, Vector2 start)
