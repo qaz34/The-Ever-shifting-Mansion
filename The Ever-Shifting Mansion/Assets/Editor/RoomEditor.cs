@@ -9,7 +9,7 @@ public class RoomEditor : Editor
     bool mouseDown = false;
     void NewGrid(RoomScriptable room)
     {
-        
+
         room.roomGrid = new RoomScriptable.DimensionalAnchor() { Grid = room.roomGrid1D, Columns = (int)room.Size.x, Rows = (int)room.Size.y };
         for (int x = 0; x < room.Size.x; x++)
         {
@@ -173,16 +173,20 @@ public class RoomEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
+          
             room.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
             NewGrid(room);
+            EditorUtility.SetDirty(room);
         }
         EditorGUI.BeginChangeCheck();
         RoomScriptable.Rotated rotated = (RoomScriptable.Rotated)EditorGUILayout.EnumPopup("Rotated", room.rotation);
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
+            
             room.rotation = rotated;
             room.RotateTo(rotated);
+            EditorUtility.SetDirty(room);
         }
 
         EditorGUI.BeginChangeCheck();
@@ -190,23 +194,30 @@ public class RoomEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
+         
             room.connectedScene = scene;
             room.connectedSceneName = scene.name;
+            EditorUtility.SetDirty(room);
         }
         EditorGUI.BeginChangeCheck();
         GameObject door = (GameObject)EditorGUILayout.ObjectField("Door object", room.doorObject, typeof(GameObject), false);
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
+      
             room.doorObject = door;
-
+            EditorUtility.SetDirty(room);
         }
         EditorGUI.BeginChangeCheck();
         int enemies = EditorGUILayout.IntField("Max enemies", room.maxEnemies);
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
+          
             room.maxEnemies = enemies;
+            EditorUtility.SetDirty(room);
         }
+
+        AssetDatabase.SaveAssets();
     }
 }
