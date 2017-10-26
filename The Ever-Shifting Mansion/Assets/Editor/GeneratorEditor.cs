@@ -87,28 +87,34 @@ public class GeneratorEditor : Editor
         {
             Handles.DrawLine(new Vector3(0, 0, y), new Vector3(gen.Size.x, 0, y));
         }
-        //Handles.color = Color.white;
-        //for (int x = 0; x < gen.Size.x; x++)
-        //{
-        //    for (int y = 0; y < gen.Size.y; y++)
-        //    {
-        //        if (gen.grid[x, y])
-        //        {
-        //            Color color = Color.blue;
-        //            color.a = .2f;
-        //            Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(x, 0, y), new Vector3(x, 0, y + 1), new Vector3(x + 1, 0, y + 1), new Vector3(x + 1, 0, y) }, color, Color.red);
-        //        }
-        //    }
-        //}
 
+        int i = 0;
         foreach (var room in gen.rooms)
         {
+            Random.InitState(i);
+            i++;
+            Handles.color = Color.white;
+            Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
+
+
+            for (int x = (int)room.posOnGrid.x; x < room.posOnGrid.x + room.Size.x; x++)
+            {
+                for (int y = (int)room.posOnGrid.y; y < room.posOnGrid.y + room.Size.y; y++)
+                {
+                    if (room.roomGrid[x - (int)room.posOnGrid.x, y - (int)room.posOnGrid.y])
+                    {
+                        color.a = .2f;
+                        Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(x, 0, y), new Vector3(x, 0, y + 1), new Vector3(x + 1, 0, y + 1), new Vector3(x + 1, 0, y) }, color, color);
+                    }
+                }
+            }
             Vector3 lablePos = new Vector3(room.size.x / 2 + room.posOnGrid.x, 0, room.size.y / 2 + room.posOnGrid.y);
             Handles.Label(lablePos, room.distanceFromStart.ToString());
             foreach (var door in room.doors.Where(door => door.connectedScene != null))
             {
+                color = Color.red;
 
-                Color color = Color.red;
+
                 color.a = .2f;
                 Vector2 pos = room.posOnGrid + door.GridPos;
                 Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(pos.x, 0, pos.y), new Vector3(pos.x, 0, pos.y + 1), new Vector3(pos.x + 1, 0, pos.y + 1), new Vector3(pos.x + 1, 0, pos.y) }, color, Color.blue);
@@ -139,21 +145,10 @@ public class GeneratorEditor : Editor
                        color, Color.blue);
 
 
-                color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
 
-                for (int x = (int)room.posOnGrid.x; x < room.posOnGrid.x + room.Size.x; x++)
-                {
-                    for (int y = (int)room.posOnGrid.y; y < room.posOnGrid.y + room.Size.y; y++)
-                    {
-                        if (room.roomGrid[x - (int)room.posOnGrid.x, y - (int)room.posOnGrid.y])
-                        {
-                            color.a = .2f;
-                            Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(x, 0, y), new Vector3(x, 0, y + 1), new Vector3(x + 1, 0, y + 1), new Vector3(x + 1, 0, y) }, color, color);
-                        }
-                    }
-                }
             }
         }
+        Random.InitState(System.DateTime.Now.Second);
 
     }
 
@@ -204,7 +199,7 @@ public class GeneratorEditor : Editor
         }
         if (GUILayout.Button("Generate Map"))
         {
-            Undo.RecordObject(gen, "gen changed");           
+            Undo.RecordObject(gen, "gen changed");
             EditorUtility.SetDirty(gen);
             gen.GenMap();
         }
