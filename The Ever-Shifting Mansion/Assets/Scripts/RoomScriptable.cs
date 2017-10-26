@@ -29,6 +29,7 @@ public class RoomScriptable : ScriptableObject
     public List<ItemsWithWeight> spawnableWeps;
     public List<ItemsWithWeight> spawnableItems;
     public int maxItems;
+    public int distanceFromStart;
     [System.Serializable]
     public struct DimensionalAnchor
     {

@@ -7,15 +7,19 @@ using System.Linq;
 [CustomEditor(typeof(MapGenScriptiable))]
 public class GeneratorEditor : Editor
 {
-    ReorderableList Prop;
+    ReorderableList usableRooms;
+    ReorderableList SpecialRooms;
     protected virtual void OnEnable()
     {
         MapGenScriptiable gen = target as MapGenScriptiable;
-        Prop = new ReorderableList(serializedObject, serializedObject.FindProperty("useableRooms"), true, true, true, true)
+        usableRooms = new ReorderableList(serializedObject, serializedObject.FindProperty("useableRooms"), true, true, true, true)
         {
-            drawElementCallback = DrawElementP
+            drawElementCallback = DrawUseable
         };
-
+        SpecialRooms = new ReorderableList(serializedObject, serializedObject.FindProperty("specialRooms"), true, true, true, true)
+        {
+            drawElementCallback = DrawSpecial
+        };
         SceneView.onSceneGUIDelegate += OnSceneGUI;
         gen.Initilise();
     }
@@ -25,9 +29,9 @@ public class GeneratorEditor : Editor
     {
         EditorGUI.LabelField(rect, "Useable Rooms");
     }
-    void DrawElementP(Rect rect, int index, bool isActive, bool isFocused)
+    void DrawUseable(Rect rect, int index, bool isActive, bool isFocused)
     {
-        var element = Prop.serializedProperty.GetArrayElementAtIndex(index);
+        var element = usableRooms.serializedProperty.GetArrayElementAtIndex(index);
         rect.y += 2;
         float posX = rect.x;
         float width = EditorGUIUtility.currentViewWidth / 2;
@@ -39,12 +43,19 @@ public class GeneratorEditor : Editor
         width = EditorGUIUtility.currentViewWidth / 6;
         EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("chanceToPlace"), GUIContent.none);
     }
-    void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
+    void DrawSpecial(Rect rect, int index, bool isActive, bool isFocused)
     {
-        MapGenScriptiable gen = target as MapGenScriptiable;
-        RoomScriptable room = gen.useableRooms[index].room;
+        var element = SpecialRooms.serializedProperty.GetArrayElementAtIndex(index);
         rect.y += 2;
-        EditorGUI.ObjectField(new Rect(rect.x, rect.y, 240, EditorGUIUtility.singleLineHeight), room, typeof(RoomScriptable), false);
+        float posX = rect.x;
+        float width = EditorGUIUtility.currentViewWidth / 2;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("room"), GUIContent.none);
+        posX += width;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.TextField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "Has to place", GUIStyle.none);
+        posX += width;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("needToBePlaced"), GUIContent.none);
     }
     void OnAdd(ReorderableList _list)
     {
@@ -76,24 +87,24 @@ public class GeneratorEditor : Editor
         {
             Handles.DrawLine(new Vector3(0, 0, y), new Vector3(gen.Size.x, 0, y));
         }
-        Handles.color = Color.white;
-        for (int x = 0; x < gen.Size.x; x++)
-        {
-            for (int y = 0; y < gen.Size.y; y++)
-            {
-                if (gen.grid[x, y])
-                {
-                    Color color = Color.blue;
-                    color.a = .2f;
-                    Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(x, 0, y), new Vector3(x, 0, y + 1), new Vector3(x + 1, 0, y + 1), new Vector3(x + 1, 0, y) }, color, Color.red);
-                }
-            }
-        }
+        //Handles.color = Color.white;
+        //for (int x = 0; x < gen.Size.x; x++)
+        //{
+        //    for (int y = 0; y < gen.Size.y; y++)
+        //    {
+        //        if (gen.grid[x, y])
+        //        {
+        //            Color color = Color.blue;
+        //            color.a = .2f;
+        //            Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(x, 0, y), new Vector3(x, 0, y + 1), new Vector3(x + 1, 0, y + 1), new Vector3(x + 1, 0, y) }, color, Color.red);
+        //        }
+        //    }
+        //}
 
         foreach (var room in gen.rooms)
         {
-            Vector3 lablePos = new Vector3(room.size.x/ 2 + room.posOnGrid.x, 0, room.size.y / 2 + room.posOnGrid.y);
-            Handles.Label(lablePos, room.enemiesInRoom.ToString());
+            Vector3 lablePos = new Vector3(room.size.x / 2 + room.posOnGrid.x, 0, room.size.y / 2 + room.posOnGrid.y);
+            Handles.Label(lablePos, room.distanceFromStart.ToString());
             foreach (var door in room.doors.Where(door => door.connectedScene != null))
             {
 
@@ -127,7 +138,20 @@ public class GeneratorEditor : Editor
                 new Vector3(doorCenter.x + 0.1f, 0, doorCenter.y -0.4f) },
                        color, Color.blue);
 
+                Handles.color = Random.ColorHSV();
+                color = Handles.color;
 
+                for (int x = (int)room.posOnGrid.x; x < room.posOnGrid.x + room.Size.x; x++)
+                {
+                    for (int y = (int)room.posOnGrid.y; y < room.posOnGrid.y + room.Size.y; y++)
+                    {                        
+                        if (room.roomGrid[x - (int)room.posOnGrid.x, y - (int)room.posOnGrid.y])
+                        {
+                            color.a = .2f;
+                            Handles.DrawSolidRectangleWithOutline(new Vector3[] { new Vector3(x, 0, y), new Vector3(x, 0, y + 1), new Vector3(x + 1, 0, y + 1), new Vector3(x + 1, 0, y) }, color, Color.red);
+                        }
+                    }
+                }
             }
         }
 
@@ -139,7 +163,10 @@ public class GeneratorEditor : Editor
 
 
         serializedObject.Update();
-        Prop.DoLayoutList();
+        usableRooms.DoLayoutList();
+        serializedObject.ApplyModifiedProperties();
+        serializedObject.Update();
+        SpecialRooms.DoLayoutList();
         serializedObject.ApplyModifiedProperties();
         EditorGUI.BeginChangeCheck();
         RoomScriptable startRoom = (RoomScriptable)EditorGUILayout.ObjectField(gen.startRoom, typeof(RoomScriptable), false);
