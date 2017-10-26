@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-[CreateAssetMenu(fileName = "Map Room", menuName = "Map/Room", order = 1)]
+[CreateAssetMenu(fileName = "Map Room", menuName = "Map/Room", order = 1), System.Serializable]
 public class RoomScriptable : ScriptableObject
 {
+    [System.Serializable]
     public struct ItemsWithWeight
     {
         public Item item;
         public float weight;
     }
     [HideInInspector]
+
     public Object connectedScene;
     [HideInInspector]
     public string connectedSceneName;
     public GameObject doorObject;
     [HideInInspector]
     public Vector2 size = new Vector2(1, 1);
+
     public List<Door> doors = new List<Door>();
     public bool[] roomGrid1D;
     public DimensionalAnchor roomGrid;

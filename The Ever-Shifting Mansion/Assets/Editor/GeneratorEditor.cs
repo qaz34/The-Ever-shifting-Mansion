@@ -168,16 +168,18 @@ public class GeneratorEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
-            EditorUtility.SetDirty(gen);
+            
             gen.startRoom = startRoom;
+            EditorUtility.SetDirty(gen);
         }
         EditorGUI.BeginChangeCheck();
         Vector3 size = EditorGUILayout.Vector2Field("Room Size", gen.Size);
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
-            EditorUtility.SetDirty(gen);
+           
             gen.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
+            EditorUtility.SetDirty(gen);
         }
 
         EditorGUI.BeginChangeCheck();
@@ -185,8 +187,9 @@ public class GeneratorEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
-            EditorUtility.SetDirty(gen);
+       
             gen.iterations = iterations;
+            EditorUtility.SetDirty(gen);
         }
         EditorGUI.BeginChangeCheck();
         int enemies = EditorGUILayout.IntField("Target enemies", gen.targetEnemies);
@@ -194,14 +197,16 @@ public class GeneratorEditor : Editor
         {
             Undo.RecordObject(gen, "gen changed");
 
-            EditorUtility.SetDirty(gen);
+           
             gen.targetEnemies = enemies;
+            EditorUtility.SetDirty(gen);
         }
         if (GUILayout.Button("Generate Map"))
         {
             Undo.RecordObject(gen, "gen changed");
-            EditorUtility.SetDirty(gen);
+           
             gen.GenMap();
+            EditorUtility.SetDirty(gen);
         }
 
     }
