@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 [CreateAssetMenu(fileName = "Map Room", menuName = "Map/Room", order = 1)]
 public class RoomScriptable : ScriptableObject
 {
+    public struct ItemsWithWeight
+    {
+        public Item item;
+        public float weight;
+    }
     [HideInInspector]
     public Object connectedScene;
     [HideInInspector]
@@ -20,8 +25,10 @@ public class RoomScriptable : ScriptableObject
     public Vector2 posOnGrid;
     public int maxEnemies;
     public int enemiesInRoom;
-    public List<Item> spawnList;
-    public List<Weapon> spawnableWeps;
+    public List<Item> spawnList = new List<Item>();
+    public List<ItemsWithWeight> spawnableWeps;
+    public List<ItemsWithWeight> spawnableItems;
+    public int maxItems;
     [System.Serializable]
     public struct DimensionalAnchor
     {

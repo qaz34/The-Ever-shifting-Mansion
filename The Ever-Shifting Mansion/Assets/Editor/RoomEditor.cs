@@ -9,6 +9,7 @@ public class RoomEditor : Editor
     bool mouseDown = false;
     void NewGrid(RoomScriptable room)
     {
+        
         room.roomGrid = new RoomScriptable.DimensionalAnchor() { Grid = room.roomGrid1D, Columns = (int)room.Size.x, Rows = (int)room.Size.y };
         for (int x = 0; x < room.Size.x; x++)
         {

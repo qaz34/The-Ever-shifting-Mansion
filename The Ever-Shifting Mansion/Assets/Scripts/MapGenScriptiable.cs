@@ -23,6 +23,8 @@ public class MapGenScriptiable : ScriptableObject
     [HideInInspector]
     public DimensionalAnchor grid;
     public int targetEnemies;
+
+    public int targetConsumables;
     [System.Serializable]
     public struct DimensionalAnchor
     {
@@ -107,25 +109,28 @@ public class MapGenScriptiable : ScriptableObject
                 roomsAvaliable.Remove(room);
         }
     }
-    //void RandomConsumables()
-    //{
-    //    int consumablesSpawned = 0;
-    //    var roomsAvaliable = new List<RoomScriptable>(rooms);
-    //    while (enemiesSpawned < targetEnemies && roomsAvaliable.Count > 0)
-    //    {
-    //        var room = roomsAvaliable[Random.Range(0, roomsAvaliable.Count)];
-    //        if (room.enemiesInRoom < room.maxEnemies)
-    //        {
-    //            enemiesSpawned++;
-    //            room.enemiesInRoom++;
-    //        }
-    //        else
-    //            roomsAvaliable.Remove(room);
-    //    }
-    //}
-    public void GenMap()
+    Item GetItemWeighted(RoomScriptable room)
     {
-        NewGrid();
+        //var items = room.spawnableItems[Random.Range(0, room.spawnableItems.Count)];
+
+        float percentile = 0;
+        float full = 0;
+        float percent = Random.Range(0, 100);
+        foreach (var item in room.spawnableItems)
+            full += item.weight;
+        foreach (var item in room.spawnableItems)
+        {
+            percentile += item.weight;
+            if ((percentile / full) * 100 > percent)
+            {
+                return item.item;
+            }
+        }
+
+        return room.spawnableItems[Random.Range(0, room.spawnableItems.Count)].item;
+    }
+    void RandomMap()
+    {
         rooms = new List<RoomScriptable>();
         Vector2 startPos = new Vector2(Mathf.Ceil(gridSize.x / 2) - Mathf.Floor(startRoom.Size.x / 2), 0);
         RoomScriptable room = Instantiate(startRoom);
@@ -137,7 +142,30 @@ public class MapGenScriptiable : ScriptableObject
         rooms.Add(room);
         room.posOnGrid = startPos;
         NewRoom(this, room, startPos, 0);
+    }
+    void RandomConsumables()
+    {
+        int consumablesSpawned = 0;
+        var roomsAvaliable = new List<RoomScriptable>(rooms);
+        while (consumablesSpawned < targetConsumables && roomsAvaliable.Count > 0)
+        {
+            var room = roomsAvaliable[Random.Range(0, roomsAvaliable.Count)];
+            if (room.spawnList.Count < room.maxItems)
+            {
+                var item = GetItemWeighted(room);
+                room.spawnList.Add(item);
+            }
+            else
+                roomsAvaliable.Remove(room);
+        }
+    }
+    public void GenMap()
+    {
+        NewGrid();
+        RandomMap();
         RandomEnemies();
+        RandomConsumables();
+        //RandomWeapons();
     }
 
     RoomScriptable RollDoor(MapGenScriptiable gen)
