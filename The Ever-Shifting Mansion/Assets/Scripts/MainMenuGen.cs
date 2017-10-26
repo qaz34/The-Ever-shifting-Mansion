@@ -19,7 +19,7 @@ public class MainMenuGen : MonoBehaviour
 	public void NewGame()
 	{
 		MapGenScriptiable gen = Instantiate(mapGen);
-        //instansiate new copies of the rooms into the gen
+		//instansiate new copies of the rooms into the gen
 		gen.GenMap();
 		mapGen = gen;
 		DontDestroyOnLoad(mapGen);
@@ -53,7 +53,7 @@ public class MainMenuGen : MonoBehaviour
 	public void Loaded(Scene sc, Scene sc2)
 	{
 		SceneManager.activeSceneChanged -= Loaded;
-		Vector3 spawnPos = Vector3.zero;
+		Vector3 spawnPos = spawnPos = new Vector3(roomLoading.size.x / 2, 0, 1);
 		foreach (var door in roomLoading.doors)
 			if (door.connectedScene != null)
 			{
@@ -61,6 +61,7 @@ public class MainMenuGen : MonoBehaviour
 				go.transform.position = new Vector3(door.posOnGrid.x + .5f, roomLoading.doorObject.transform.localScale.y / 2, door.posOnGrid.y + .5f);
 				if (door.connectedScene == currentRoom)
 					spawnPos = go.transform.position;
+
 				go.transform.Translate(new Vector3(door.Direction(false).x / 2, 0, door.Direction(false).y / 2));
 				go.transform.Rotate(transform.up, 90 * (int)door.direction);
 				go.GetComponentInChildren<DoorInScene>().connectedRoom = door.connectedScene;
