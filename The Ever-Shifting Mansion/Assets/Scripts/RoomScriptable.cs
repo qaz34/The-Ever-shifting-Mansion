@@ -20,6 +20,8 @@ public class RoomScriptable : ScriptableObject
     public Vector2 posOnGrid;
     public int maxEnemies;
     public int enemiesInRoom;
+    public List<Item> spawnList;
+    public List<Weapon> spawnableWeps;
     [System.Serializable]
     public struct DimensionalAnchor
     {
