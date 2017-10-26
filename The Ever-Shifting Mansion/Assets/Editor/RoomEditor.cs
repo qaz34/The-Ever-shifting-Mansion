@@ -217,5 +217,7 @@ public class RoomEditor : Editor
             room.maxEnemies = enemies;
             EditorUtility.SetDirty(room);
         }
+
+        AssetDatabase.SaveAssets();
     }
 }
