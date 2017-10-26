@@ -9,7 +9,7 @@ public class BoneWolfAI : MonoBehaviour
     GameObject player;
     Animator animator;
     public float walkRadius = 5;
-    State state = State.Howl;
+    State state = State.Attack;
     public float wanderSpeed = 2;
     public float chargeSpeed = 10;
     public float chaseSpeed = 5;
@@ -24,7 +24,7 @@ public class BoneWolfAI : MonoBehaviour
     };
 
 
-    float stateTimer;
+    public float stateTimer;
 
 
     // Use this for initialization
@@ -44,10 +44,10 @@ public class BoneWolfAI : MonoBehaviour
                 UpdateWander();
                 break;
             case State.Howl:
-                StartHowl();
+               // UpdateHowl();
                 break;
             case State.ChargeAttack:
-                UpdateWander();
+                UpdateCharge();
                 break;
             case State.Attack:
                 UpdateAttack();
@@ -55,6 +55,19 @@ public class BoneWolfAI : MonoBehaviour
 
         }
 
+        if (state == State.ChargeAttack)
+            agent.speed = chargeSpeed;
+        else
+            agent.speed = chaseSpeed;
+
+        if (stateTimer >= 0)
+        {
+            stateTimer -= Time.deltaTime;
+        }
+        else
+        {
+            ChooseAttack();
+        }
 
 
 
@@ -85,18 +98,26 @@ public class BoneWolfAI : MonoBehaviour
         // if we hit player, do charge damage
         // if we hit a wall, do damage/stun to us
 
+
+           
+            agent.SetDestination(transform.position + chargeDirection * 10);
+
+    
+
+
         //when finihsed, startattack
     }
 
     void UpdateAttack()
     {
+
         //play animationm
         // do damage if player in range
         // countdown
         agent.speed = wanderSpeed;
         animator.SetFloat("Speed", agent.velocity.magnitude / 2);
         agent.SetDestination(player.transform.position);
-        if (Vector3.Distance(transform.position, player.transform.position) < 2)
+        if (Vector3.Distance(transform.position, player.transform.position) < 2f)
         {
             //attack
             animator.SetBool("Attacking", true);
@@ -107,9 +128,6 @@ public class BoneWolfAI : MonoBehaviour
             animator.SetBool("Attacking", false);
             agent.isStopped = false;
         }
-
-
-        //when finihsed, startattack
     }
 
     void StartHowl()
@@ -133,7 +151,7 @@ public class BoneWolfAI : MonoBehaviour
 
     void ChooseAttack()
     {
-        if (Vector3.Distance(player.transform.position, transform.position) < 10.f)
+        if (Vector3.Distance(player.transform.position, transform.position) < 2f)
             StartAttack();
         else
             StartCharge();
@@ -141,12 +159,30 @@ public class BoneWolfAI : MonoBehaviour
 
     void StartCharge()
     {
+        // for the next 3 seconds, move in thjis direction
         chargeDirection = (player.transform.position - transform.position).normalized;
+
+        stateTimer = 2;
         state = State.ChargeAttack;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (state == State.ChargeAttack)
+        {
+            if (other.tag == "Player")
+                Destroy(other.gameObject);
+            state = State.Howl;
+        }
+        else
+        {
+            //do nothing
+        }
     }
 
     void StartAttack()
     {
+        stateTimer = 2;
         state = State.Attack;
         // if the player is far away, set state to charge,
         // other wise set state to attack
