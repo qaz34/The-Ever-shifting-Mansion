@@ -53,11 +53,15 @@ public class MainMenuGen : MonoBehaviour
     public void Loaded(Scene sc, Scene sc2)
     {
         SceneManager.activeSceneChanged -= Loaded;
-        Vector3 spawnPos = new Vector3(roomLoading.size.x / 2, 0, 0);
+        Vector3 spawnPos = new Vector3(roomLoading.size.x / 2, 0, 2);
         foreach (var door in roomLoading.doors.Where(i => i.connectedScene != null))
         {
             GameObject go = Instantiate(roomLoading.doorObject);
-            go.transform.position = new Vector3(door.posOnGrid.x + .5f, roomLoading.doorObject.transform.localScale.y / 2, 0);
+            go.transform.position = new Vector3(door.posOnGrid.x + .5f, roomLoading.doorObject.transform.localScale.y / 2, door.posOnGrid.y + .5f);
+            if (door.connectedScene == currentRoom)
+            {
+                spawnPos = go.transform.position;
+            }
             go.transform.Translate(new Vector3(door.Direction(false).x / 2, 0, door.Direction(false).y / 2));
             go.transform.Rotate(transform.up, 90 * (int)door.direction);
             go.GetComponentInChildren<DoorInScene>().connectedRoom = door.connectedScene;
@@ -71,13 +75,13 @@ public class MainMenuGen : MonoBehaviour
 
         Random.InitState(currentRoom.seed);
         //load seed
-        var props = GameObject.FindGameObjectsWithTag("PropSpawner").ToList();
+        var props = GameObject.FindGameObjectsWithTag("PropSpawn").ToList();
         foreach (var prop in props)
         {
             prop.GetComponent<ItemContainer>()?.RollRandom();
         }
 
-        props = GameObject.FindGameObjectsWithTag("ItemSpawner").ToList();
+        props = GameObject.FindGameObjectsWithTag("ItemSpawn").ToList();
         foreach (var item in currentRoom.spawnList)
         {
             var go = props[Random.Range(0, props.Count)];
@@ -93,7 +97,7 @@ public class MainMenuGen : MonoBehaviour
     }
     public void SpawnEnemies()
     {
-        List<Spawner> spawner = GameObject.FindGameObjectWithTag("EnemySpawner")?.GetComponentsInChildren<Spawner>().ToList();
+        List<Spawner> spawner = GameObject.FindGameObjectWithTag("EnemySpawn")?.GetComponentsInChildren<Spawner>().ToList();
         if (spawner != null)
             for (int i = 0; i < roomLoading.enemiesInRoom; i++)
             {
@@ -104,7 +108,7 @@ public class MainMenuGen : MonoBehaviour
     }
     public void SpawnItems()
     {
-        List<Spawner> spawner = GameObject.FindGameObjectWithTag("ItemSpawner")?.GetComponentsInChildren<Spawner>().ToList();
+        List<Spawner> spawner = GameObject.FindGameObjectWithTag("ItemSpawn")?.GetComponentsInChildren<Spawner>().ToList();
         if (spawner != null)
             for (int i = 0; i < roomLoading.enemiesInRoom; i++)
             {
