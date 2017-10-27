@@ -72,15 +72,23 @@ public class MainMenuGen : MonoBehaviour
 
         transitionTime = false;
         SpawnEnemies();
+        var props = GameObject.FindGameObjectsWithTag("PropSpawn").ToList();
+        var itemSpawns = GameObject.FindGameObjectsWithTag("ItemSpawn").ToList();
 
         Random.InitState(currentRoom.seed);
-        //load seed
-        var props = GameObject.FindGameObjectsWithTag("PropSpawn").ToList();
+        foreach (var item in currentRoom.spawnList)
+        {
+            var itemSpawn = itemSpawns[Random.Range(0, itemSpawns.Count)];
+            if (!currentRoom.grabbedList.Contains(item))
+            {
+                itemSpawn.GetComponent<ItemInScene>().item = item;
+            }
+        }
         foreach (var prop in props)
         {
+
             prop.GetComponent<ItemContainer>()?.RollRandom();
         }
-
         props = GameObject.FindGameObjectsWithTag("ItemSpawn").ToList();
         foreach (var item in currentRoom.spawnList)
         {

@@ -29,6 +29,7 @@ public class RoomScriptable : ScriptableObject
     public int maxEnemies;
     public int enemiesInRoom;
     public List<Item> spawnList = new List<Item>();
+    public List<Item> grabbedList = new List<Item>();
     public List<ItemsWithWeight> spawnableWeps;
     public List<ItemsWithWeight> spawnableItems;
     public int maxItems;
