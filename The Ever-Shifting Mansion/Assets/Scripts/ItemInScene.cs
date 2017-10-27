@@ -16,7 +16,7 @@ public class ItemInScene : MonoBehaviour
     public void Spawn(Item _item)
     {
         item = _item;
-        GameObject go = Instantiate(item.weaponDisplay, itemPos.transform.position, itemPos.transform.rotation, itemPos);
+        Instantiate(item.weaponDisplay, itemPos.transform.position, itemPos.transform.rotation, itemPos);
     }
     void Update()
     {

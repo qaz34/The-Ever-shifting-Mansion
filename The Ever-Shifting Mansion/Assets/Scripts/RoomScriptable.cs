@@ -19,7 +19,7 @@ public class RoomScriptable : ScriptableObject
     public GameObject doorObject;
     [HideInInspector]
     public Vector2 size = new Vector2(1, 1);
-
+    public int seed;
     public List<Door> doors = new List<Door>();
     public bool[] roomGrid1D;
     public DimensionalAnchor roomGrid;

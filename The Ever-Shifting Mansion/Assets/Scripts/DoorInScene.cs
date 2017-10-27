@@ -6,42 +6,40 @@ using UnityEngine.Video;
 using InControl;
 public class DoorInScene : MonoBehaviour
 {
-	[HideInInspector]
-	public RoomScriptable connectedRoom;
-	AsyncOperation op;
-	bool loading = false;
-	bool wasPressed = false;
-	bool started = false;
+    [HideInInspector]
+    public RoomScriptable connectedRoom;
+    AsyncOperation op;
+    bool loading = false;
 
-	bool insideTrigger = false;
-	public void LoadScene()
-	{
-		GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().Load(connectedRoom);
-	}
+    bool insideTrigger = false;
+    public void LoadScene()
+    {
+        GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().Load(connectedRoom);
+    }
 
-	private void Update()
-	{
-		InputDevice device = InputManager.ActiveDevice;
-		if (insideTrigger && device.Action1.WasPressed)
-		{
-			if (!loading)
-			{
-				loading = true;
-				LoadScene();
-			}
-		}
-	}
+    private void Update()
+    {
+        InputDevice device = InputManager.ActiveDevice;
+        if (insideTrigger && device.Action1.WasPressed)
+        {
+            if (!loading)
+            {
+                loading = true;
+                LoadScene();
+            }
+        }
+    }
 
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.tag == "Player")
-			insideTrigger = true;
-	}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+            insideTrigger = true;
+    }
 
 
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.tag == "Player")
-			insideTrigger = false;
-	}
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+            insideTrigger = false;
+    }
 }

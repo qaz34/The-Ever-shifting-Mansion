@@ -87,7 +87,8 @@ public class GeneratorEditor : Editor
         {
             Handles.DrawLine(new Vector3(0, 0, y), new Vector3(gen.Size.x, 0, y));
         }
-
+        //Vector3 lablePos = new Vector3(0, 0, gen.Size.y - 2);
+        //Handles.Label(lablePos, "We have no affiliation to the gay party");
         int i = 0;
         foreach (var room in gen.rooms)
         {
