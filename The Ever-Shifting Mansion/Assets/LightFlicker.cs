@@ -6,6 +6,7 @@ public class LightFlicker : MonoBehaviour
 {
     float xPan = 0;
     public float speed = .05f;
+    public float min, max;
     // Use this for initialization
     void Start()
     {
@@ -16,7 +17,7 @@ public class LightFlicker : MonoBehaviour
     void Update()
     {
         xPan += speed;
-
-        GetComponent<Light>().intensity = Mathf.PerlinNoise(xPan, xPan);
+        float intensity = Mathf.Lerp(min, max, Mathf.PerlinNoise(xPan, xPan));
+        GetComponent<Light>().intensity = intensity;
     }
 }
