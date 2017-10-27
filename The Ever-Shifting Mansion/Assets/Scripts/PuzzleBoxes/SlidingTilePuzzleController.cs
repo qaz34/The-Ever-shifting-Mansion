@@ -18,7 +18,7 @@ namespace PuzzleBox
         void Update()
         {
             InputDevice device = InputManager.ActiveDevice;
-            Vector2 stickInput = device.LeftStick.HasChanged ? new Vector2(0, 0) : new Vector2(Mathf.RoundToInt(device.LeftStickX), Mathf.RoundToInt(device.LeftStickY));
+            //Vector2 stickInput = device.LeftStick.HasChanged ? new Vector2(0, 0) : new Vector2(Mathf.RoundToInt(device.LeftStickX), Mathf.RoundToInt(device.LeftStickY));
 
             if (Input.GetKeyDown(KeyCode.W))//device.DPadUp.WasPressed || stickInput.y > 0)
             {

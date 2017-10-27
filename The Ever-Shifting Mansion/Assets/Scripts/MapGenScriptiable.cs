@@ -162,7 +162,7 @@ public class MapGenScriptiable : ScriptableObject
             var room = roomsAvaliable[Random.Range(0, roomsAvaliable.Count)];
             if (room.spawnList.Count < room.maxItems)
             {
-                var item = GetItemWeighted(room);
+                var item = Instantiate(GetItemWeighted(room));
                 room.spawnList.Add(item);
             }
             else
@@ -273,6 +273,12 @@ public class MapGenScriptiable : ScriptableObject
                                 Vector2 posB = roomB.posOnGrid + doorB.GridPos;
                                 if (Vector2.Distance(posA, posB) == 1)
                                 {
+                                    bool timeTobbbbbbbBreak = false;
+                                    foreach (var doorsCheck in roomB.doors.Where(i => i != doorB && i.connectedScene == roomA))
+                                        timeTobbbbbbbBreak = true;
+                                    if (timeTobbbbbbbBreak)
+                                        break;
+                                    Debug.Log("Door connected");
                                     doorA.connectedScene = roomB;
                                     doorB.connectedScene = roomA;
                                 }
@@ -283,19 +289,29 @@ public class MapGenScriptiable : ScriptableObject
             }
         }
     }
+    public void GiveSeed()
+    {
+        foreach (var room in rooms)
+        {
+            room.seed = Random.Range(0, int.MaxValue);
+        }
+    }
     public void GenMap()
     {
-        while (true)
+        int i = 0;
+        while (true && i < 10)
         {
+            i++;
             NewGrid();
             RandomMap();
             //RandomWeapons();
-            if (CheckMap())
-                break;
+            if (!CheckMap())
+                continue;
             RandomEnemies();
             RandomConsumables();
             ConnectDoors();
-
+            GiveSeed();
+            break;
         }
     }
     RoomScriptable RollDoor(MapGenScriptiable gen, int distanceFromStart)
@@ -303,7 +319,7 @@ public class MapGenScriptiable : ScriptableObject
         float percentile = 0;
         float full = 0;
         float percent = Random.Range(0, 100);
-        if (distanceFromStart >= 4 && distanceFromStart <= 6 && percent > 50)
+        if (distanceFromStart >= 4 && distanceFromStart <= 6 && percent > 80)
         {
             foreach (var room in gen.specialRooms.Where(i => !placed.Contains(i)))
             {

@@ -22,7 +22,6 @@ public class ShaderController : MonoBehaviour
 
     public ECGSetting[] settings;
     int currentSettingsIndex = -1;
-    float health = 1;
     // pctHealth should be between 0 and 1
     int GetCurrentSettings(float pctHealth)
     {
