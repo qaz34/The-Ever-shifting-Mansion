@@ -74,20 +74,22 @@ public class MainMenuGen : MonoBehaviour
         SpawnEnemies();
         var props = GameObject.FindGameObjectsWithTag("PropSpawn").ToList();
         var itemSpawns = GameObject.FindGameObjectsWithTag("ItemSpawn").ToList();
-
+        var itemSpawnsNoDestroy = new List<GameObject>();
         Random.InitState(currentRoom.seed);
-        foreach (var item in currentRoom.spawnList)
-        {
-            var itemSpawn = itemSpawns[Random.Range(0, itemSpawns.Count)];
-            if (!currentRoom.grabbedList.Contains(item))
+        if (itemSpawns.Count > 0)
+            foreach (var item in currentRoom.spawnList)
             {
-                itemSpawn.GetComponent<ItemInScene>().item = item;
+                var itemSpawn = itemSpawns[Random.Range(0, itemSpawns.Count)];
+                if (!currentRoom.grabbedList.Contains(item))
+                {
+                    itemSpawn.GetComponent<ItemInScene>().item = item;
+                    //set itemSpawn to never be destroyed?
+                }
+                itemSpawnsNoDestroy.Add(itemSpawn);
             }
-        }
         foreach (var prop in props)
         {
-
-            prop.GetComponent<ItemContainer>()?.RollRandom();
+            prop.GetComponent<ItemContainer>()?.RollRandom(itemSpawnsNoDestroy);
         }
         props = GameObject.FindGameObjectsWithTag("ItemSpawn").ToList();
         foreach (var item in currentRoom.spawnList)
@@ -101,7 +103,7 @@ public class MainMenuGen : MonoBehaviour
 
         Random.InitState(System.DateTime.Now.Second);
 
-        SpawnItems();
+        //SpawnItems();
     }
     public void SpawnEnemies()
     {
@@ -114,15 +116,15 @@ public class MainMenuGen : MonoBehaviour
                 spawner.RemoveAt(i);
             }
     }
-    public void SpawnItems()
-    {
-        List<Spawner> spawner = GameObject.FindGameObjectWithTag("ItemSpawn")?.GetComponentsInChildren<Spawner>().ToList();
-        if (spawner != null)
-            for (int i = 0; i < roomLoading.enemiesInRoom; i++)
-            {
-                GameObject go = Instantiate(spawner[i].enemy);
-                go.transform.position = spawner[i].transform.position;
-                spawner.RemoveAt(i);
-            }
-    }
+    //public void SpawnItems()
+    //{
+    //    List<Spawner> spawner = GameObject.FindGameObjectWithTag("ItemSpawn")?.GetComponentsInChildren<Spawner>().ToList();
+    //    if (spawner != null)
+    //        for (int i = 0; i < roomLoading.enemiesInRoom; i++)
+    //        {
+    //            GameObject go = Instantiate(spawner[i].enemy);
+    //            go.transform.position = spawner[i].transform.position;
+    //            spawner.RemoveAt(i);
+    //        }
+    //}
 }

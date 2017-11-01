@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using InControl;
+[RequireComponent(typeof(Collider))]
 public class ItemInScene : MonoBehaviour
 {
     public Transform itemPos;
@@ -11,7 +12,8 @@ public class ItemInScene : MonoBehaviour
     bool playerIsIn = false;
     void Start()
     {
-        Spawn(item);
+        if (item)
+            Spawn(item);
     }
     public void Spawn(Item _item)
     {

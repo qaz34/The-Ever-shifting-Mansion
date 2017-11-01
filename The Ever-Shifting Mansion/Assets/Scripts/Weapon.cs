@@ -78,9 +78,11 @@ public class RangedWep : Weapon
 {
     public AmmoType ammoType;
     public int ammoCap = 5;
+    [HideInInspector]
     public int left = 5;
     [Tooltip("Seconds for full reload")]
     public float reloadSpeed = 1;
+    [HideInInspector]
     public bool reloading = false;
 
     public override void Interact()
@@ -89,8 +91,8 @@ public class RangedWep : Weapon
         GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().Equip(true);
     }
     public void Reload(Ammo ammo)
-    { 
-       GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().StartCoroutine(Reloading(ammo));
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().StartCoroutine(Reloading(ammo));
     }
     public void InstantReload(Ammo ammo)
     {

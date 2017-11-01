@@ -6,6 +6,8 @@ using UnityEditorInternal;
 [CustomEditor(typeof(RoomScriptable))]
 public class RoomEditor : Editor
 {
+    ReorderableList spawnItems;
+    ReorderableList spawnWeps;
     bool mouseDown = false;
     void NewGrid(RoomScriptable room)
     {
@@ -24,6 +26,21 @@ public class RoomEditor : Editor
     {
         RoomScriptable room = target as RoomScriptable;
 
+        spawnItems = new ReorderableList(serializedObject, serializedObject.FindProperty("spawnableItems"), true, true, true, true)
+        {
+            drawElementCallback = DrawUseable,
+            drawHeaderCallback = (Rect rect) => {
+                EditorGUI.LabelField(rect, "Spawnable Items");
+            }
+    };
+        spawnWeps = new ReorderableList(serializedObject, serializedObject.FindProperty("spawnableWeps"), true, true, true, true)
+        {
+            drawElementCallback = DrawSpecial,
+            drawHeaderCallback = (Rect rect) => {
+                EditorGUI.LabelField(rect, "Spawnable Weapons");
+            }
+        };
+
         if (room.roomGrid1D == null)
         {
             room.roomGrid1D = new bool[1];
@@ -37,6 +54,38 @@ public class RoomEditor : Editor
             room.roomGrid = new RoomScriptable.DimensionalAnchor() { Grid = room.roomGrid1D, Columns = (int)room.Size.x, Rows = (int)room.Size.y };
         SceneView.onSceneGUIDelegate += OnSceneGUI;
     }
+
+
+    void DrawUseable(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        var element = spawnItems.serializedProperty.GetArrayElementAtIndex(index);
+        rect.y += 2;
+        float posX = rect.x;
+        float width = EditorGUIUtility.currentViewWidth / 2;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("item"), GUIContent.none);
+        posX += width;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.TextField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "Weight", GUIStyle.none);
+        posX += width;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("weight"), GUIContent.none);
+    }
+    void DrawSpecial(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        var element = spawnWeps.serializedProperty.GetArrayElementAtIndex(index);
+        rect.y += 2;
+        float posX = rect.x;
+        float width = EditorGUIUtility.currentViewWidth / 2;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("item"), GUIContent.none);
+        posX += width;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.TextField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "Weight", GUIStyle.none);
+        posX += width;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("weight"), GUIContent.none);
+    }
+
+
     protected virtual void OnDisable()
     {
 
@@ -173,28 +222,24 @@ public class RoomEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
-          
+
             room.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
             NewGrid(room);
             EditorUtility.SetDirty(room);
         }
-        EditorGUI.BeginChangeCheck();
-        RoomScriptable.Rotated rotated = (RoomScriptable.Rotated)EditorGUILayout.EnumPopup("Rotated", room.rotation);
-        if (EditorGUI.EndChangeCheck())
-        {
-            Undo.RecordObject(room, "Scene changed");
-            
-            room.rotation = rotated;
-            room.RotateTo(rotated);
-            EditorUtility.SetDirty(room);
-        }
+
+        serializedObject.Update();
+        spawnItems.DoLayoutList();     
+        spawnWeps.DoLayoutList();
+        serializedObject.ApplyModifiedProperties();
+
 
         EditorGUI.BeginChangeCheck();
         SceneAsset scene = (SceneAsset)EditorGUILayout.ObjectField("Scene object", (room.connectedScene == null) ? new SceneAsset() : room.connectedScene, typeof(SceneAsset), true);
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
-         
+
             room.connectedScene = scene;
             room.connectedSceneName = scene.name;
             EditorUtility.SetDirty(room);
@@ -204,7 +249,7 @@ public class RoomEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
-      
+
             room.doorObject = door;
             EditorUtility.SetDirty(room);
         }
@@ -213,11 +258,19 @@ public class RoomEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(room, "Scene changed");
-          
+
             room.maxEnemies = enemies;
             EditorUtility.SetDirty(room);
         }
+        EditorGUI.BeginChangeCheck();
+        int items = EditorGUILayout.IntField("Max items", room.maxItems);
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(room, "Scene changed");
 
+            room.maxItems = items;
+            EditorUtility.SetDirty(room);
+        }
         AssetDatabase.SaveAssets();
     }
 }

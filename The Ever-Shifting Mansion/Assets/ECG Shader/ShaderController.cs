@@ -49,13 +49,16 @@ public class ShaderController : MonoBehaviour
     void Update()
     {
         mat.SetFloat("_Timer", speedUp * Time.time);
-        int index = GetCurrentSettings((float)GameObject.FindGameObjectWithTag("Player").GetComponent<Health>().CurrentHealth / (float)GameObject.FindGameObjectWithTag("Player").GetComponent<Health>().maxHealth);
-        if (currentSettingsIndex != index)
+        if (GameObject.FindGameObjectWithTag("Player"))
         {
-            currentSettingsIndex = index;
-            mat.color = settings[currentSettingsIndex].color;
-            mat.mainTexture = settings[currentSettingsIndex].texture;
-            speedUp = settings[currentSettingsIndex].speed;
+            int index = GetCurrentSettings((float)GameObject.FindGameObjectWithTag("Player").GetComponent<Health>().CurrentHealth / (float)GameObject.FindGameObjectWithTag("Player").GetComponent<Health>().maxHealth);
+            if (currentSettingsIndex != index)
+            {
+                currentSettingsIndex = index;
+                mat.color = settings[currentSettingsIndex].color;
+                mat.mainTexture = settings[currentSettingsIndex].texture;
+                speedUp = settings[currentSettingsIndex].speed;
+            }
         }
     }
 }

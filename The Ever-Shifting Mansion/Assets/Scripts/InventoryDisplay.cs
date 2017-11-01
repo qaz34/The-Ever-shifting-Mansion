@@ -25,13 +25,18 @@ public class InventoryDisplay : MonoBehaviour
     void Update()
     {
         InputDevice device = InputManager.ActiveDevice;
-
+        if (device.Action4.IsPressed)
+        {
+            Debug.Log("Pressed");
+        }
         if (device.Action4.WasPressed && !inspecting)
         {
             ToggleInventory();
         }
         if (inventoryOpen)
         {
+            if (items.Count == 0)
+                return;
             if (device.LeftStick.Left && (Time.time - timeSinceSwitch) > selectSpeed && !inspecting)
             {
                 timeSinceSwitch = Time.time;
@@ -119,14 +124,15 @@ public class InventoryDisplay : MonoBehaviour
                         break;
                 }
                 takenPositions.Add(currentPos);
-                var ammoBox = Instantiate(ammo.weaponDisplay, new Vector3(x, 0, y), Quaternion.Euler(0, Random.Range(0, 360), 0), ammoParent);
-                var ammoText = Instantiate(AmmoNumber, new Vector3(x, 0, y), Quaternion.Euler(90, 0, 0), ammoParent);
+                var ammoBox = Instantiate(ammo.weaponDisplay, new Vector3(x, ammoPlaceBox.transform.position.y, y), Quaternion.Euler(0, Random.Range(0, 360), 0), ammoParent);
+                var ammoText = Instantiate(AmmoNumber, new Vector3(x, ammoPlaceBox.transform.position.y, y), Quaternion.Euler(90, 0, 0), ammoParent);
                 ammoText.GetComponent<TextMesh>().text = ammo.amount.ToString();
                 ammoText.transform.parent = ammoBox.transform;
                 ammoBox.AddComponent<cakeslice.Outline>().enabled = false;
                 items.Add(new ItemAndContainer() { itemInGame = ammoBox, itemScript = ammo });
             }
-            items[currentlySelected % items.Count].itemInGame.GetComponent<cakeslice.Outline>().enabled = true;
+            if (items.Count > 0)
+                items[currentlySelected % items.Count].itemInGame.GetComponent<cakeslice.Outline>().enabled = true;
         }
     }
 }

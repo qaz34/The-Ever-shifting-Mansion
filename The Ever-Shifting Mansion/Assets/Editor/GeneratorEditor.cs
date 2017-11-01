@@ -14,11 +14,19 @@ public class GeneratorEditor : Editor
         MapGenScriptiable gen = target as MapGenScriptiable;
         usableRooms = new ReorderableList(serializedObject, serializedObject.FindProperty("useableRooms"), true, true, true, true)
         {
-            drawElementCallback = DrawUseable
+            drawElementCallback = DrawUseable,
+            drawHeaderCallback = (Rect rect) =>
+            {
+                EditorGUI.LabelField(rect, "Usable Rooms");
+            }
         };
         SpecialRooms = new ReorderableList(serializedObject, serializedObject.FindProperty("specialRooms"), true, true, true, true)
         {
-            drawElementCallback = DrawSpecial
+            drawElementCallback = DrawSpecial,
+            drawHeaderCallback = (Rect rect) =>
+            {
+                EditorGUI.LabelField(rect, "Special Rooms");
+            }
         };
         SceneView.onSceneGUIDelegate += OnSceneGUI;
         gen.Initilise();
@@ -205,6 +213,16 @@ public class GeneratorEditor : Editor
 
 
             gen.targetEnemies = enemies;
+            EditorUtility.SetDirty(gen);
+        }
+        EditorGUI.BeginChangeCheck();
+        int items = EditorGUILayout.IntField("Target Items", gen.targetConsumables);
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(gen, "gen changed");
+
+
+            gen.targetConsumables = items;
             EditorUtility.SetDirty(gen);
         }
         if (GUILayout.Button("Generate Map"))
