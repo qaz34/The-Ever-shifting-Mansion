@@ -4,6 +4,13 @@ using UnityEngine;
 using System.Linq;
 public class ItemContainer : MonoBehaviour
 {
+    void Start()
+    {
+        if (!GameObject.FindGameObjectWithTag("Player"))
+        {
+            RollRandom(new List<GameObject>());
+        }
+    }
     public void RollRandom(List<GameObject> noDestroy)
     {
         var avaliable = GetComponentsInChildren<Transform>().ToList();
