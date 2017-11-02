@@ -113,6 +113,7 @@ public class MainMenuGen : MonoBehaviour
             {
                 GameObject go = Instantiate(spawner[i].enemy);
                 go.transform.position = spawner[i].transform.position;
+                go.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
             }
     }
     //public void SpawnItems()

@@ -18,6 +18,7 @@ public class CharacterCont : MonoBehaviour
     public bool aiming;
     [HideInInspector]
     public Camera currentCamera;
+    public Camera currentlyInCamera;
     Camera prevCamera;
     bool cameraChanged;
     Vector3 heading;
@@ -85,12 +86,11 @@ public class CharacterCont : MonoBehaviour
         {
             if (cameraChanged)
             {
-                if (Vector3.Angle(movement, heading) > 50)
+                if (Vector3.Angle(movement, heading) > 50 || movement.magnitude == 0)
                 {
                     cameraChanged = false;
+                    prevCamera = null;
                 }
-                else if (movement.magnitude == 0)
-                    cameraChanged = false;
             }
             Transform tempTransfrom;
             if (cameraChanged)
