@@ -19,7 +19,7 @@ public class MainMenuGen : MonoBehaviour
     public void NewGame()
     {
         MapGenScriptiable gen = Instantiate(mapGen);
-        //instansiate new copies of the rooms into the gen
+        //Instantiate new copies of the rooms into the gen
         gen.GenMap();
         mapGen = gen;
         DontDestroyOnLoad(mapGen);
@@ -71,7 +71,7 @@ public class MainMenuGen : MonoBehaviour
         player.transform.position = spawnPos;
 
         transitionTime = false;
-        SpawnEnemies();
+        // SpawnEnemies();
         var props = GameObject.FindGameObjectsWithTag("PropSpawn").ToList();
         var itemSpawns = GameObject.FindGameObjectsWithTag("ItemSpawn").ToList();
         var itemSpawnsNoDestroy = new List<GameObject>();
@@ -99,7 +99,7 @@ public class MainMenuGen : MonoBehaviour
 
             //item.GetComponent<ItemInScene>()?.Spawn();
         }
-
+        SpawnEnemies();
 
         Random.InitState(System.DateTime.Now.Second);
 
@@ -113,7 +113,6 @@ public class MainMenuGen : MonoBehaviour
             {
                 GameObject go = Instantiate(spawner[i].enemy);
                 go.transform.position = spawner[i].transform.position;
-                spawner.RemoveAt(i);
             }
     }
     //public void SpawnItems()

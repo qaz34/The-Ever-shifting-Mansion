@@ -51,6 +51,7 @@ public class WeaponEditor : Editor
                 // copy the handle's updated data back to the target object
                 wep.arcAngle = m_ArcHandle.angle;
                 wep.arcRadius = m_ArcHandle.radius;
+                EditorUtility.SetDirty(wep);
             }
         }
         handleMatrix = Matrix4x4.TRS(
@@ -70,6 +71,7 @@ public class WeaponEditor : Editor
                 // copy the handle's updated data back to the target object
                 wep.arcAngle = m_ArcHandle.angle;
                 wep.arcRadius = m_ArcHandle.radius;
+                EditorUtility.SetDirty(wep);
             }
         }
         handleMatrix = Matrix4x4.TRS(
@@ -89,7 +91,9 @@ public class WeaponEditor : Editor
                 // copy the handle's updated data back to the target object
                 wep.knockBackAngle = m_ArcHandleUp.angle;
                 wep.knockBackForce = m_ArcHandleUp.radius;
+                EditorUtility.SetDirty(wep);
             }
         }
+        AssetDatabase.SaveAssets();
     }
 }
