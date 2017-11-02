@@ -12,7 +12,8 @@ public class CombatController : MonoBehaviour
     public float snapAngle = 25;
     public float snapSpeed = .1f;
     public GameObject particleEffect;
-
+    public delegate void Fire();
+    public Fire fired;
     CharacterCont charCont;
     float timeLastShot;
     bool switched;
@@ -108,6 +109,10 @@ public class CombatController : MonoBehaviour
             if (device.RightTrigger.WasPressed)
             {
                 equipWeapon.Fire(transform);
+                if (equipWeapon.type != WepType.MELEE)
+                {
+                    fired?.Invoke();
+                }
             }
             if (device.Action3.WasPressed)
             {

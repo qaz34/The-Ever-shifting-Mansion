@@ -10,9 +10,9 @@ public class HuskAI : MonoBehaviour
     public Weapon weapon;
     float lastAttacked;
     List<Vector3> positions = new List<Vector3>();
-    bool hasSeen = false;
+    public bool hasSeen = false;
 
-
+    public AnimationCurve speedDistanceTrigger;
     Vector3 prevPos = new Vector3();
     Vector3 prevDir = new Vector3();
     Animator animator;
@@ -23,57 +23,54 @@ public class HuskAI : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
-
+        player.GetComponent<CombatController>().fired += FiredWeapon;
         prevPos = transform.position;
         prevDir = transform.forward;
     }
-
+    void FiredWeapon()
+    {
+        hasSeen = true;
+    }
     // Update is called once per frame
     void Update()
     {
-        if (agent.enabled == false)
+        if (!hasSeen)
         {
-            if (Physics.Raycast(transform.position, -transform.up, 1))
+            int mask = 1 << LayerMask.NameToLayer("Ignore Raycast");
+            mask = ~mask;
+            RaycastHit hit;
+            Vector3 toPlayer = player.transform.position - transform.position;
+            Physics.Raycast(transform.position, toPlayer.normalized, out hit, toPlayer.magnitude);
+            CharacterCont cc = player.GetComponent<CharacterCont>();
+            float speed = cc.currentSpeed;
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+            float inverseTime = (speed / distance);
+            float angle = Vector3.Angle(transform.forward, player.transform.position);
+            if (inverseTime > 1 || (hit.transform && (angle < 45 && hit.transform.tag == "Player")))
             {
-                agent.enabled = true;
-                GetComponent<Rigidbody>().isKinematic = true;
+                hasSeen = true;
             }
-            return;
         }
-        int mask = 1 << LayerMask.NameToLayer("Target") | 1 << LayerMask.NameToLayer("Ignore Raycast");
-        mask = ~mask;
-        RaycastHit hit;
-        Vector3 toPlayer = player.transform.position - transform.position;
-        if (Physics.Raycast(transform.position, toPlayer.normalized, out hit, toPlayer.magnitude, mask))
+        if (hasSeen)
         {
-            StartCoroutine(SetPath());
-            positions = new List<Vector3>();
-            if (hit.transform.tag == "Player")
+            if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
+            {
+                transform.forward = player.transform.position - transform.position;
+
+                if (weapon && Time.time - lastAttacked > weapon.fireRate)
+                {
+                    lastAttacked = Time.time;
+                    player.GetComponent<Health>().CurrentHealth -= weapon.damage;
+                    animator.SetTrigger("AttackWeak");
+                }
+                agent.SetDestination(transform.position);
+            }
+            else
             {
                 agent.SetDestination(player.transform.position);
+
             }
         }
-        else if (hasSeen)
-        {
-            if (positions.Count > 0)
-            {
-                if (agent.remainingDistance < 1)
-                    positions.Remove(positions[0]);
-                agent.SetDestination(positions[0]);
-            }
-        }
-        if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
-        {
-            agent.isStopped = true;
-            if (weapon && Time.time - lastAttacked > weapon.fireRate)
-            {
-                lastAttacked = Time.time;
-                player.GetComponent<Health>().CurrentHealth -= weapon.damage;
-                animator.SetTrigger("AttackWeak");
-            }
-        }
-        else
-            agent.isStopped = false;
 
         UpdateAnimator();
         prevPos = transform.position;
@@ -86,22 +83,5 @@ public class HuskAI : MonoBehaviour
         float turn = Vector3.SignedAngle(prevDir, transform.forward, Vector3.up);
         animator.SetFloat("Move", (speed / agent.speed));
         animator.SetFloat("Turn", turn);
-
-    }
-
-    public void KnockBack(Vector3 force)
-    {
-        agent.enabled = false;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.isKinematic = false;
-        rb.AddForce(force, ForceMode.Impulse);
-    }
-    IEnumerator SetPath()
-    {
-        for (; ; )
-        {
-            positions.Add(player.transform.position);
-            yield return new WaitForSeconds(.5f);
-        }
     }
 }
