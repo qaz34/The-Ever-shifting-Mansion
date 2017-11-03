@@ -23,6 +23,8 @@ public class ItemInScene : MonoBehaviour
     }
     void Update()
     {
+        if (!item)
+            return;
         InputDevice device = InputManager.ActiveDevice;
         if (playerIsIn && device.Action1.WasPressed && !isLooking)
         {
