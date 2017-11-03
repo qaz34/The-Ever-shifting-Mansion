@@ -84,6 +84,7 @@ public class CombatController : MonoBehaviour
         InputDevice device = InputManager.ActiveDevice;
         if (device.LeftTrigger.IsPressed)
         {
+            GetComponent<Animator>().SetBool("GunUp", true);
             charCont.aiming = true;
             float rotateAmount = device.LeftStickX * rotateSpeed;
             transform.Rotate(transform.up, rotateAmount);
@@ -125,6 +126,7 @@ public class CombatController : MonoBehaviour
         }
         else
         {
+            GetComponent<Animator>().SetBool("GunUp", false);
             charCont.aiming = false;
         }
     }
