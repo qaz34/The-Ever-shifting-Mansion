@@ -22,7 +22,7 @@ public class Inspect : MonoBehaviour
     {
         foreach (Transform child in transform)
             Destroy(child.gameObject);
-        Instantiate(item.weaponDisplay, transform.position, new Quaternion(), transform);
+        Instantiate(item.display, transform.position, new Quaternion(), transform);
     }
     public void BeginLook(Item _item, ItemInScene itemInScene)
     {
@@ -34,7 +34,7 @@ public class Inspect : MonoBehaviour
         GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().SetEnabled(false);
         transform.rotation = new Quaternion();
         transform.Rotate(Vector3.up, 45);
-        Instantiate(item.weaponDisplay, transform.position, new Quaternion(), transform);
+        Instantiate(item.display, transform.position, new Quaternion(), transform);
         justEntered = true;
         inspectText.text = item.description.text;
         looking = true;
