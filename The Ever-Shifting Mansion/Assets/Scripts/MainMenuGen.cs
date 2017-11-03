@@ -61,6 +61,7 @@ public class MainMenuGen : MonoBehaviour
             if (door.connectedScene == currentRoom)
             {
                 spawnPos = go.transform.position;
+                spawnPos.y = 0;
             }
             go.transform.Translate(new Vector3(door.Direction(false).x / 2, 0, door.Direction(false).y / 2));
             go.transform.Rotate(transform.up, 90 * (int)door.direction);

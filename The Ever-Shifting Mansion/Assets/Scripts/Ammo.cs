@@ -22,11 +22,7 @@ public class Ammo : Item
     {
         Inventory inv = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
         foreach (var wep in inv.weapons.Where(i => i && i.type != WepType.MELEE))
-        {
             if (((RangedWep)wep).ammoType == ammoType)
-            {
                 ((RangedWep)wep).InstantReload(this);
-            }
-        }
     }
 }
