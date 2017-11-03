@@ -80,52 +80,56 @@ public class CombatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        InputDevice device = InputManager.ActiveDevice;
-        if (device.LeftTrigger.IsPressed)
+        if (equipWeapon)
         {
-            charCont.aiming = true;
-            float rotateAmount = device.LeftStickX * rotateSpeed;
-            transform.Rotate(transform.up, rotateAmount);
-            if (Within(device.LeftStickX, .1f))
+            InputDevice device = InputManager.ActiveDevice;
+            if (device.LeftTrigger.IsPressed)
             {
-                GetValidTargets();
-                Target closestInAngle = new Target(0, null);
-                foreach (var target in validTargetsSorted)
+                GetComponent<Animator>().SetBool("GunUp", true);
+                charCont.aiming = true;
+                float rotateAmount = device.LeftStickX * rotateSpeed;
+                transform.Rotate(transform.up, rotateAmount);
+                if (Within(device.LeftStickX, .1f))
                 {
-                    Vector3 to = target.obj.transform.position - transform.position;
-                    if (Vector3.Angle(transform.forward, to.normalized) < snapAngle)
+                    GetValidTargets();
+                    Target closestInAngle = new Target(0, null);
+                    foreach (var target in validTargetsSorted)
                     {
-                        closestInAngle = target;
-                        break;
+                        Vector3 to = target.obj.transform.position - transform.position;
+                        if (Vector3.Angle(transform.forward, to.normalized) < snapAngle)
+                        {
+                            closestInAngle = target;
+                            break;
+                        }
+                    }
+                    if (closestInAngle.obj != null)
+                    {
+                        transform.forward = Vector3.Lerp(transform.forward, (closestInAngle.obj.transform.position - transform.position).normalized, snapSpeed);
+                        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                     }
                 }
-                if (closestInAngle.obj != null)
+                if (device.RightTrigger.WasPressed)
                 {
-                    transform.forward = Vector3.Lerp(transform.forward, (closestInAngle.obj.transform.position - transform.position).normalized, snapSpeed);
-                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-                }
-            }
-            if (device.RightTrigger.WasPressed)
-            {
-                equipWeapon.Fire(transform);
-                if (equipWeapon.type != WepType.MELEE)
-                {
-                    fired?.Invoke();
-                }
-            }
-            if (device.Action3.WasPressed)
-            {
-                if ((RangedWep)equipWeapon)
-                    foreach (var ammo in GetComponent<Inventory>().ammo.Where(i => i.ammoType == ((RangedWep)equipWeapon).ammoType))
+                    equipWeapon.Fire(transform);
+                    if (equipWeapon.type != WepType.MELEE)
                     {
-                        ((RangedWep)equipWeapon).Reload(ammo);
+                        fired?.Invoke();
                     }
+                }
+                if (device.Action3.WasPressed)
+                {
+                    if ((RangedWep)equipWeapon)
+                        foreach (var ammo in GetComponent<Inventory>().ammo.Where(i => i.ammoType == ((RangedWep)equipWeapon).ammoType))
+                        {
+                            ((RangedWep)equipWeapon).Reload(ammo);
+                        }
+                }
             }
-        }
-        else
-        {
-            charCont.aiming = false;
+            else
+            {
+                GetComponent<Animator>().SetBool("GunUp", false);
+                charCont.aiming = false;
+            }
         }
     }
 }

@@ -8,11 +8,12 @@ public class Inventory : MonoBehaviour
     public int currentlyEquipWeapon = 0;
     public List<Weapon> weapons;
     public List<Ammo> ammo;
+    public List<Consumable> consumables;
     public Transform weaponLocation;
     void Start()
     {
         if (GetComponent<CombatController>().equipWeapon)
-            Instantiate(GetComponent<CombatController>().equipWeapon.weaponInGame, weaponLocation.position, weaponLocation.rotation, weaponLocation);
+            Instantiate(GetComponent<CombatController>().equipWeapon.inGame, weaponLocation.position, weaponLocation.rotation, weaponLocation);
     }
     public void Equip(bool left)
     {
@@ -24,7 +25,7 @@ public class Inventory : MonoBehaviour
                 combat.equipWeapon = weapons[currentlyEquipWeapon];
                 foreach (Transform trans in weaponLocation)
                     Destroy(trans.gameObject);
-                Instantiate(GetComponent<CombatController>().equipWeapon.weaponInGame, weaponLocation.position, weaponLocation.rotation, weaponLocation);
+                Instantiate(GetComponent<CombatController>().equipWeapon.inGame, weaponLocation.position, weaponLocation.rotation, weaponLocation);
                 return;
             }
             else

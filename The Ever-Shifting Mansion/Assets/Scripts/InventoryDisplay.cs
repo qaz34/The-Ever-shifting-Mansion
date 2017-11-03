@@ -90,7 +90,7 @@ public class InventoryDisplay : MonoBehaviour
                     Destroy(child.gameObject);
                 if (player.GetComponent<Inventory>().weapons[i])
                 {
-                    var go = Instantiate(player.GetComponent<Inventory>().weapons[i].weaponDisplay, slots[i].position, slots[i].rotation, slots[i]);
+                    var go = Instantiate(player.GetComponent<Inventory>().weapons[i].display, slots[i].position, slots[i].rotation, slots[i]);
                     go.AddComponent<cakeslice.Outline>().enabled = false;
                     items.Add(new ItemAndContainer() { itemInGame = go, itemScript = player.GetComponent<Inventory>().weapons[i] });
                 }
@@ -114,7 +114,7 @@ public class InventoryDisplay : MonoBehaviour
                     bool canBe = true;
                     foreach (var pos in takenPositions)
                     {
-                        if (Vector3.Distance(currentPos, pos) < ammo.weaponDisplay.transform.localScale.x * 5)
+                        if (Vector3.Distance(currentPos, pos) < ammo.display.transform.localScale.x * 5)
                         {
                             canBe = false;
                             break;
@@ -124,7 +124,7 @@ public class InventoryDisplay : MonoBehaviour
                         break;
                 }
                 takenPositions.Add(currentPos);
-                var ammoBox = Instantiate(ammo.weaponDisplay, new Vector3(x, ammoPlaceBox.transform.position.y, y), Quaternion.Euler(0, Random.Range(0, 360), 0), ammoParent);
+                var ammoBox = Instantiate(ammo.display, new Vector3(x, ammoPlaceBox.transform.position.y, y), Quaternion.Euler(0, Random.Range(0, 360), 0), ammoParent);
                 var ammoText = Instantiate(AmmoNumber, new Vector3(x, ammoPlaceBox.transform.position.y, y), Quaternion.Euler(90, 0, 0), ammoParent);
                 ammoText.GetComponent<TextMesh>().text = ammo.amount.ToString();
                 ammoText.transform.parent = ammoBox.transform;

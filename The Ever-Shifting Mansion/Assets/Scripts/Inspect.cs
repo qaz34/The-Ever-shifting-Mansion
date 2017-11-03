@@ -22,7 +22,7 @@ public class Inspect : MonoBehaviour
     {
         foreach (Transform child in transform)
             Destroy(child.gameObject);
-        Instantiate(item.weaponDisplay, transform.position, new Quaternion(), transform);
+        Instantiate(item.display, transform.position, new Quaternion(), transform);
     }
     public void BeginLook(Item _item, ItemInScene itemInScene)
     {
@@ -34,7 +34,7 @@ public class Inspect : MonoBehaviour
         GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().SetEnabled(false);
         transform.rotation = new Quaternion();
         transform.Rotate(Vector3.up, 45);
-        Instantiate(item.weaponDisplay, transform.position, new Quaternion(), transform);
+        Instantiate(item.display, transform.position, new Quaternion(), transform);
         justEntered = true;
         inspectText.text = item.description.text;
         looking = true;
@@ -46,8 +46,6 @@ public class Inspect : MonoBehaviour
         //GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().SetEnabled(false);
         GetComponentInParent<Camera>().enabled = false;
         looking = false;
-
-
     }
     void Update()
     {
@@ -66,16 +64,14 @@ public class Inspect : MonoBehaviour
                     Destroy(thingInspecting.gameObject);
                 }
                 LeaveLook();
-                if (stopLookDelegate != null)
-                    stopLookDelegate(true);
+                stopLookDelegate?.Invoke(true);
             }
             else if (device.Action2.WasPressed || device.MenuWasPressed && !justEntered)
             {
                 if (thingInspecting)
                     thingInspecting.isLooking = false;
                 LeaveLook();
-                if (stopLookDelegate != null)
-                    stopLookDelegate(false);
+                stopLookDelegate?.Invoke(false);
             }
             justEntered = false;
         }

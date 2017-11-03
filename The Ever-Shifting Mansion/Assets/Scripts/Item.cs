@@ -6,7 +6,8 @@ public enum Type
 {
     WEAPON,
     AMMO,
-    CONSUMABLE
+    CONSUMABLE,
+    NOTE
 }
 
 
@@ -14,8 +15,8 @@ public class Item : ScriptableObject
 {
 
     [Tooltip("Mesh")]
-    public GameObject weaponDisplay;
-    public GameObject weaponInGame;
+    public GameObject display;
+    public GameObject inGame;
     public TextAsset description;
     public Type typeOf;
     public virtual void PickUp() { }
