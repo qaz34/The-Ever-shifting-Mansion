@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System.Linq;
-[CreateAssetMenu(fileName = "Item", menuName = "Items/Ammo", order = 1)]
+[CreateAssetMenu(fileName = "Consumable", menuName = "Items/Consumable", order = 1)]
 public class Consumable : Item
 {
     public int amount;

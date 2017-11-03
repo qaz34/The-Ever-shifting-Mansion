@@ -6,7 +6,8 @@ public enum Type
 {
     WEAPON,
     AMMO,
-    CONSUMABLE
+    CONSUMABLE,
+    NOTE
 }
 
 

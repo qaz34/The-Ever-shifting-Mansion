@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using InControl;
+using UnityEngine.UI;
 [RequireComponent(typeof(Collider))]
 public class ItemInScene : MonoBehaviour
 {
@@ -25,9 +26,19 @@ public class ItemInScene : MonoBehaviour
         InputDevice device = InputManager.ActiveDevice;
         if (playerIsIn && device.Action1.WasPressed && !isLooking)
         {
-            GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().BeginLook(item, this);
-            isLooking = true;
-            GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().stopLookDelegate += StopLooking;
+            if (item.typeOf != Type.NOTE)
+            {
+                GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().BeginLook(item, this);
+                isLooking = true;
+                GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().stopLookDelegate += StopLooking;
+            }
+            else
+            {
+                GameObject go = Instantiate(((StoryNote)item).noteCanvas);
+                Instantiate(item.display, go.transform);
+                go.GetComponentInChildren<Text>().text = item.description.text;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().SetEnabled(false);
+            }
         }
     }
     void StopLooking(bool interact)
