@@ -46,8 +46,6 @@ public class Inspect : MonoBehaviour
         //GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().SetEnabled(false);
         GetComponentInParent<Camera>().enabled = false;
         looking = false;
-
-
     }
     void Update()
     {
@@ -66,16 +64,14 @@ public class Inspect : MonoBehaviour
                     Destroy(thingInspecting.gameObject);
                 }
                 LeaveLook();
-                if (stopLookDelegate != null)
-                    stopLookDelegate(true);
+                stopLookDelegate?.Invoke(true);
             }
             else if (device.Action2.WasPressed || device.MenuWasPressed && !justEntered)
             {
                 if (thingInspecting)
                     thingInspecting.isLooking = false;
                 LeaveLook();
-                if (stopLookDelegate != null)
-                    stopLookDelegate(false);
+                stopLookDelegate?.Invoke(false);
             }
             justEntered = false;
         }

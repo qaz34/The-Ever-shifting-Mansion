@@ -8,6 +8,7 @@ public class Inventory : MonoBehaviour
     public int currentlyEquipWeapon = 0;
     public List<Weapon> weapons;
     public List<Ammo> ammo;
+    public List<Consumable> consumables;
     public Transform weaponLocation;
     void Start()
     {
