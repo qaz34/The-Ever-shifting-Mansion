@@ -14,13 +14,16 @@ public class BoneWolfAI : MonoBehaviour
     public float chargeSpeed;
     public float stunTime;
     Vector3 chargeDirection;
+    public float chargeTime;
+    public bool hasSeen = false;
 
     public enum State
     {
         Wander,
         Howl,
         ChargeAttack,
-        Attack
+        Attack,
+        Search
     };
 
 
@@ -33,18 +36,23 @@ public class BoneWolfAI : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (stateTimer > 0)
+        {
+            stateTimer -= Time.deltaTime;
+        }
         switch (state)
         {
             case State.Wander:
                 UpdateWander();
                 break;
             case State.Howl:
-                StartHowl();
+                UpdateHowl();
                 break;
             case State.ChargeAttack:
                 UpdateCharge();
@@ -52,27 +60,24 @@ public class BoneWolfAI : MonoBehaviour
             case State.Attack:
                 UpdateAttack();
                 break;
+            case State.Search:
+                UpdateSearch();
+                break;
 
         }
-
-        if (state == State.ChargeAttack)
-            agent.speed = chargeSpeed;
-        else
-            agent.speed = wanderSpeed;
-
-        if (stateTimer >= 0)
-        {
-            stateTimer -= Time.deltaTime;
-        }
-        else
-        {
-            ChooseAttack();
-        }
-
-
-
     }
-
+    void StartSearch()
+    {
+        //set search anim
+        //state timer for wait before moving
+    }
+    void UpdateSearch()
+    {
+        //check to see player infront
+        //wait for state timer
+        //move to find player
+        //one found player choose attack
+    }
     void UpdateWander()
     {
         agent.speed = wanderSpeed;
@@ -87,36 +92,58 @@ public class BoneWolfAI : MonoBehaviour
             Vector3 finalPosition = hit.position;
 
             agent.SetDestination(finalPosition);
+
+            stateTimer = 0;
         }
+
         // do a line of sight check to player, and if we see him Howl
-
+        {
+            RaycastHit hit;
+            Vector3 toPlayer = player.transform.position - transform.position;
+            Physics.Raycast(transform.position, toPlayer.normalized, out hit, toPlayer.magnitude);
+            float angle = Vector3.Angle(transform.forward, player.transform.position);
+            if ((hit.transform && (angle < 45 && hit.transform.tag == "Player")))
+            {
+                hasSeen = true;
+            }
+        }
+        if (hasSeen)
+        {
+            StartHowl();
+        }
     }
-
+    void StartCharge()
+    {
+        // for the next 3 seconds, move in this direction
+        agent.enabled = false;
+        chargeDirection = (player.transform.position - transform.position);
+        chargeDirection.y = 0;
+        chargeDirection.Normalize();
+        agent.speed = chargeSpeed;
+        stateTimer = chargeTime;
+        state = State.ChargeAttack;
+    }
     void UpdateCharge()
     {
-        // move fast along charge vector
-        // if we hit player, do charge damage
-        // if we hit a wall, do damage/stun to us
+        if (stateTimer <= 0)
+        {
 
-
-        agent.enabled = false;
+        }
         if (Vector3.Dot(agent.transform.forward, chargeDirection) > 0.8f)
         {
             agent.transform.position += chargeSpeed * chargeDirection * Time.deltaTime;
         }
-        //agent.SetDestination(transform.position + chargeDirection * 10);
-
         agent.transform.forward = Vector3.Lerp(agent.transform.forward, chargeDirection, .1f);
-
-
-        //when finihsed, startattack
     }
 
+    void StartAttack()
+    {
+        stateTimer = 2;
+        state = State.Attack;
+
+    }
     void UpdateAttack()
     {
-        //play animationm
-        // do damage if player in range
-        // countdown
         agent.speed = wanderSpeed;
         animator.SetFloat("Speed", agent.velocity.magnitude / 2);
         agent.SetDestination(player.transform.position);
@@ -133,10 +160,16 @@ public class BoneWolfAI : MonoBehaviour
         }
     }
 
+   
     void StartHowl()
     {
+        state = State.Howl;
         animator.SetBool("Howling", true);
         StartCoroutine(Howling());
+    }
+    void UpdateHowl()
+    {
+
     }
 
 
@@ -147,12 +180,18 @@ public class BoneWolfAI : MonoBehaviour
         {
             yield return new WaitForSeconds(.01f);
         }
+        Debug.Log("HowlDone");
         animator.SetBool("Howling", false);
         ChooseAttack();
     }
-
+    void StartStunned()
+    {
+        StartCoroutine(Stunned());
+    }
     IEnumerator Stunned()
     {
+        animator.SetBool("Stunned", true);
+        stateTimer = stunTime;
         yield return new WaitForSeconds(stunTime);
         animator.SetBool("Stunned", false);
         ChooseAttack();
@@ -162,20 +201,13 @@ public class BoneWolfAI : MonoBehaviour
     {
         if (Vector3.Distance(player.transform.position, transform.position) < 2f)
             StartAttack();
-        else
+        if (Vector3.Distance(player.transform.position, transform.position) > 2.5f && Vector3.Distance(player.transform.position, transform.position) < 10f)
             StartCharge();
+        if (Vector3.Distance(player.transform.position, transform.position) >= 10f && !hasSeen)
+            state = State.Wander;
     }
 
-    void StartCharge()
-    {
-        // for the next 3 seconds, move in thjis direction
-        chargeDirection = (player.transform.position - transform.position);
-        chargeDirection.y = 0;
-        chargeDirection.Normalize();
-
-        stateTimer = 3;
-        state = State.ChargeAttack;
-    }
+ 
 
     private void OnTriggerEnter(Collider other)
     {
@@ -185,25 +217,11 @@ public class BoneWolfAI : MonoBehaviour
                 player.GetComponent<Health>().CurrentHealth -= 40;
             if (other.tag == "Stun")
             {
-                animator.SetBool("Stunned", true);
-                
-                Stunned();
+                StartStunned();
             }
-            
             state = State.Howl;
-        }
-        else
-        {
-            //do nothing
         }
     }
 
-    void StartAttack()
-    {
-        stateTimer = 2;
-        state = State.Attack;
-        // if the player is far away, set state to charge,
-        // other wise set state to attack
-    }
 
 }
