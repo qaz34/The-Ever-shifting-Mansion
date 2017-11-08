@@ -47,7 +47,7 @@ public class CombatController : MonoBehaviour
     }
     void GetValidTargets()
     {
-        var hits = GetAllTargets();
+        var hits = FindObjectsOfType<HuskAI>();
         var validTargets = new List<Target>();
         int mask = 1 << LayerMask.NameToLayer("Target") | 1 << LayerMask.NameToLayer("Ignore Raycast");
         mask = ~mask;
@@ -55,7 +55,7 @@ public class CombatController : MonoBehaviour
         {
             if (!Physics.Raycast(transform.position, (target.transform.position - transform.position).normalized, (target.transform.position - transform.position).magnitude, mask))
             {
-                validTargets.Add(new Target(Vector3.Distance(transform.position, target.transform.position), target));
+                validTargets.Add(new Target(Vector3.Distance(transform.position, target.transform.position), target.gameObject));
             }
         }
         if (validTargets.Count > 0)

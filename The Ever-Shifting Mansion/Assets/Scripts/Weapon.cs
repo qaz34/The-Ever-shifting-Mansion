@@ -27,7 +27,7 @@ public class Weapon : Item
     {
         Inventory inv = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
         inv.weapons[(int)type] = this;
-        inv.Equip(true);
+        inv.Equip(true);        
     }
     public virtual void Fire(Transform position)
     {

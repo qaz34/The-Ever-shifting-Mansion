@@ -14,11 +14,9 @@ public class CameraTrigger : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-
             connectedCamera.gameObject.SetActive(true);
             if (!player.PreviousCamera)
                 player.PreviousCamera = player.currentCamera;
-
             if (player.currentlyInCamera)
             {
                 player.currentlyInCamera.GetComponent<AudioListener>().enabled = false;

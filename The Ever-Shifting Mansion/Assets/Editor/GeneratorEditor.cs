@@ -216,13 +216,23 @@ public class GeneratorEditor : Editor
             EditorUtility.SetDirty(gen);
         }
         EditorGUI.BeginChangeCheck();
-        int items = EditorGUILayout.IntField("Target Items", gen.targetConsumables);
+        int items = EditorGUILayout.IntField("Target Consumables", gen.targetConsumables);
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(gen, "gen changed");
 
 
             gen.targetConsumables = items;
+            EditorUtility.SetDirty(gen);
+        }
+        EditorGUI.BeginChangeCheck();
+        int weps = EditorGUILayout.IntField("Target Weapons", gen.targetWeapons);
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(gen, "gen changed");
+
+
+            gen.targetWeapons = weps;
             EditorUtility.SetDirty(gen);
         }
         if (GUILayout.Button("Generate Map"))

@@ -36,6 +36,7 @@ public class MapGenScriptiable : ScriptableObject
     public int targetEnemies;
 
     public int targetConsumables;
+    public int targetWeapons;
     [System.Serializable]
     public struct DimensionalAnchor
     {
@@ -135,22 +136,45 @@ public class MapGenScriptiable : ScriptableObject
     Item GetItemWeighted(RoomScriptable room)
     {
         //var items = room.spawnableItems[Random.Range(0, room.spawnableItems.Count)];
-
-        float percentile = 0;
-        float full = 0;
-        float percent = Random.Range(0, 100);
-        foreach (var item in room.spawnableItems)
-            full += item.weight;
-        foreach (var item in room.spawnableItems)
+        if (room.spawnableItems.Count > 0)
         {
-            percentile += item.weight;
-            if ((percentile / full) * 100 > percent)
+            float percentile = 0;
+            float full = 0;
+            float percent = Random.Range(0, 100);
+            foreach (var item in room.spawnableItems)
+                full += item.weight;
+            foreach (var item in room.spawnableItems)
             {
-                return item.item;
+                percentile += item.weight;
+                if ((percentile / full) * 100 > percent)
+                {
+                    return item.item;
+                }
             }
+            return room.spawnableItems[Random.Range(0, room.spawnableItems.Count)].item;
         }
-
-        return room.spawnableItems[Random.Range(0, room.spawnableItems.Count)].item;
+        return null;
+    }
+    Item GetWepWeighted(RoomScriptable room)
+    {
+        if (room.spawnableWeps.Count > 0)
+        {
+            float percentile = 0;
+            float full = 0;
+            float percent = Random.Range(0, 100);
+            foreach (var item in room.spawnableWeps)
+                full += item.weight;
+            foreach (var item in room.spawnableWeps)
+            {
+                percentile += item.weight;
+                if ((percentile / full) * 100 > percent)
+                {
+                    return item.item;
+                }
+            }
+            // return room.spawnableWeps[Random.Range(0, room.spawnableWeps.Count)].item;
+        }
+        return null;
     }
 
     void RandomConsumables()
@@ -160,9 +184,25 @@ public class MapGenScriptiable : ScriptableObject
         while (consumablesSpawned < targetConsumables && roomsAvaliable.Count > 0)
         {
             var room = roomsAvaliable[Random.Range(0, roomsAvaliable.Count)];
-            if (room.spawnList.Count < room.maxItems)
+            if (room.spawnList.Count < room.maxItems && room.spawnableItems.Count > 0)
             {
                 var item = Instantiate(GetItemWeighted(room));
+                room.spawnList.Add(item);
+            }
+            else
+                roomsAvaliable.Remove(room);
+        }
+    }
+    void RandomWeapons()
+    {
+        int consumablesSpawned = 0;
+        var roomsAvaliable = new List<RoomScriptable>(rooms);
+        while (consumablesSpawned < targetConsumables && roomsAvaliable.Count > 0)
+        {
+            var room = roomsAvaliable[Random.Range(0, roomsAvaliable.Count)];
+            if (room.spawnList.Count < room.maxItems && room.spawnableWeps.Count > 0)
+            {
+                var item = Instantiate(GetWepWeighted(room));
                 room.spawnList.Add(item);
             }
             else
@@ -304,9 +344,10 @@ public class MapGenScriptiable : ScriptableObject
             i++;
             NewGrid();
             RandomMap();
-            //RandomWeapons();
+
             if (!CheckMap())
                 continue;
+            RandomWeapons();
             RandomEnemies();
             RandomConsumables();
             ConnectDoors();
