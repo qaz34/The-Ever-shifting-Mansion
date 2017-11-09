@@ -15,20 +15,22 @@ public class Health : MonoBehaviour
         set
         {
             health = value;
-            if (health <= 0)
-            {
-                health = 0;
-                isDead = true;
-                if (tag == "player")
+            if (GameObject.FindGameObjectWithTag("MapGen"))
+                if (health <= 0)
                 {
+                    health = 0;
+                    isDead = true;
+                    if (tag == "player")
+                    {
 
+                    }
+                    else
+                    {
+
+                        GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().currentRoom.enemiesInRoom--;
+                    }
+                    gameObject.SetActive(false);
                 }
-                else
-                {
-                    GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().currentRoom.enemiesInRoom--;
-                }
-                gameObject.SetActive(false);
-            }
         }
     }
     public bool isDead = false;

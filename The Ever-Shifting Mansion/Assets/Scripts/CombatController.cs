@@ -114,6 +114,7 @@ public class CombatController : MonoBehaviour
                     if (equipWeapon.type != WepType.MELEE)
                     {
                         fired?.Invoke();
+                        Debug.Log("bang");
                     }
                 }
                 if (device.Action3.WasPressed)

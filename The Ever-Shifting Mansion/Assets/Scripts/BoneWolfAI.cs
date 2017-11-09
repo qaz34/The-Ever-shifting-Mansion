@@ -16,6 +16,7 @@ public class BoneWolfAI : MonoBehaviour
     Vector3 chargeDirection;
     public float chargeTime;
     public bool hasSeen = false;
+    bool isAttacking = false;
 
     public enum State
     {
@@ -23,7 +24,8 @@ public class BoneWolfAI : MonoBehaviour
         Howl,
         ChargeAttack,
         Attack,
-        Search
+        Search,
+        Stunned
     };
 
 
@@ -63,6 +65,9 @@ public class BoneWolfAI : MonoBehaviour
             case State.Search:
                 UpdateSearch();
                 break;
+            case State.Stunned:
+                UpdateStunned();
+                break;
 
         }
     }
@@ -70,11 +75,50 @@ public class BoneWolfAI : MonoBehaviour
     {
         //set search anim
         //state timer for wait before moving
+        agent.enabled = true;
+        state = State.Search;
+        stateTimer = 2;
+
     }
     void UpdateSearch()
     {
-        //check to see player infront
-        //wait for state timer
+        if (stateTimer <= 0)
+        {
+            {
+                agent.speed = wanderSpeed * 2;
+                animator.SetFloat("Speed", agent.velocity.magnitude / 2);
+                if (agent.remainingDistance < .1)
+                {
+                    // find a random point nearby and move to it
+                    Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
+                    randomDirection += transform.position;
+                    NavMeshHit aiHit;
+                    NavMesh.SamplePosition(randomDirection, out aiHit, walkRadius, 1);
+                    Vector3 finalPosition = aiHit.position;
+
+                    agent.SetDestination(finalPosition);
+
+                    stateTimer = 0;
+                }
+
+
+                RaycastHit hit;
+                Vector3 toPlayer = player.transform.position - transform.position;
+                Physics.Raycast(transform.position, toPlayer.normalized, out hit, toPlayer.magnitude);
+                float angle = Vector3.Angle(player.transform.position - transform.position, transform.forward);
+                if (hit.transform && (angle < 90 && hit.transform.tag == "Player" && toPlayer.magnitude < 10f))
+                {
+                    hasSeen = true;
+                }
+            }
+            if (hasSeen)
+            {
+                StartHowl();
+            }
+
+            //wait for state timer
+            stateTimer = 0;
+        }
         //move to find player
         //one found player choose attack
     }
@@ -101,8 +145,8 @@ public class BoneWolfAI : MonoBehaviour
             RaycastHit hit;
             Vector3 toPlayer = player.transform.position - transform.position;
             Physics.Raycast(transform.position, toPlayer.normalized, out hit, toPlayer.magnitude);
-            float angle = Vector3.Angle(transform.forward, player.transform.position);
-            if ((hit.transform && (angle < 45 && hit.transform.tag == "Player")))
+            float angle = Vector3.Angle(player.transform.position - transform.position, transform.forward);
+            if (hit.transform && angle < 45 && hit.transform.tag == "Player" && toPlayer.magnitude < 10f)
             {
                 hasSeen = true;
             }
@@ -127,7 +171,7 @@ public class BoneWolfAI : MonoBehaviour
     {
         if (stateTimer <= 0)
         {
-
+            StartSearch();
         }
         if (Vector3.Dot(agent.transform.forward, chargeDirection) > 0.8f)
         {
@@ -147,20 +191,44 @@ public class BoneWolfAI : MonoBehaviour
         agent.speed = wanderSpeed;
         animator.SetFloat("Speed", agent.velocity.magnitude / 2);
         agent.SetDestination(player.transform.position);
-        if (Vector3.Distance(transform.position, player.transform.position) < 2f)
+        if (!isAttacking)
         {
-            //attack
-            animator.SetBool("Attacking", true);
-            agent.isStopped = true;
+            if (Vector3.Distance(transform.position, player.transform.position) < 2f)
+            {
+                stateTimer = 1; //animTime     
+                isAttacking = true;
+                animator.SetBool("Attacking", true);
+                agent.isStopped = true;
+            }
+            else
+            {
+                animator.SetBool("Attacking", false);
+                agent.isStopped = false;
+            }
+            if (Vector3.Distance(transform.position, player.transform.position) > 8f)
+            {
+                StartHowl();
+            }
         }
-        else
+        else if (stateTimer <= 0)
         {
-            animator.SetBool("Attacking", false);
-            agent.isStopped = false;
+            if (Vector3.Distance(transform.position, player.transform.position) < 3f)
+            {
+                player.GetComponent<Health>().CurrentHealth -= 20;
+                Debug.Log(player.GetComponent<Health>().CurrentHealth);
+
+            }
+
+            isAttacking = false;
+        }
+        if (isAttacking)
+        {
+            agent.transform.forward = Vector3.Lerp(agent.transform.forward, chargeDirection, .1f);
+
         }
     }
 
-   
+
     void StartHowl()
     {
         state = State.Howl;
@@ -175,6 +243,7 @@ public class BoneWolfAI : MonoBehaviour
 
     IEnumerator Howling()
     {
+        Debug.Log("start howl");
         yield return new WaitForSeconds(1f);
         while (!animator.IsInTransition(0))
         {
@@ -186,40 +255,47 @@ public class BoneWolfAI : MonoBehaviour
     }
     void StartStunned()
     {
+        state = State.Stunned;
         StartCoroutine(Stunned());
+    }
+    void UpdateStunned()
+    {
+
     }
     IEnumerator Stunned()
     {
         animator.SetBool("Stunned", true);
-        stateTimer = stunTime;
         yield return new WaitForSeconds(stunTime);
         animator.SetBool("Stunned", false);
-        ChooseAttack();
+        StartAttack();
     }
 
     void ChooseAttack()
     {
-        if (Vector3.Distance(player.transform.position, transform.position) < 2f)
+        if (Vector3.Distance(player.transform.position, transform.position) < 4f)
             StartAttack();
-        if (Vector3.Distance(player.transform.position, transform.position) > 2.5f && Vector3.Distance(player.transform.position, transform.position) < 10f)
+        if (Vector3.Distance(player.transform.position, transform.position) >= 4f)
             StartCharge();
-        if (Vector3.Distance(player.transform.position, transform.position) >= 10f && !hasSeen)
-            state = State.Wander;
+
     }
 
- 
+
 
     private void OnTriggerEnter(Collider other)
     {
         if (state == State.ChargeAttack)
         {
+            agent.enabled = true;
             if (other.tag == "Player")
+            {
                 player.GetComponent<Health>().CurrentHealth -= 40;
+                Debug.Log(player.GetComponent<Health>().CurrentHealth);
+                ChooseAttack();
+            }
             if (other.tag == "Stun")
             {
                 StartStunned();
             }
-            state = State.Howl;
         }
     }
 
