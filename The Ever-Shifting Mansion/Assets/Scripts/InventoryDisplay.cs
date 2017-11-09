@@ -25,10 +25,6 @@ public class InventoryDisplay : MonoBehaviour
     void Update()
     {
         InputDevice device = InputManager.ActiveDevice;
-        if (device.Action4.IsPressed)
-        {
-            Debug.Log("Pressed");
-        }
         if (device.Action4.WasPressed && !inspecting)
         {
             ToggleInventory();

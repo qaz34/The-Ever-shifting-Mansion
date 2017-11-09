@@ -318,7 +318,6 @@ public class MapGenScriptiable : ScriptableObject
                                         timeTobbbbbbbBreak = true;
                                     if (timeTobbbbbbbBreak)
                                         break;
-                                    Debug.Log("Door connected");
                                     doorA.connectedScene = roomB;
                                     doorB.connectedScene = roomA;
                                 }

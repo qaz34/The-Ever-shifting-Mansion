@@ -45,7 +45,7 @@ public class HuskAI : MonoBehaviour
             float speed = cc.currentSpeed;
             float distance = Vector3.Distance(transform.position, player.transform.position);
             float inverseTime = (speed / distance);
-            float angle = Vector3.Angle(transform.forward, player.transform.position);
+            float angle = Vector3.Angle(transform.forward, player.transform.position - transform.position);
             if (inverseTime > 1 || (hit.transform && (angle < 45 && hit.transform.tag == "Player") && hit.transform.GetComponent<CharacterCont>().currentSpeed > .1f))
             {
                 hasSeen = true;

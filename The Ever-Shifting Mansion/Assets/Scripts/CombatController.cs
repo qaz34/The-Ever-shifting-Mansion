@@ -119,7 +119,7 @@ public class CombatController : MonoBehaviour
                 }
                 if (device.Action3.WasPressed)
                 {
-                    if ((RangedWep)equipWeapon)
+                    if (equipWeapon.type != WepType.MELEE)
                         foreach (var ammo in GetComponent<Inventory>().ammo.Where(i => i.ammoType == ((RangedWep)equipWeapon).ammoType))
                         {
                             ((RangedWep)equipWeapon).Reload(ammo);

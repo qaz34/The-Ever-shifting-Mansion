@@ -16,6 +16,11 @@ public class MainMenuGen : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
     }
+    void Update()
+    {
+    }
+
+
     public void NewGame()
     {
         MapGenScriptiable gen = Instantiate(mapGen);
@@ -51,7 +56,7 @@ public class MainMenuGen : MonoBehaviour
         SceneManager.activeSceneChanged += Loaded;
     }
     public void Loaded(Scene sc, Scene sc2)
-    {       
+    {
         SceneManager.activeSceneChanged -= Loaded;
         Vector3 spawnPos = new Vector3(roomLoading.size.x / 2, 0, 2);
         foreach (var door in roomLoading.doors.Where(i => i.connectedScene != null))
@@ -70,7 +75,7 @@ public class MainMenuGen : MonoBehaviour
         currentRoom = roomLoading;
         player.GetComponent<CharacterCont>().amIn = new List<CameraTrigger>();
         player.transform.position = spawnPos;
-       
+
         transitionTime = false;
         // SpawnEnemies();
         var props = GameObject.FindGameObjectsWithTag("PropSpawn").ToList();
@@ -81,6 +86,7 @@ public class MainMenuGen : MonoBehaviour
             foreach (var item in currentRoom.spawnList)
             {
                 var itemSpawn = itemSpawns[Random.Range(0, itemSpawns.Count)];
+                Debug.Log(item);
                 if (!currentRoom.grabbedList.Contains(item))
                 {
                     itemSpawn.GetComponent<ItemInScene>().item = item;

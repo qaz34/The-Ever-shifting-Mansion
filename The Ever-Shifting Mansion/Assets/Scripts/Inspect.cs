@@ -61,6 +61,8 @@ public class Inspect : MonoBehaviour
                 {
                     thingInspecting.isLooking = false;
                     item.PickUp();
+                    GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().currentRoom.grabbedList.Add(thingInspecting.item);
+                    Debug.Log("grabbed list is now " + GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().currentRoom.grabbedList.Count);
                     Destroy(thingInspecting.gameObject);
                 }
                 LeaveLook();
