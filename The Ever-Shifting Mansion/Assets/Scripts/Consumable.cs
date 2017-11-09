@@ -17,5 +17,6 @@ public class Consumable : Item
         Health health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
         health.CurrentHealth += amount;
         GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().consumables.Remove(this);
+
     }
 }

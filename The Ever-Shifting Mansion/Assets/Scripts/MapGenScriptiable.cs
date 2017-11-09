@@ -143,6 +143,10 @@ public class MapGenScriptiable : ScriptableObject
             float percent = Random.Range(0, 100);
             foreach (var item in room.spawnableItems)
                 full += item.weight;
+            if (full == 0)
+            {
+                return room.spawnableItems[Random.Range(0, room.spawnableItems.Count)].item;
+            }
             foreach (var item in room.spawnableItems)
             {
                 percentile += item.weight;
@@ -164,6 +168,10 @@ public class MapGenScriptiable : ScriptableObject
             float percent = Random.Range(0, 100);
             foreach (var item in room.spawnableWeps)
                 full += item.weight;
+            if (full == 0)
+            {
+                return room.spawnableWeps[Random.Range(0, room.spawnableWeps.Count)].item;
+            }
             foreach (var item in room.spawnableWeps)
             {
                 percentile += item.weight;
@@ -187,7 +195,7 @@ public class MapGenScriptiable : ScriptableObject
             if (room.spawnList.Count < room.maxItems && room.spawnableItems.Count > 0)
             {
                 var item = Instantiate(GetItemWeighted(room));
-                room.spawnList.Add(item);
+                room.spawnList.Add(room.spawnList.Count, item);
             }
             else
                 roomsAvaliable.Remove(room);
@@ -203,7 +211,7 @@ public class MapGenScriptiable : ScriptableObject
             if (room.spawnList.Count < room.maxItems && room.spawnableWeps.Count > 0)
             {
                 var item = Instantiate(GetWepWeighted(room));
-                room.spawnList.Add(item);
+                room.spawnList.Add(room.spawnList.Count, item);
             }
             else
                 roomsAvaliable.Remove(room);

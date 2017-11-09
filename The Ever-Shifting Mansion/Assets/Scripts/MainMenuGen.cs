@@ -82,29 +82,25 @@ public class MainMenuGen : MonoBehaviour
         var itemSpawns = GameObject.FindGameObjectsWithTag("ItemSpawn").ToList();
         var itemSpawnsNoDestroy = new List<GameObject>();
         Random.InitState(currentRoom.seed);
-        if (itemSpawns.Count > 0)
-            foreach (var item in currentRoom.spawnList)
+
+        foreach (var item in currentRoom.spawnList)
+        {
+            if (itemSpawns.Count == 0)
+                break;
+            var itemSpawn = itemSpawns[Random.Range(0, itemSpawns.Count)];
+            Debug.Log(currentRoom.grabbedList.Contains(item.Key));
+            if (!currentRoom.grabbedList.Contains(item.Key))
             {
-                var itemSpawn = itemSpawns[Random.Range(0, itemSpawns.Count)];
-                Debug.Log(item);
-                if (!currentRoom.grabbedList.Contains(item))
-                {
-                    itemSpawn.GetComponent<ItemInScene>().item = item;
-                    //set itemSpawn to never be destroyed?
-                }
-                itemSpawnsNoDestroy.Add(itemSpawn);
+                itemSpawn.GetComponent<ItemInScene>().item = item.Value;
+                itemSpawn.GetComponent<ItemInScene>().itemIndex = item.Key;
+                itemSpawn.GetComponent<ItemInScene>().Spawn();
             }
+            itemSpawns.Remove(itemSpawn);
+            itemSpawnsNoDestroy.Add(itemSpawn);
+        }
         foreach (var prop in props)
         {
             prop.GetComponent<ItemContainer>()?.RollRandom(itemSpawnsNoDestroy);
-        }
-        props = GameObject.FindGameObjectsWithTag("ItemSpawn").ToList();
-        foreach (var item in currentRoom.spawnList)
-        {
-            var go = props[Random.Range(0, props.Count)];
-            go.GetComponent<ItemInScene>().Spawn(item);
-
-            //item.GetComponent<ItemInScene>()?.Spawn();
         }
         SpawnEnemies();
 

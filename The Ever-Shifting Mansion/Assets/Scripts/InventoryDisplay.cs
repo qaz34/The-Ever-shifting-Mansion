@@ -70,6 +70,7 @@ public class InventoryDisplay : MonoBehaviour
         {
             textMesh.text = ((Ammo)items[currentlySelected].itemScript).amount.ToString();
         }
+
     }
     public void ToggleInventory()
     {
@@ -97,9 +98,9 @@ public class InventoryDisplay : MonoBehaviour
                 Destroy(child.gameObject);
             foreach (var ammo in player.GetComponent<Inventory>().ammo)
             {
-                float x = Random.Range(ammoPlaceBox.transform.position.x - ammoPlaceBox.transform.localScale.x / 2, ammoPlaceBox.transform.position.x + ammoPlaceBox.transform.localScale.x / 2);
-                float y = Random.Range(ammoPlaceBox.transform.position.z - ammoPlaceBox.transform.localScale.z / 2, ammoPlaceBox.transform.position.z + ammoPlaceBox.transform.localScale.z / 2);
-                var currentPos = new Vector3(x, 0, y);
+                float x = 0;
+                float y = 0;
+                Vector3 currentPos = new Vector3(0, 0, 0);
                 int i = 0;
                 while (i < 10)
                 {
@@ -127,6 +128,37 @@ public class InventoryDisplay : MonoBehaviour
                 ammoBox.AddComponent<cakeslice.Outline>().enabled = false;
                 items.Add(new ItemAndContainer() { itemInGame = ammoBox, itemScript = ammo });
             }
+            foreach (var consummable in player.GetComponent<Inventory>().consumables)
+            {
+
+                float x = 0;
+                float y = 0;
+                Vector3 currentPos = new Vector3(0, 0, 0);
+                int i = 0;
+                while (i < 10)
+                {
+                    i++;
+                    x = Random.Range(ammoPlaceBox.transform.position.x - ammoPlaceBox.transform.localScale.x / 2, ammoPlaceBox.transform.position.x + ammoPlaceBox.transform.localScale.x / 2);
+                    y = Random.Range(ammoPlaceBox.transform.position.z - ammoPlaceBox.transform.localScale.z / 2, ammoPlaceBox.transform.position.z + ammoPlaceBox.transform.localScale.z / 2);
+                    currentPos = new Vector3(x, 0, y);
+                    bool canBe = true;
+                    foreach (var pos in takenPositions)
+                    {
+                        if (Vector3.Distance(currentPos, pos) < consummable.display.transform.localScale.x * 5)
+                        {
+                            canBe = false;
+                            break;
+                        }
+                    }
+                    if (canBe)
+                        break;
+                }
+                takenPositions.Add(currentPos);
+                var ammoBox = Instantiate(consummable.display, new Vector3(x, ammoPlaceBox.transform.position.y, y), Quaternion.Euler(0, Random.Range(0, 360), 0), ammoParent);
+                ammoBox.AddComponent<cakeslice.Outline>().enabled = false;
+                items.Add(new ItemAndContainer() { itemInGame = ammoBox, itemScript = consummable });
+            }
+
             if (items.Count > 0)
                 items[currentlySelected % items.Count].itemInGame.GetComponent<cakeslice.Outline>().enabled = true;
         }

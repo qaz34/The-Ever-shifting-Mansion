@@ -29,14 +29,16 @@ public class RoomEditor : Editor
         spawnItems = new ReorderableList(serializedObject, serializedObject.FindProperty("spawnableItems"), true, true, true, true)
         {
             drawElementCallback = DrawUseable,
-            drawHeaderCallback = (Rect rect) => {
+            drawHeaderCallback = (Rect rect) =>
+            {
                 EditorGUI.LabelField(rect, "Spawnable Items");
             }
-    };
+        };
         spawnWeps = new ReorderableList(serializedObject, serializedObject.FindProperty("spawnableWeps"), true, true, true, true)
         {
             drawElementCallback = DrawSpecial,
-            drawHeaderCallback = (Rect rect) => {
+            drawHeaderCallback = (Rect rect) =>
+            {
                 EditorGUI.LabelField(rect, "Spawnable Weapons");
             }
         };
@@ -166,10 +168,12 @@ public class RoomEditor : Editor
         else if (Event.current.type == EventType.mouseUp && Event.current.button == 0)
         {
             mouseDown = false;
+            AssetDatabase.SaveAssets();
         }
         if (mouseDown && !(Event.current.alt))
         {
             Undo.RecordObject(room, "room changed");
+
             Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
             //var ray = Camera.current.ScreenPointToRay(Event.current.mousePosition);
             GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -229,7 +233,7 @@ public class RoomEditor : Editor
         }
 
         serializedObject.Update();
-        spawnItems.DoLayoutList();     
+        spawnItems.DoLayoutList();
         spawnWeps.DoLayoutList();
         serializedObject.ApplyModifiedProperties();
 

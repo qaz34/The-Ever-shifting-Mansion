@@ -8,6 +8,7 @@ public class ItemInScene : MonoBehaviour
 {
     public Transform itemPos;
     public Item item;
+    public int itemIndex;
     public GameObject glimmerParticles;
     public bool isGlimmer = true;
     [HideInInspector]
@@ -15,13 +16,10 @@ public class ItemInScene : MonoBehaviour
     bool playerIsIn = false;
     void Start()
     {
-        if (item)
-            Spawn(item);
-
     }
-    public void Spawn(Item _item)
+    public void Spawn()
     {
-        item = _item;
+        //item = _item;
         if (isGlimmer && glimmerParticles)
             Instantiate(glimmerParticles, itemPos.transform.position, itemPos.transform.rotation, itemPos);
         else

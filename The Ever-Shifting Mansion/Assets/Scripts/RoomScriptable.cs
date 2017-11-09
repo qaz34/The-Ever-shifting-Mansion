@@ -28,8 +28,8 @@ public class RoomScriptable : ScriptableObject
     public Vector2 posOnGrid;
     public int maxEnemies;
     public int enemiesInRoom;
-    public List<Item> spawnList = new List<Item>();
-    public List<Item> grabbedList = new List<Item>();
+    public Dictionary<int, Item> spawnList = new Dictionary<int, Item>();
+    public List<int> grabbedList = new List<int>();
     public List<ItemsWithWeight> spawnableWeps;
     public List<ItemsWithWeight> spawnableItems;
     public int maxItems;
