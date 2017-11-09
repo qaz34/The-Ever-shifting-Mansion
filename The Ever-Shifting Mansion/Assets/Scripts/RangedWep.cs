@@ -8,7 +8,7 @@ public class RangedWep : Weapon
     public AmmoType ammoType;
     public int ammoCap = 5;
     [HideInInspector]
-    public int left = 5;
+    public int left =1000;
     [Tooltip("Seconds for full reload")]
     public float reloadSpeed = 1;
     [HideInInspector]
@@ -47,7 +47,10 @@ public class RangedWep : Weapon
             {
                 Health targetHealth = hit.transform.GetComponent<Health>();
                 if (targetHealth)
+                {
                     targetHealth.CurrentHealth -= damage;
+                    Debug.Log("Gottem");
+                }
             }
         }
         else
