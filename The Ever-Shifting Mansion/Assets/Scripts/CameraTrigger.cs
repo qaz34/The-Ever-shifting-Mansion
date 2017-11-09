@@ -14,13 +14,12 @@ public class CameraTrigger : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            player.amIn.Add(this);
-            if (!player.currentCamera)
+            if (!player.currentCamera || player.amIn.Count == 0)
             {
                 player.currentCamera = connectedCamera;
                 connectedCamera.gameObject.SetActive(true);
             }
-
+            player.amIn.Add(this);
             //connectedCamera.gameObject.SetActive(true);
 
 
@@ -46,13 +45,19 @@ public class CameraTrigger : MonoBehaviour
         if (other.tag == "Player")
         {
             player.amIn.Remove(this);
+            if (player.amIn.Count > 0)
+            {
+                if (player.currentCamera == connectedCamera)
+                {
+                    player.currentCamera = player.amIn[player.amIn.Count - 1].connectedCamera;
+                    if (!player.PreviousCamera)
+                        player.PreviousCamera = connectedCamera;
 
-            player.currentCamera = player.amIn[player.amIn.Count - 1].connectedCamera;
-            if (!player.PreviousCamera)
-                player.PreviousCamera = connectedCamera;
-
+                    connectedCamera.gameObject.SetActive(false);
+                    player.amIn[player.amIn.Count - 1].connectedCamera.gameObject.SetActive(true);
+                }
+            }
             connectedCamera.gameObject.SetActive(false);
-            player.amIn[player.amIn.Count - 1].connectedCamera.gameObject.SetActive(true);
             //if (player.currentlyInCamera == connectedCamera)
             //{
             //    player.PreviousCamera = 

@@ -90,11 +90,9 @@ public class CharacterCont : MonoBehaviour
         if (!aiming)
         {
 
-
-
             if (cameraChanged)
             {
-                if (Vector3.Angle(movement, heading) > 50 || movement.magnitude == 0)
+                if (movement.magnitude <= .05f)
                 {
                     cameraChanged = false;
                     prevCamera = null;
