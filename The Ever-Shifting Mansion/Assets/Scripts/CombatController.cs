@@ -49,6 +49,7 @@ public class CombatController : MonoBehaviour
     {
         var hits = FindObjectsOfType<HuskAI>();
         var validTargets = new List<Target>();
+        validTargetsSorted = new List<Target>();
         int mask = 1 << LayerMask.NameToLayer("Target") | 1 << LayerMask.NameToLayer("Ignore Raycast");
         mask = ~mask;
         foreach (var target in hits)

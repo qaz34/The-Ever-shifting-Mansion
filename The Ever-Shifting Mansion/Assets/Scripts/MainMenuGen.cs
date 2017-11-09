@@ -51,7 +51,7 @@ public class MainMenuGen : MonoBehaviour
         SceneManager.activeSceneChanged += Loaded;
     }
     public void Loaded(Scene sc, Scene sc2)
-    {
+    {       
         SceneManager.activeSceneChanged -= Loaded;
         Vector3 spawnPos = new Vector3(roomLoading.size.x / 2, 0, 2);
         foreach (var door in roomLoading.doors.Where(i => i.connectedScene != null))
@@ -67,10 +67,10 @@ public class MainMenuGen : MonoBehaviour
             go.transform.Rotate(transform.up, 90 * (int)door.direction);
             go.GetComponentInChildren<DoorInScene>().connectedRoom = door.connectedScene;
         }
-
         currentRoom = roomLoading;
+        player.GetComponent<CharacterCont>().amIn = new List<CameraTrigger>();
         player.transform.position = spawnPos;
-
+       
         transitionTime = false;
         // SpawnEnemies();
         var props = GameObject.FindGameObjectsWithTag("PropSpawn").ToList();

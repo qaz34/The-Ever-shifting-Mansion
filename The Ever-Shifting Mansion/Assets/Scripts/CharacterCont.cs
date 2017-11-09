@@ -18,11 +18,15 @@ public class CharacterCont : MonoBehaviour
     public bool aiming;
     [HideInInspector]
     public Camera currentCamera;
-    public Camera currentlyInCamera;
+
     Camera prevCamera;
     bool cameraChanged;
     Vector3 heading;
     Animator animator;
+
+    public List<CameraTrigger> amIn = new List<CameraTrigger>();
+    public Camera movingFrom;
+    public Camera currentlyInCamera;
 
     public void ToggleEnabled()
     {
@@ -40,6 +44,7 @@ public class CharacterCont : MonoBehaviour
         cController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
     }
+
     public Camera PreviousCamera
     {
         get
@@ -84,19 +89,23 @@ public class CharacterCont : MonoBehaviour
         // transform.forward = Vector3.Lerp(transform.forward, movement.normalized, .2f);
         if (!aiming)
         {
+
             if (cameraChanged)
             {
-                if (Vector3.Angle(movement, heading) > 50 || movement.magnitude == 0)
+                if (movement.magnitude <= .05f)
                 {
                     cameraChanged = false;
                     prevCamera = null;
                 }
             }
             Transform tempTransfrom;
+
             if (cameraChanged)
                 tempTransfrom = PreviousCamera.transform;
             else
                 tempTransfrom = currentCamera.transform;
+
+
 
             Vector3 camForward = Vector3.Scale(tempTransfrom.forward, new Vector3(1, 0, 1)).normalized;
             Vector3 camRight = new Vector3(camForward.z, 0, -camForward.x);
