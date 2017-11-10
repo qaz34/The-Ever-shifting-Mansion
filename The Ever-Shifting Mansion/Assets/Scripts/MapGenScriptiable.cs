@@ -16,6 +16,12 @@ public class MapGenScriptiable : ScriptableObject
         public float chanceToPlace;
     }
     [System.Serializable]
+    public struct WeaponTarget
+    {
+        public Weapon weapon;
+        public float target;
+    }
+    [System.Serializable]
     public struct SpecialRoom
     {
         public RoomScriptable room;
@@ -24,6 +30,7 @@ public class MapGenScriptiable : ScriptableObject
     public List<RoomScriptable> rooms;
     public List<RoomWithWeighting> useableRooms;
     public List<SpecialRoom> specialRooms = new List<SpecialRoom>();
+    public List<WeaponTarget> neededWeapons = new List<WeaponTarget>();
     List<SpecialRoom> placed = new List<SpecialRoom>();
     public RoomScriptable startRoom;
     [HideInInspector]
@@ -36,7 +43,7 @@ public class MapGenScriptiable : ScriptableObject
     public int targetEnemies;
 
     public int targetConsumables;
-    public int targetWeapons;
+
     [System.Serializable]
     public struct DimensionalAnchor
     {
@@ -203,18 +210,28 @@ public class MapGenScriptiable : ScriptableObject
     }
     void RandomWeapons()
     {
-        int consumablesSpawned = 0;
-        var roomsAvaliable = new List<RoomScriptable>(rooms);
-        while (consumablesSpawned < targetConsumables && roomsAvaliable.Count > 0)
+        foreach (var wep in neededWeapons)
         {
-            var room = roomsAvaliable[Random.Range(0, roomsAvaliable.Count)];
-            if (room.spawnList.Count < room.maxItems && room.spawnableWeps.Count > 0)
+            if (wep.weapon && wep.target != 0)
             {
-                var item = Instantiate(GetWepWeighted(room));
-                room.spawnList.Add(room.spawnList.Count, item);
+                var avaliableRooms = new List<RoomScriptable>(rooms);
+                foreach (var room in avaliableRooms)
+                    foreach (var sWep in room.spawnableWeps)
+                        if (sWep.item != wep.weapon)
+                            avaliableRooms.Remove(room);
+
+                for (int i = 0; i < wep.target; i++)
+                {
+                    var room = avaliableRooms[Random.Range(0, avaliableRooms.Count)];
+                    if (room.spawnList.Count < room.maxItems)
+                    {
+                        var item = Instantiate(wep.weapon);
+                        room.spawnList.Add(room.spawnList.Count, item);
+                    }
+                    else
+                        avaliableRooms.Remove(room);
+                }
             }
-            else
-                roomsAvaliable.Remove(room);
         }
     }
     struct DoorRoom
