@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 335e1a1c7bc3df14baa10080d39d4199
-timeCreated: 1507783860
+guid: 534fe6828cb6f4544b1df14881176974
+timeCreated: 1510288614
 licenseType: Pro
 ModelImporter:
   serializedVersion: 21
@@ -180,11 +180,11 @@ ModelImporter:
     400170: warewolf_MASTER:warewolf_RIG
     400172: warewolf_MASTER:waste_JNT
     4300000: warewolf_MASTER:warewolf_mesh
-    7400000: Idle_Howl
+    7400000: Take 001
     9500000: //RootNode
     13700000: warewolf_MASTER:warewolf_mesh
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
@@ -206,35 +206,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Idle_Howl
-      takeName: Take 001
-      firstFrame: 1
-      lastFrame: 60
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []

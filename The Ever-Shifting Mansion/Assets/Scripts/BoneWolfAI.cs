@@ -74,6 +74,7 @@ public class BoneWolfAI : MonoBehaviour
     void StartSearch()
     {
         //set search anim
+        animator.SetBool("Search", true);
         //state timer for wait before moving
         agent.enabled = true;
         state = State.Search;
@@ -86,6 +87,7 @@ public class BoneWolfAI : MonoBehaviour
         {
             {
                 agent.speed = wanderSpeed * 2;
+                walkRadius = 5;
                 animator.SetFloat("Speed", agent.velocity.magnitude / 2);
                 if (agent.remainingDistance < .1)
                 {
@@ -118,6 +120,7 @@ public class BoneWolfAI : MonoBehaviour
 
             //wait for state timer
             stateTimer = 0;
+            animator.SetBool("Search", false);
         }
         //move to find player
         //one found player choose attack
@@ -191,26 +194,28 @@ public class BoneWolfAI : MonoBehaviour
         agent.speed = wanderSpeed;
         animator.SetFloat("Speed", agent.velocity.magnitude / 2);
         agent.SetDestination(player.transform.position);
-        if (!isAttacking)
+        bool withinRange = (Vector3.Distance(transform.position, player.transform.position) < 2f);
+        if (!isAttacking && withinRange)
         {
-            if (Vector3.Distance(transform.position, player.transform.position) < 2f)
-            {
-                stateTimer = 1; //animTime     
-                isAttacking = true;
-                animator.SetBool("Attacking", true);
-                agent.isStopped = true;
-            }
-            else
-            {
-                animator.SetBool("Attacking", false);
-                agent.isStopped = false;
-            }
-            if (Vector3.Distance(transform.position, player.transform.position) > 8f)
-            {
-                StartHowl();
-            }
+            stateTimer = 1; //animTime     
+            isAttacking = true;
+            animator.SetBool("Attacking", true);
+            agent.isStopped = true;
         }
-        else if (stateTimer <= 0)
+
+        if (isAttacking && !withinRange)
+        { 
+           animator.SetBool("Attacking", false);
+           agent.isStopped = false;
+        }
+
+        if (Vector3.Distance(transform.position, player.transform.position) > 8f)
+        {
+            StartHowl();
+            agent.isStopped = true;
+        }
+
+        if (stateTimer <= 0)
         {
             if (Vector3.Distance(transform.position, player.transform.position) < 3f)
             {
