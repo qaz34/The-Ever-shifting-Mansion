@@ -16,7 +16,7 @@ public class LightFlicker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        xPan += speed;
+        xPan += speed * 100 * Time.deltaTime;
         float intensity = Mathf.Lerp(min, max, Mathf.PerlinNoise(xPan, xPan));
         GetComponent<Light>().intensity = intensity;
     }

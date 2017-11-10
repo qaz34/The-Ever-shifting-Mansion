@@ -33,20 +33,25 @@ public class MainMenuGen : MonoBehaviour
         player.transform.position = new Vector3(-100, -100, -100);
         DontDestroyOnLoad(player);
         Load(gen.rooms[0]);
+
     }
     public void Load(RoomScriptable room)
     {
         roomLoading = room;
+
         SceneManager.LoadScene("DoorTransitionScene");
 
     }
     void StartLoad()
     {
+        Debug.Log(roomLoading.connectedSceneName);
+        Debug.Log(mapGen.rooms.Count);
         StartCoroutine(SceneLoading(roomLoading));
+
     }
     IEnumerator SceneLoading(RoomScriptable room)
     {
-        op = SceneManager.LoadSceneAsync(room.connectedScene.name);
+        op = SceneManager.LoadSceneAsync(room.connectedSceneName);
         op.allowSceneActivation = false;
         yield return op;
     }
