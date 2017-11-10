@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: df20591a693ccaa499c0f27cf1f60086
-timeCreated: 1507769988
+timeCreated: 1510288798
 licenseType: Pro
 ModelImporter:
   serializedVersion: 21
@@ -180,11 +180,11 @@ ModelImporter:
     400170: warewolf_MASTER:waste_JNT
     400172: //RootNode
     4300000: warewolf_MASTER:warewolf_mesh
-    7400000: Walk
+    7400000: Take 001
     9500000: //RootNode
     13700000: warewolf_MASTER:warewolf_mesh
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
@@ -199,7 +199,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -208,10 +208,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walk
+      name: Take 001
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 25
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -243,14 +243,14 @@ ModelImporter:
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
-    weldVertices: 0
+    weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
