@@ -82,7 +82,14 @@ public class InventoryDisplay : MonoBehaviour
         {
             if (items[currentlySelected].itemScript.typeOf == Type.WEAPON && ((Weapon)items[currentlySelected].itemScript).type != WepType.MELEE)
             {
-
+                TextMesh textMesh = items[currentlySelected].itemInGame.GetComponentInChildren<TextMesh>();
+                if (textMesh)
+                {
+                    textMesh.text = ((RangedWep)items[currentlySelected].itemScript).left.ToString();
+                }
+            }
+            else
+            {
                 TextMesh textMesh = items[currentlySelected].itemInGame.GetComponentInChildren<TextMesh>();
                 if (textMesh)
                 {

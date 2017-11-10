@@ -83,6 +83,7 @@ public class CombatController : MonoBehaviour
     {
         if (equipWeapon)
         {
+            GetComponent<Animator>().SetBool("HoldingGun", true);
             InputDevice device = InputManager.ActiveDevice;
             if (device.LeftTrigger.IsPressed)
             {
@@ -111,11 +112,13 @@ public class CombatController : MonoBehaviour
                 }
                 if (device.RightTrigger.WasPressed)
                 {
-                    equipWeapon.Fire(transform);
+                    if (equipWeapon.Fire(transform))
+                    {
+                        GetComponent<Animator>().SetTrigger("Fire");
+                    }
                     if (equipWeapon.type != WepType.MELEE)
                     {
-                        fired?.Invoke();
-                        GetComponent<Animator>().SetTrigger("Fire");
+                        fired?.Invoke();                       
                     }
                 }
                 if (device.Action3.WasPressed)
