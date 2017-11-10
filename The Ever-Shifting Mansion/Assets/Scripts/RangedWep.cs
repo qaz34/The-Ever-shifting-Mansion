@@ -8,7 +8,7 @@ public class RangedWep : Weapon
     public AmmoType ammoType;
     public int ammoCap = 5;
     [HideInInspector]
-    public int left =1000;
+    public int left = 1000;
     [Tooltip("Seconds for full reload")]
     public float reloadSpeed = 1;
     [HideInInspector]
@@ -36,7 +36,7 @@ public class RangedWep : Weapon
             ammo.amount = 0;
         }
     }
-    public override void Fire(Transform position)
+    public override bool Fire(Transform position)
     {
         if (left > 0)
         {
@@ -52,6 +52,7 @@ public class RangedWep : Weapon
                     Debug.Log("Gottem");
                 }
             }
+            return true;
         }
         else
         {
@@ -65,6 +66,7 @@ public class RangedWep : Weapon
                     }
                 }
         }
+        return false;
     }
     IEnumerator Reloading(Ammo ammo)
     {

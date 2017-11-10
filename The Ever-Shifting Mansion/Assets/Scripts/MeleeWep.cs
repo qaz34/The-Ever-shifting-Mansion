@@ -11,7 +11,7 @@ public class MeleeWep : Weapon
 
     public float knockBackForce = 1;
     public float knockBackAngle = 10;
-    public override void Fire(Transform position)
+    public override bool Fire(Transform position)
     {
         var hits = Physics.OverlapSphere(position.position, arcRadius, 1 << LayerMask.NameToLayer("Target"));
         foreach (var hit in hits)
@@ -21,5 +21,6 @@ public class MeleeWep : Weapon
                 hit.transform.GetComponent<Health>().CurrentHealth -= damage;
             }
         }
+        return true;
     }
 }

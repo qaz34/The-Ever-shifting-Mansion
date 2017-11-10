@@ -65,12 +65,38 @@ public class InventoryDisplay : MonoBehaviour
         if (interact)
             items[currentlySelected].itemScript.Interact();
         inspecting = false;
-        TextMesh textMesh = items[currentlySelected].itemInGame.GetComponentInChildren<TextMesh>();
-        if (textMesh)
+        if (items[currentlySelected].itemScript.typeOf == Type.CONSUMABLE)
         {
-            textMesh.text = ((Ammo)items[currentlySelected].itemScript).amount.ToString();
+            if (!GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().consumables.Contains((Consumable)items[currentlySelected].itemScript))
+            {
+                Destroy(items[currentlySelected].itemInGame);
+                items.RemoveAt(currentlySelected);
+                if (items.Count != 0)
+                {
+                    currentlySelected = (currentlySelected + items.Count - 1) % items.Count;
+                    items[currentlySelected].itemInGame.GetComponent<cakeslice.Outline>().enabled = true;
+                }
+            }
         }
-
+        else
+        {
+            if (items[currentlySelected].itemScript.typeOf == Type.WEAPON && ((Weapon)items[currentlySelected].itemScript).type != WepType.MELEE)
+            {
+                TextMesh textMesh = items[currentlySelected].itemInGame.GetComponentInChildren<TextMesh>();
+                if (textMesh)
+                {
+                    textMesh.text = ((RangedWep)items[currentlySelected].itemScript).left.ToString();
+                }
+            }
+            else
+            {
+                TextMesh textMesh = items[currentlySelected].itemInGame.GetComponentInChildren<TextMesh>();
+                if (textMesh)
+                {
+                    textMesh.text = ((Ammo)items[currentlySelected].itemScript).amount.ToString();
+                }
+            }
+        }
     }
     public void ToggleInventory()
     {
@@ -89,6 +115,12 @@ public class InventoryDisplay : MonoBehaviour
                 {
                     var go = Instantiate(player.GetComponent<Inventory>().weapons[i].display, slots[i].position, slots[i].rotation, slots[i]);
                     go.AddComponent<cakeslice.Outline>().enabled = false;
+                    if (player.GetComponent<Inventory>().weapons[i].type != WepType.MELEE)
+                    {
+                        var ammoText = Instantiate(AmmoNumber, new Vector3(go.transform.position.x, go.transform.position.y, go.transform.position.z), Quaternion.Euler(90, 0, 0), ammoParent);
+                        ammoText.GetComponent<TextMesh>().text = ((RangedWep)player.GetComponent<Inventory>().weapons[i]).left.ToString();
+                        ammoText.transform.parent = go.transform;
+                    }
                     items.Add(new ItemAndContainer() { itemInGame = go, itemScript = player.GetComponent<Inventory>().weapons[i] });
                 }
             }
@@ -154,7 +186,7 @@ public class InventoryDisplay : MonoBehaviour
                         break;
                 }
                 takenPositions.Add(currentPos);
-                var ammoBox = Instantiate(consummable.display, new Vector3(x, ammoPlaceBox.transform.position.y, y), Quaternion.Euler(0, Random.Range(0, 360), 0), ammoParent);
+                var ammoBox = Instantiate(consummable.display, new Vector3(x, ammoPlaceBox.transform.position.y, y), Quaternion.Euler(0, Random.Range(0, 360), 90), ammoParent);
                 ammoBox.AddComponent<cakeslice.Outline>().enabled = false;
                 items.Add(new ItemAndContainer() { itemInGame = ammoBox, itemScript = consummable });
             }

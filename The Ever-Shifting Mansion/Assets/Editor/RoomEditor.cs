@@ -168,6 +168,7 @@ public class RoomEditor : Editor
         else if (Event.current.type == EventType.mouseUp && Event.current.button == 0)
         {
             mouseDown = false;
+            EditorUtility.SetDirty(room);
             AssetDatabase.SaveAssets();
         }
         if (mouseDown && !(Event.current.alt))
