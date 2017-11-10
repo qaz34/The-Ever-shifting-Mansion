@@ -9,9 +9,19 @@ public class GeneratorEditor : Editor
 {
     ReorderableList usableRooms;
     ReorderableList SpecialRooms;
+    ReorderableList targetWeapons;
     protected virtual void OnEnable()
     {
         MapGenScriptiable gen = target as MapGenScriptiable;
+        targetWeapons = new ReorderableList(serializedObject, serializedObject.FindProperty("neededWeapons"), true, true, true, true)
+        {
+            drawElementCallback = DrawWeapon,
+            drawHeaderCallback = (Rect rect) =>
+            {
+                EditorGUI.LabelField(rect, "Weapon Target");
+            }
+        };
+
         usableRooms = new ReorderableList(serializedObject, serializedObject.FindProperty("useableRooms"), true, true, true, true)
         {
             drawElementCallback = DrawUseable,
@@ -36,6 +46,20 @@ public class GeneratorEditor : Editor
     void DrawHeader(Rect rect)
     {
         EditorGUI.LabelField(rect, "Useable Rooms");
+    }
+    void DrawWeapon(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        var element = targetWeapons.serializedProperty.GetArrayElementAtIndex(index);
+        rect.y += 2;
+        float posX = rect.x;
+        float width = EditorGUIUtility.currentViewWidth / 2;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("weapon"), GUIContent.none);
+        posX += width;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.TextField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "Target", GUIStyle.none);
+        posX += width;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("target"), GUIContent.none);
     }
     void DrawUseable(Rect rect, int index, bool isActive, bool isFocused)
     {
@@ -174,9 +198,15 @@ public class GeneratorEditor : Editor
         serializedObject.Update();
         usableRooms.DoLayoutList();
         serializedObject.ApplyModifiedProperties();
+
         serializedObject.Update();
         SpecialRooms.DoLayoutList();
         serializedObject.ApplyModifiedProperties();
+
+        serializedObject.Update();
+        targetWeapons.DoLayoutList();
+        serializedObject.ApplyModifiedProperties();
+
         EditorGUI.BeginChangeCheck();
         RoomScriptable startRoom = (RoomScriptable)EditorGUILayout.ObjectField(gen.startRoom, typeof(RoomScriptable), false);
         if (EditorGUI.EndChangeCheck())
@@ -223,16 +253,6 @@ public class GeneratorEditor : Editor
 
 
             gen.targetConsumables = items;
-            EditorUtility.SetDirty(gen);
-        }
-        EditorGUI.BeginChangeCheck();
-        int weps = EditorGUILayout.IntField("Target Weapons", gen.targetWeapons);
-        if (EditorGUI.EndChangeCheck())
-        {
-            Undo.RecordObject(gen, "gen changed");
-
-
-            gen.targetWeapons = weps;
             EditorUtility.SetDirty(gen);
         }
         if (GUILayout.Button("Generate Map"))
