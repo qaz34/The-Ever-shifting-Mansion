@@ -1,0 +1,202 @@
+fileFormatVersion: 2
+guid: f6cbcfa21a656de44813e245efdda8cd
+timeCreated: 1510276130
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: character_MASTER:characrter_chest_JNT_001
+    100002: character_MASTER:character_ankle_L_JNT_001
+    100004: character_MASTER:character_ankle_R_JNT_001
+    100006: character_MASTER:character_ball_L_JNT_001
+    100008: character_MASTER:character_ball_R_JNT_001
+    100010: character_MASTER:character_clav_1_L_JNT
+    100012: character_MASTER:character_clav_1_R_JNT
+    100014: character_MASTER:character_clav_2__L_JNT
+    100016: character_MASTER:character_clav_2__R_JNT
+    100018: character_MASTER:character_clav_3_L_END
+    100020: character_MASTER:character_clav_3_R_JNT
+    100022: character_MASTER:character_elbow_L_JNT_001
+    100024: character_MASTER:character_elbow_R_JNT_001
+    100026: character_MASTER:character_GEO1
+    100028: character_MASTER:character_head1_JNT_001
+    100030: character_MASTER:character_hip_JNT_001
+    100032: character_MASTER:character_index1_L_JNT
+    100034: character_MASTER:character_index1_R_JNT
+    100036: character_MASTER:character_index2_L_JNT
+    100038: character_MASTER:character_index2_R_JNT
+    100040: character_MASTER:character_index3_L_JNT
+    100042: character_MASTER:character_index3_R_JNT
+    100044: character_MASTER:character_knee_L_JNT_001
+    100046: character_MASTER:character_knee_R_JNT_001
+    100048: character_MASTER:character_middle1_L_JNT
+    100050: character_MASTER:character_middle1_R_JNT
+    100052: character_MASTER:character_middle2_L_JNT
+    100054: character_MASTER:character_middle2_R_JNT
+    100056: character_MASTER:character_middle3_L_JNT
+    100058: character_MASTER:character_middle3_R_JNT
+    100060: character_MASTER:character_neck_JNT_001
+    100062: character_MASTER:character_pinky1_L_JNT
+    100064: character_MASTER:character_pinky1_R_JNT
+    100066: character_MASTER:character_pinky2_L_JNT
+    100068: character_MASTER:character_pinky2_R_JNT
+    100070: character_MASTER:character_pinky3_L_JNT
+    100072: character_MASTER:character_pinky3_R_JNT
+    100074: character_MASTER:character_ring1_L_JNT
+    100076: character_MASTER:character_ring1_R_JNT
+    100078: character_MASTER:character_ring2_L_JNT
+    100080: character_MASTER:character_ring2_R_JNT
+    100082: character_MASTER:character_ring3_L_JNT
+    100084: character_MASTER:character_ring3_R_JNT
+    100086: character_MASTER:character_root_JNT_001
+    100088: character_MASTER:character_thumb1_L_JNT
+    100090: character_MASTER:character_thumb1_R_JNT
+    100092: character_MASTER:character_thumb2_L_JNT
+    100094: character_MASTER:character_thumb2_R_JNT
+    100096: character_MASTER:character_thumb3_L_JNT
+    100098: character_MASTER:character_thumb3_R_JNT
+    100100: character_MASTER:character_upperArm_L_JNT_001
+    100102: character_MASTER:character_upperArm_R_JNT_001
+    100104: character_MASTER:character_upperLeg_L_JNT_001
+    100106: character_MASTER:character_upperLeg_R_JNT_001
+    100108: character_MASTER:character_wrist_L_JNT
+    100110: character_MASTER:character_wrist_R_JNT
+    100112: character_MASTER:characterRig_all_GRP
+    100114: //RootNode
+    400000: character_MASTER:characrter_chest_JNT_001
+    400002: character_MASTER:character_ankle_L_JNT_001
+    400004: character_MASTER:character_ankle_R_JNT_001
+    400006: character_MASTER:character_ball_L_JNT_001
+    400008: character_MASTER:character_ball_R_JNT_001
+    400010: character_MASTER:character_clav_1_L_JNT
+    400012: character_MASTER:character_clav_1_R_JNT
+    400014: character_MASTER:character_clav_2__L_JNT
+    400016: character_MASTER:character_clav_2__R_JNT
+    400018: character_MASTER:character_clav_3_L_END
+    400020: character_MASTER:character_clav_3_R_JNT
+    400022: character_MASTER:character_elbow_L_JNT_001
+    400024: character_MASTER:character_elbow_R_JNT_001
+    400026: character_MASTER:character_GEO1
+    400028: character_MASTER:character_head1_JNT_001
+    400030: character_MASTER:character_hip_JNT_001
+    400032: character_MASTER:character_index1_L_JNT
+    400034: character_MASTER:character_index1_R_JNT
+    400036: character_MASTER:character_index2_L_JNT
+    400038: character_MASTER:character_index2_R_JNT
+    400040: character_MASTER:character_index3_L_JNT
+    400042: character_MASTER:character_index3_R_JNT
+    400044: character_MASTER:character_knee_L_JNT_001
+    400046: character_MASTER:character_knee_R_JNT_001
+    400048: character_MASTER:character_middle1_L_JNT
+    400050: character_MASTER:character_middle1_R_JNT
+    400052: character_MASTER:character_middle2_L_JNT
+    400054: character_MASTER:character_middle2_R_JNT
+    400056: character_MASTER:character_middle3_L_JNT
+    400058: character_MASTER:character_middle3_R_JNT
+    400060: character_MASTER:character_neck_JNT_001
+    400062: character_MASTER:character_pinky1_L_JNT
+    400064: character_MASTER:character_pinky1_R_JNT
+    400066: character_MASTER:character_pinky2_L_JNT
+    400068: character_MASTER:character_pinky2_R_JNT
+    400070: character_MASTER:character_pinky3_L_JNT
+    400072: character_MASTER:character_pinky3_R_JNT
+    400074: character_MASTER:character_ring1_L_JNT
+    400076: character_MASTER:character_ring1_R_JNT
+    400078: character_MASTER:character_ring2_L_JNT
+    400080: character_MASTER:character_ring2_R_JNT
+    400082: character_MASTER:character_ring3_L_JNT
+    400084: character_MASTER:character_ring3_R_JNT
+    400086: character_MASTER:character_root_JNT_001
+    400088: character_MASTER:character_thumb1_L_JNT
+    400090: character_MASTER:character_thumb1_R_JNT
+    400092: character_MASTER:character_thumb2_L_JNT
+    400094: character_MASTER:character_thumb2_R_JNT
+    400096: character_MASTER:character_thumb3_L_JNT
+    400098: character_MASTER:character_thumb3_R_JNT
+    400100: character_MASTER:character_upperArm_L_JNT_001
+    400102: character_MASTER:character_upperArm_R_JNT_001
+    400104: character_MASTER:character_upperLeg_L_JNT_001
+    400106: character_MASTER:character_upperLeg_R_JNT_001
+    400108: character_MASTER:character_wrist_L_JNT
+    400110: character_MASTER:character_wrist_R_JNT
+    400112: character_MASTER:characterRig_all_GRP
+    400114: //RootNode
+    4300000: character_MASTER:character_GEO1
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: character_MASTER:character_GEO1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
