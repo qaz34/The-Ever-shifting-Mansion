@@ -41,7 +41,7 @@ public class MapGenScriptiable : ScriptableObject
     [HideInInspector]
     public DimensionalAnchor grid;
     public int targetEnemies;
-
+    
     public int targetConsumables;
 
     [System.Serializable]
