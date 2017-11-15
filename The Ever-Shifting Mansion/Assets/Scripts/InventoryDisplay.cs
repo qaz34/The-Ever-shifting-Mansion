@@ -16,6 +16,8 @@ public class InventoryDisplay : MonoBehaviour
     public GameObject ammoPlaceBox;
     public Transform ammoParent;
     public GameObject AmmoNumber;
+    public GameObject mapInScene;
+    public MapScriptiable mapObject;
     List<ItemAndContainer> items = new List<ItemAndContainer>();
     int currentlySelected;
     public float selectSpeed = 1;
@@ -27,7 +29,8 @@ public class InventoryDisplay : MonoBehaviour
         InputDevice device = InputManager.ActiveDevice;
         if (device.Action4.WasPressed && !inspecting)
         {
-            ToggleInventory();
+            if (!GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().moving)
+                ToggleInventory();
         }
         if (inventoryOpen)
         {
@@ -51,11 +54,28 @@ public class InventoryDisplay : MonoBehaviour
             {
                 timeSinceSwitch = 0;
             }
+
             if (device.Action1.WasPressed && !inspecting)
             {
-                GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().stopLookDelegate += ToggleLook;
-                inspecting = true;
-                GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().BeginLook(items[currentlySelected % items.Count].itemScript, null);
+                if (items[currentlySelected].itemScript.typeOf == Type.MAP)
+                {
+                    inspecting = true;
+                    items[currentlySelected].itemScript.Interact();
+                }
+                else
+                {
+                    GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().stopLookDelegate += ToggleLook;
+                    inspecting = true;
+                    GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().BeginLook(items[currentlySelected % items.Count].itemScript, null);
+                }
+            }
+            else if (device.Action1.WasPressed && inspecting)
+            {
+                if (items[currentlySelected].itemScript.typeOf == Type.MAP)
+                {
+                    inspecting = false;
+                    items[currentlySelected].itemScript.Interact();
+                }
             }
         }
     }
@@ -106,7 +126,10 @@ public class InventoryDisplay : MonoBehaviour
         inventoryOpen = inventoryCamera.activeSelf;
         if (inventoryOpen)
         {
-            items = new List<ItemAndContainer>();
+            items = new List<ItemAndContainer>
+            {
+                new ItemAndContainer() { itemInGame = mapInScene, itemScript = Instantiate(mapObject) }
+            };
             for (int i = 0; i < slots.Count; i++)
             {
                 foreach (Transform child in slots[i])
