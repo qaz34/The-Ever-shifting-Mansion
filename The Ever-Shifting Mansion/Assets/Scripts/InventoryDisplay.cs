@@ -18,6 +18,7 @@ public class InventoryDisplay : MonoBehaviour
     public GameObject AmmoNumber;
     public GameObject mapInScene;
     public MapScriptiable mapObject;
+    public MapScriptiable currentMap;
     List<ItemAndContainer> items = new List<ItemAndContainer>();
     int currentlySelected;
     public float selectSpeed = 1;
@@ -77,6 +78,21 @@ public class InventoryDisplay : MonoBehaviour
                     items[currentlySelected].itemScript.Interact();
                 }
             }
+        }
+        else if (device.RightBumper.WasPressed)
+        {
+            if (!GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().moving)
+            {
+                if (!currentMap)
+                    currentMap = Instantiate(mapObject);
+                inspecting = !inspecting;
+                currentMap.Interact();
+            }
+        }
+        if (GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().moving)
+        {
+            Destroy(currentMap);
+            inspecting = false;
         }
     }
     void ToggleLook(bool interact)

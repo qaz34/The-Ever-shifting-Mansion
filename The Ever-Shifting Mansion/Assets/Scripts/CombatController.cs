@@ -6,7 +6,6 @@ using InControl;
 using System.Linq;
 public class CombatController : MonoBehaviour
 {
-
     public Weapon equipWeapon;
     public float rotateSpeed;
     public float snapAngle = 25;
@@ -17,7 +16,7 @@ public class CombatController : MonoBehaviour
     CharacterCont charCont;
     float timeLastShot;
     bool switched;
-
+    public Transform raycastPosition;
     List<Target> validTargetsSorted = new List<Target>();
 
     struct Target
@@ -88,6 +87,7 @@ public class CombatController : MonoBehaviour
             if (device.LeftTrigger.IsPressed)
             {
                 GetComponent<Animator>().SetBool("GunUp", true);
+                GetComponent<Animator>().SetInteger("WepType", (int)equipWeapon.type);
                 charCont.aiming = true;
                 float rotateAmount = device.LeftStickX * rotateSpeed;
                 transform.Rotate(transform.up, rotateAmount);
@@ -112,13 +112,13 @@ public class CombatController : MonoBehaviour
                 }
                 if (device.RightTrigger.WasPressed)
                 {
-                    if (equipWeapon.Fire(transform))
+                    if (equipWeapon.Fire(raycastPosition))
                     {
                         GetComponent<Animator>().SetTrigger("Fire");
                     }
                     if (equipWeapon.type != WepType.MELEE)
                     {
-                        fired?.Invoke();                       
+                        fired?.Invoke();
                     }
                 }
                 if (device.Action3.WasPressed)
@@ -126,7 +126,10 @@ public class CombatController : MonoBehaviour
                     if (equipWeapon.type != WepType.MELEE)
                         foreach (var ammo in GetComponent<Inventory>().ammo.Where(i => i.ammoType == ((RangedWep)equipWeapon).ammoType))
                         {
-                            ((RangedWep)equipWeapon).Reload(ammo);
+                            if(((RangedWep)equipWeapon).Reload(ammo) && ((RangedWep)equipWeapon).left != 0)
+                            {
+                                GetComponent<Animator>().SetTrigger("Reload");
+                            }
                         }
                 }
             }

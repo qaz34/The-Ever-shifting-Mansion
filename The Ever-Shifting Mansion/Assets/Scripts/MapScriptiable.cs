@@ -43,7 +43,7 @@ public class MapScriptiable : Item
         {
             Debug.Log(1);
             Random.InitState(room.seed);
-            Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), alphaOfRooms);
+            Color color = new Color(Random.Range(0f, .9f), Random.Range(0f, .9f), Random.Range(0f, .9f), alphaOfRooms);
             if (room == GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().currentRoom)
             {
                 color.a = 1;
