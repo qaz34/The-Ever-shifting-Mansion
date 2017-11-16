@@ -9,7 +9,7 @@ public class MapScriptiable : Item
     Color[] pixels = new Color[128 * 128];
     [Range(0, 1)]
     public float alphaOfRooms = 0.01f;
-    public float currentRoomAlpha = 1;
+    //public float currentRoomAlpha = 1;
     public GameObject canvas;
     GameObject canvasMade;
     bool showing = false;
