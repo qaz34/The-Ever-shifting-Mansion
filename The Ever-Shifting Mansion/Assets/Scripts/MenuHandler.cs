@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuHandler : MonoBehaviour
@@ -11,6 +12,17 @@ public class MenuHandler : MonoBehaviour
         slider.maxValue = 1;
         slider.minValue = 0;
         AudioListener.volume = slider.value;
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Closed Game");
+        Application.Quit();
+    }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
 	// Use this for initialization
