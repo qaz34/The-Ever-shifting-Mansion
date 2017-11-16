@@ -13,15 +13,23 @@ public class RangedWep : Weapon
     public float reloadSpeed = 1;
     [HideInInspector]
     public bool reloading = false;
-
+    private void OnEnable()
+    {
+        left = ammoCap;
+    }
     public override void Interact()
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().currentlyEquipWeapon = (int)type;
         GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().Equip(true);
     }
-    public void Reload(Ammo ammo)
+    public bool Reload(Ammo ammo)
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().StartCoroutine(Reloading(ammo));
+        if (ammo.amount > 0)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().StartCoroutine(Reloading(ammo));
+            return true;
+        }
+        return false;
     }
     public void InstantReload(Ammo ammo)
     {
@@ -38,21 +46,27 @@ public class RangedWep : Weapon
     }
     public override bool Fire(Transform position)
     {
-        if (left > 0)
+        if (lastFired > Time.time)
+            lastFired = 0;
+        if (left > 0 && !reloading)
         {
-            //fire animation, particals
-            left--;
-            RaycastHit hit;
-            if (Physics.Raycast(position.position, position.forward, out hit))
+            if (fireRate < Time.time - lastFired)
             {
-                Health targetHealth = hit.transform.GetComponent<Health>();
-                if (targetHealth)
+                lastFired = Time.time;
+                //fire animation, particals
+                left--;
+                RaycastHit hit;
+                if (Physics.Raycast(position.position, position.forward, out hit))
                 {
-                    targetHealth.CurrentHealth -= damage;
-                    Debug.Log("Gottem");
+                    Health targetHealth = hit.transform.GetComponent<Health>();
+                    if (targetHealth)
+                    {
+                        targetHealth.CurrentHealth -= damage;
+                        Debug.Log("Gottem");
+                    }
                 }
+                return true;
             }
-            return true;
         }
         else
         {
@@ -61,7 +75,8 @@ public class RangedWep : Weapon
                 {
                     if (ammo.amount > 0)
                     {
-                        reloading = true;
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetTrigger("Reload");
+                      
                         Reload(ammo);
                     }
                 }
@@ -70,6 +85,7 @@ public class RangedWep : Weapon
     }
     IEnumerator Reloading(Ammo ammo)
     {
+        reloading = true;
         yield return new WaitForSeconds(reloadSpeed);
         if (ammo.amount >= ammoCap - left)
         {

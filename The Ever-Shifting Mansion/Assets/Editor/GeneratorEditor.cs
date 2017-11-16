@@ -222,7 +222,7 @@ public class GeneratorEditor : Editor
         {
             Undo.RecordObject(gen, "gen changed");
 
-            gen.Size = new Vector2(Mathf.Round(size.x), Mathf.Round(size.y));
+            gen.Size = new Vector2(Mathf.Clamp(Mathf.Round(size.x), 1, 128), Mathf.Clamp(Mathf.Round(size.y), 1, 128));
             EditorUtility.SetDirty(gen);
         }
 

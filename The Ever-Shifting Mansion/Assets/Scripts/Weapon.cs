@@ -23,6 +23,7 @@ public class Weapon : Item
     public float fireRate = 1;
     public bool holdToFire;
     public WepType type;
+    protected float lastFired;
     public override void PickUp()
     {
         Inventory inv = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();

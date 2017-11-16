@@ -20,14 +20,15 @@ public class DoorInScene : MonoBehaviour
     private void Update()
     {
         InputDevice device = InputManager.ActiveDevice;
-        if (insideTrigger && device.Action1.WasPressed)
-        {
-            if (!loading)
+        if (GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().enabled)
+            if (insideTrigger && device.Action1.WasPressed)
             {
-                loading = true;
-                LoadScene();
+                if (!loading)
+                {
+                    loading = true;
+                    LoadScene();
+                }
             }
-        }
     }
 
     private void OnTriggerEnter(Collider other)

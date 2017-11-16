@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using InControl;
 public class MainMenuGen : MonoBehaviour
 {
     public MapGenScriptiable mapGen;
@@ -11,6 +12,7 @@ public class MainMenuGen : MonoBehaviour
     AsyncOperation op;
     public bool transitionTime = false;
     public GameObject playerPrefab;
+    public bool moving = true;
     GameObject player;
     public void Start()
     {
@@ -18,6 +20,10 @@ public class MainMenuGen : MonoBehaviour
     }
     void Update()
     {
+        if (op != null && op.progress > .8f && moving && InputManager.ActiveDevice.Action1.WasPressed)
+        {
+            Set();
+        }
     }
 
 
@@ -38,16 +44,14 @@ public class MainMenuGen : MonoBehaviour
     public void Load(RoomScriptable room)
     {
         roomLoading = room;
-
         SceneManager.LoadScene("DoorTransitionScene");
-
+        moving = true;
     }
     void StartLoad()
     {
         Debug.Log(roomLoading.connectedSceneName);
         Debug.Log(mapGen.rooms.Count);
         StartCoroutine(SceneLoading(roomLoading));
-
     }
     IEnumerator SceneLoading(RoomScriptable room)
     {
@@ -64,6 +68,7 @@ public class MainMenuGen : MonoBehaviour
     {
         SceneManager.activeSceneChanged -= Loaded;
         Vector3 spawnPos = new Vector3(roomLoading.size.x / 2, 0, 2);
+        moving = false;
         foreach (var door in roomLoading.doors.Where(i => i.connectedScene != null))
         {
             GameObject go = Instantiate(roomLoading.doorObject);
@@ -78,6 +83,7 @@ public class MainMenuGen : MonoBehaviour
             go.GetComponentInChildren<DoorInScene>().connectedRoom = door.connectedScene;
         }
         currentRoom = roomLoading;
+        currentRoom.explored = true;
         player.GetComponent<CharacterCont>().amIn = new List<CameraTrigger>();
         player.transform.position = spawnPos;
 

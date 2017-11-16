@@ -78,17 +78,24 @@ namespace CustomProfileExample
                 },
                 new InputControlMapping
                 {
-                    Handle = "LeftBumper",
+                    Handle = "LeftPad",
                     Target = InputControlType.DPadLeft,
 					// KeyCodeComboButton requires that all KeyCode params are down simultaneously.
 					Source = KeyCodeButton( KeyCode.Q )
                 },
                 new InputControlMapping
                 {
-                    Handle = "RightBumper",
+                    Handle = "RightPad",
                     Target = InputControlType.DPadRight,
 					// KeyCodeComboButton requires that all KeyCode params are down simultaneously.
 					Source = KeyCodeButton( KeyCode.E )
+                },
+                  new InputControlMapping
+                {
+                    Handle = "RightBumper",
+                    Target = InputControlType.RightBumper,
+					// KeyCodeComboButton requires that all KeyCode params are down simultaneously.
+					Source = KeyCodeButton( KeyCode.M )
                 },
             };
 

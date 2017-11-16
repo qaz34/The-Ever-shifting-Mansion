@@ -6,7 +6,7 @@ public class ItemContainer : MonoBehaviour
 {
     void Start()
     {
-        if (!GameObject.FindGameObjectWithTag("Player") && transform.parent == null)
+        if (!GameObject.FindGameObjectWithTag("MapGen") && transform.parent == null)
         {
             RollRandom(new List<GameObject>());
         }
@@ -35,10 +35,11 @@ public class ItemContainer : MonoBehaviour
                 }
             }
         }
+
         foreach (var item in objs.Where(i => i.gameObject != keep))
             Destroy(item.gameObject);
         var conts = keep.GetComponentsInChildren<ItemContainer>();
-        foreach (var cont in conts)
+        foreach (var cont in conts.Where(i => i.transform.parent == keep.transform.parent || i.transform.parent == transform.parent))
             cont.RollRandom(noDestroy);
     }
 }
