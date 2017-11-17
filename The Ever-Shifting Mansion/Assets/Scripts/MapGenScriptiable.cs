@@ -208,7 +208,7 @@ public class MapGenScriptiable : ScriptableObject
                 roomsAvaliable.Remove(room);
         }
     }
-    void RandomWeapons()
+    bool RandomWeapons()
     {
         foreach (var wep in neededWeapons)
         {
@@ -226,6 +226,10 @@ public class MapGenScriptiable : ScriptableObject
 
                 for (int i = 0; i < wep.target; i++)
                 {
+                    if (rooms.Count == 0)
+                    {
+                        return false;
+                    }
                     var room = correctRooms[Random.Range(0, correctRooms.Count)];
                     if (room.spawnList.Count < room.maxItems)
                     {
@@ -237,6 +241,7 @@ public class MapGenScriptiable : ScriptableObject
                 }
             }
         }
+        return true;
     }
     struct DoorRoom
     {
@@ -375,7 +380,8 @@ public class MapGenScriptiable : ScriptableObject
 
             if (!CheckMap())
                 continue;
-            RandomWeapons();
+            if (!RandomWeapons())
+                continue;
             RandomEnemies();
             RandomConsumables();
             ConnectDoors();
