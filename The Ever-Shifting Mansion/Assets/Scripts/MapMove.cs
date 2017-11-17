@@ -29,18 +29,10 @@ public class MapMove : MonoBehaviour
         }
         var posUnit = (mapGen.currentRoom.posOnGrid + posRotated) / 128;
         var playerRot = (player.transform.eulerAngles.y + ((int)mapGen.currentRoom.rotation * 90));
-        var playerPos = Vector2.Scale(posUnit, ((RectTransform)transform).sizeDelta);
-
 
         ((RectTransform)transform).pivot = posUnit;
         ((RectTransform)transform).anchoredPosition = new Vector2(0, 0);
-        transform.eulerAngles = new Vector3(0, 0, playerRot);
-        //new Vector2(Vector2.Dot(playerPos, screenX), Vector2.Dot(playerPos, screenY));
-        //((RectTransform)transform).pivot = posUnit;
-        //Vector2 screenX = new Vector2(Mathf.Cos(playerRot * Mathf.Deg2Rad), Mathf.Sin(playerRot * Mathf.Deg2Rad));
-        //Vector2 screenY = new Vector2(-Mathf.Sin(playerRot * Mathf.Deg2Rad), Mathf.Cos(playerRot * Mathf.Deg2Rad));
-        //
-        //transform.eulerAngles = new Vector3(0, 0, playerRot);
+        transform.eulerAngles = new Vector3(0, 0, playerRot);     
 
     }
 }
