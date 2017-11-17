@@ -9,7 +9,6 @@ public class HuskAI : MonoBehaviour
     GameObject player;
     public Weapon weapon;
     float lastAttacked;
-    List<Vector3> positions = new List<Vector3>();
     public bool hasSeen = false;
 
     public AnimationCurve speedDistanceTrigger;

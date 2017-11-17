@@ -64,8 +64,7 @@ public class InventoryDisplay : MonoBehaviour
                 {
                     if (!minimap)
                     {
-                        minimap = Instantiate(minimapPref);
-                      
+                        minimap = Instantiate(minimapPref);                      
                     }
                     else
                     {
