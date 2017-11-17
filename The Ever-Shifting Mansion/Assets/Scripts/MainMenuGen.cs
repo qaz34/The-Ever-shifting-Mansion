@@ -16,7 +16,6 @@ public class MainMenuGen : MonoBehaviour
     GameObject player;
     public void Start()
     {
-        DontDestroyOnLoad(gameObject);
     }
     void Update()
     {
@@ -72,7 +71,7 @@ public class MainMenuGen : MonoBehaviour
         foreach (var door in roomLoading.doors.Where(i => i.connectedScene != null))
         {
             GameObject go = Instantiate(roomLoading.doorObject);
-            go.transform.position = new Vector3(door.posOnGrid.x + .5f, roomLoading.doorObject.transform.localScale.y / 2, door.posOnGrid.y + .5f);
+            go.transform.position = new Vector3(door.posOnGrid.x + .5f, 0, door.posOnGrid.y + .5f);
             if (door.connectedScene == currentRoom)
             {
                 spawnPos = go.transform.position;

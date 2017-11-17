@@ -16,6 +16,11 @@ public class ItemInScene : MonoBehaviour
     bool playerIsIn = false;
     void Start()
     {
+        if (tag == "Untagged" && GameObject.FindGameObjectWithTag("MapGen"))
+        {
+            item = Instantiate(item);
+            Spawn();
+        }
     }
     public void Spawn()
     {

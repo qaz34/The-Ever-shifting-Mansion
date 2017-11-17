@@ -41,7 +41,7 @@ public class MapGenScriptiable : ScriptableObject
     [HideInInspector]
     public DimensionalAnchor grid;
     public int targetEnemies;
-    
+
     public int targetConsumables;
 
     [System.Serializable]
@@ -208,31 +208,40 @@ public class MapGenScriptiable : ScriptableObject
                 roomsAvaliable.Remove(room);
         }
     }
-    void RandomWeapons()
+    bool RandomWeapons()
     {
         foreach (var wep in neededWeapons)
         {
             if (wep.weapon && wep.target != 0)
             {
                 var avaliableRooms = new List<RoomScriptable>(rooms);
+                var correctRooms = new List<RoomScriptable>();
                 foreach (var room in avaliableRooms)
                     foreach (var sWep in room.spawnableWeps)
-                        if (sWep.item != wep.weapon)
-                            avaliableRooms.Remove(room);
+                        if (sWep.item == wep.weapon)
+                        {
+                            correctRooms.Add(room);
+                            break;
+                        }
 
                 for (int i = 0; i < wep.target; i++)
                 {
-                    var room = avaliableRooms[Random.Range(0, avaliableRooms.Count)];
+                    if (correctRooms.Count == 0)
+                    {
+                        return false;
+                    }
+                    var room = correctRooms[Random.Range(0, correctRooms.Count)];
                     if (room.spawnList.Count < room.maxItems)
                     {
                         var item = Instantiate(wep.weapon);
                         room.spawnList.Add(room.spawnList.Count, item);
                     }
                     else
-                        avaliableRooms.Remove(room);
+                        correctRooms.Remove(room);
                 }
             }
         }
+        return true;
     }
     struct DoorRoom
     {
@@ -371,7 +380,8 @@ public class MapGenScriptiable : ScriptableObject
 
             if (!CheckMap())
                 continue;
-            RandomWeapons();
+            if (!RandomWeapons())
+                continue;
             RandomEnemies();
             RandomConsumables();
             ConnectDoors();
