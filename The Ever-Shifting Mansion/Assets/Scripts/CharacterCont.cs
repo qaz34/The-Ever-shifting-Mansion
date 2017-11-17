@@ -21,7 +21,6 @@ public class CharacterCont : MonoBehaviour
 
     Camera prevCamera;
     bool cameraChanged;
-    Vector3 heading;
     Animator animator;
 
     public List<CameraTrigger> amIn = new List<CameraTrigger>();
@@ -54,8 +53,7 @@ public class CharacterCont : MonoBehaviour
         set
         {
             cameraChanged = true;
-            InputDevice device = InputManager.ActiveDevice;
-            heading = new Vector3(device.LeftStickX, 0, device.LeftStickY);
+            InputDevice device = InputManager.ActiveDevice;        
             prevCamera = value;
         }
     }

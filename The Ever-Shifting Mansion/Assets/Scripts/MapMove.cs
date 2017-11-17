@@ -28,8 +28,11 @@ public class MapMove : MonoBehaviour
                 break;
         }
         var posUnit = (mapGen.currentRoom.posOnGrid + posRotated) / 128;
+        var playerRot = (player.transform.eulerAngles.y + ((int)mapGen.currentRoom.rotation * 90));
 
-        ((RectTransform)transform).anchoredPosition = Vector2.Scale(posUnit, ((RectTransform)transform.parent).sizeDelta);
-        transform.eulerAngles = new Vector3(0, 0, (-player.transform.eulerAngles.y - ((int)mapGen.currentRoom.rotation * 90)));
+        ((RectTransform)transform).pivot = posUnit;
+        ((RectTransform)transform).anchoredPosition = new Vector2(0, 0);
+        transform.eulerAngles = new Vector3(0, 0, playerRot);     
+
     }
 }

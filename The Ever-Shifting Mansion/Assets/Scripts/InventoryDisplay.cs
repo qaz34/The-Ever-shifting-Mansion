@@ -17,8 +17,10 @@ public class InventoryDisplay : MonoBehaviour
     public Transform ammoParent;
     public GameObject AmmoNumber;
     public GameObject mapInScene;
+    public GameObject minimapPref;
+    GameObject minimap;
     public MapScriptiable mapObject;
-    public MapScriptiable currentMap;
+    MapScriptiable currentMap;
     List<ItemAndContainer> items = new List<ItemAndContainer>();
     int currentlySelected;
     public float selectSpeed = 1;
@@ -60,22 +62,21 @@ public class InventoryDisplay : MonoBehaviour
             {
                 if (items[currentlySelected].itemScript.typeOf == Type.MAP)
                 {
-                    inspecting = true;
-                    items[currentlySelected].itemScript.Interact();
+                    if (!minimap)
+                    {
+                        minimap = Instantiate(minimapPref);                      
+                    }
+                    else
+                    {
+                        Destroy(minimap);
+                        minimap = null;
+                    }
                 }
                 else
                 {
                     GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().stopLookDelegate += ToggleLook;
                     inspecting = true;
                     GameObject.FindGameObjectWithTag("Inspect").GetComponent<Inspect>().BeginLook(items[currentlySelected % items.Count].itemScript, null);
-                }
-            }
-            else if (device.Action1.WasPressed && inspecting)
-            {
-                if (items[currentlySelected].itemScript.typeOf == Type.MAP)
-                {
-                    inspecting = false;
-                    items[currentlySelected].itemScript.Interact();
                 }
             }
         }

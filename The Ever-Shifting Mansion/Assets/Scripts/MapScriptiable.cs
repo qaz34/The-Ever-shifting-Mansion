@@ -29,6 +29,7 @@ public class MapScriptiable : Item
     }
     public void ShowMap()
     {
+        pixels = new Color[128 * 128];
         if (!GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().currentRoom)
         {
             house.SetPixels(pixels);
