@@ -16,7 +16,6 @@ public class MainMenuGen : MonoBehaviour
     GameObject player;
     public void Start()
     {
-        DontDestroyOnLoad(gameObject);
     }
     void Update()
     {

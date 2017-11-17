@@ -226,7 +226,7 @@ public class MapGenScriptiable : ScriptableObject
 
                 for (int i = 0; i < wep.target; i++)
                 {
-                    if (rooms.Count == 0)
+                    if (correctRooms.Count == 0)
                     {
                         return false;
                     }

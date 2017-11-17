@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Linq;
 using InControl;
 public class Health : MonoBehaviour
 {
@@ -20,9 +22,15 @@ public class Health : MonoBehaviour
                 {
                     health = 0;
                     isDead = true;
-                    if (tag == "player")
+                    if (tag == "Player")
                     {
-
+                        var objs = FindObjectsOfType<GameObject>();
+                        var keep = new List<GameObject>();
+                        foreach (var obj in objs)
+                        {
+                            Destroy(obj);
+                        }
+                        SceneManager.LoadScene("GameOver");
                     }
                     else
                     {
