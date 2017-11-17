@@ -1,0 +1,990 @@
+fileFormatVersion: 2
+guid: 9f797b6ec1c8f084ebd5e91e811a3e70
+timeCreated: 1510887146
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: character_MASTER:characrter_chest_JNT_001
+    100002: character_MASTER:character_ankle_L_JNT_001
+    100004: character_MASTER:character_ankle_R_JNT_001
+    100006: character_MASTER:character_ball_L_JNT_001
+    100008: character_MASTER:character_ball_R_JNT_001
+    100010: character_MASTER:character_clav_1_L_JNT
+    100012: character_MASTER:character_clav_1_R_JNT
+    100014: character_MASTER:character_clav_2__L_JNT
+    100016: character_MASTER:character_clav_2__R_JNT
+    100018: character_MASTER:character_clav_3_L_END
+    100020: character_MASTER:character_clav_3_R_JNT
+    100022: character_MASTER:character_elbow_L_JNT_001
+    100024: character_MASTER:character_elbow_R_JNT_001
+    100026: character_MASTER:character_GEO1
+    100028: character_MASTER:character_head1_JNT_001
+    100030: character_MASTER:character_hip_JNT_001
+    100032: character_MASTER:character_index1_L_JNT
+    100034: character_MASTER:character_index1_R_JNT
+    100036: character_MASTER:character_index2_L_JNT
+    100038: character_MASTER:character_index2_R_JNT
+    100040: character_MASTER:character_index3_L_JNT
+    100042: character_MASTER:character_index3_R_JNT
+    100044: character_MASTER:character_knee_L_JNT_001
+    100046: character_MASTER:character_knee_R_JNT_001
+    100048: character_MASTER:character_middle1_L_JNT
+    100050: character_MASTER:character_middle1_R_JNT
+    100052: character_MASTER:character_middle2_L_JNT
+    100054: character_MASTER:character_middle2_R_JNT
+    100056: character_MASTER:character_middle3_L_JNT
+    100058: character_MASTER:character_middle3_R_JNT
+    100060: character_MASTER:character_neck_JNT_001
+    100062: character_MASTER:character_pinky1_L_JNT
+    100064: character_MASTER:character_pinky1_R_JNT
+    100066: character_MASTER:character_pinky2_L_JNT
+    100068: character_MASTER:character_pinky2_R_JNT
+    100070: character_MASTER:character_pinky3_L_JNT
+    100072: character_MASTER:character_pinky3_R_JNT
+    100074: character_MASTER:character_ring1_L_JNT
+    100076: character_MASTER:character_ring1_R_JNT
+    100078: character_MASTER:character_ring2_L_JNT
+    100080: character_MASTER:character_ring2_R_JNT
+    100082: character_MASTER:character_ring3_L_JNT
+    100084: character_MASTER:character_ring3_R_JNT
+    100086: character_MASTER:character_root_JNT_001
+    100088: character_MASTER:character_thumb1_L_JNT
+    100090: character_MASTER:character_thumb1_R_JNT
+    100092: character_MASTER:character_thumb2_L_JNT
+    100094: character_MASTER:character_thumb2_R_JNT
+    100096: character_MASTER:character_thumb3_L_JNT
+    100098: character_MASTER:character_thumb3_R_JNT
+    100100: character_MASTER:character_upperArm_L_JNT_001
+    100102: character_MASTER:character_upperArm_R_JNT_001
+    100104: character_MASTER:character_upperLeg_L_JNT_001
+    100106: character_MASTER:character_upperLeg_R_JNT_001
+    100108: character_MASTER:character_wrist_L_JNT
+    100110: character_MASTER:character_wrist_R_JNT
+    100112: character_MASTER:characterRig_all_GRP
+    100114: //RootNode
+    400000: character_MASTER:characrter_chest_JNT_001
+    400002: character_MASTER:character_ankle_L_JNT_001
+    400004: character_MASTER:character_ankle_R_JNT_001
+    400006: character_MASTER:character_ball_L_JNT_001
+    400008: character_MASTER:character_ball_R_JNT_001
+    400010: character_MASTER:character_clav_1_L_JNT
+    400012: character_MASTER:character_clav_1_R_JNT
+    400014: character_MASTER:character_clav_2__L_JNT
+    400016: character_MASTER:character_clav_2__R_JNT
+    400018: character_MASTER:character_clav_3_L_END
+    400020: character_MASTER:character_clav_3_R_JNT
+    400022: character_MASTER:character_elbow_L_JNT_001
+    400024: character_MASTER:character_elbow_R_JNT_001
+    400026: character_MASTER:character_GEO1
+    400028: character_MASTER:character_head1_JNT_001
+    400030: character_MASTER:character_hip_JNT_001
+    400032: character_MASTER:character_index1_L_JNT
+    400034: character_MASTER:character_index1_R_JNT
+    400036: character_MASTER:character_index2_L_JNT
+    400038: character_MASTER:character_index2_R_JNT
+    400040: character_MASTER:character_index3_L_JNT
+    400042: character_MASTER:character_index3_R_JNT
+    400044: character_MASTER:character_knee_L_JNT_001
+    400046: character_MASTER:character_knee_R_JNT_001
+    400048: character_MASTER:character_middle1_L_JNT
+    400050: character_MASTER:character_middle1_R_JNT
+    400052: character_MASTER:character_middle2_L_JNT
+    400054: character_MASTER:character_middle2_R_JNT
+    400056: character_MASTER:character_middle3_L_JNT
+    400058: character_MASTER:character_middle3_R_JNT
+    400060: character_MASTER:character_neck_JNT_001
+    400062: character_MASTER:character_pinky1_L_JNT
+    400064: character_MASTER:character_pinky1_R_JNT
+    400066: character_MASTER:character_pinky2_L_JNT
+    400068: character_MASTER:character_pinky2_R_JNT
+    400070: character_MASTER:character_pinky3_L_JNT
+    400072: character_MASTER:character_pinky3_R_JNT
+    400074: character_MASTER:character_ring1_L_JNT
+    400076: character_MASTER:character_ring1_R_JNT
+    400078: character_MASTER:character_ring2_L_JNT
+    400080: character_MASTER:character_ring2_R_JNT
+    400082: character_MASTER:character_ring3_L_JNT
+    400084: character_MASTER:character_ring3_R_JNT
+    400086: character_MASTER:character_root_JNT_001
+    400088: character_MASTER:character_thumb1_L_JNT
+    400090: character_MASTER:character_thumb1_R_JNT
+    400092: character_MASTER:character_thumb2_L_JNT
+    400094: character_MASTER:character_thumb2_R_JNT
+    400096: character_MASTER:character_thumb3_L_JNT
+    400098: character_MASTER:character_thumb3_R_JNT
+    400100: character_MASTER:character_upperArm_L_JNT_001
+    400102: character_MASTER:character_upperArm_R_JNT_001
+    400104: character_MASTER:character_upperLeg_L_JNT_001
+    400106: character_MASTER:character_upperLeg_R_JNT_001
+    400108: character_MASTER:character_wrist_L_JNT
+    400110: character_MASTER:character_wrist_R_JNT
+    400112: character_MASTER:characterRig_all_GRP
+    400114: //RootNode
+    4300000: character_MASTER:character_GEO1
+    7400000: hold
+    7400002: fire
+    7400004: reload
+    9500000: //RootNode
+    13700000: character_MASTER:character_GEO1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: "Avatar Rig Configuration mis-match. Inbetween bone rotation
+      in configuration does not match rotation in animation file:\n\t'character_MASTER:characrter_chest_JNT_001'
+      : rotation error = 8.541680 deg\n\t'character_MASTER:character_clav_2__L_JNT'
+      : rotation error = 43.529408 deg\n\t'character_MASTER:character_clav_2__R_JNT'
+      : rotation error = 28.371529 deg\n"
+    animationImportErrors: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
+      improve retargeting quality.\n\t'character_MASTER:characrter_chest_JNT_001'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'character_MASTER:character_neck_JNT_001'
+      has translation animation that will be discarded.\n\t'character_MASTER:character_clav_2__L_JNT'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'character_MASTER:character_upperArm_L_JNT_001'
+      has translation animation that will be discarded.\n\t'character_MASTER:character_clav_2__R_JNT'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'character_MASTER:character_upperArm_R_JNT_001'
+      has translation animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: hold
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 2
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: fire
+      takeName: Take 001
+      firstFrame: 26
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: reload
+      takeName: Take 001
+      firstFrame: 55
+      lastFrame: 114
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human:
+    - boneName: character_MASTER:character_hip_JNT_001
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_upperLeg_L_JNT_001
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_upperLeg_R_JNT_001
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_knee_L_JNT_001
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_knee_R_JNT_001
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_ankle_L_JNT_001
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_ankle_R_JNT_001
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_root_JNT_001
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_neck_JNT_001
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_head1_JNT_001
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_clav_1_L_JNT
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_clav_1_R_JNT
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_upperArm_L_JNT_001
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_upperArm_R_JNT_001
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_elbow_L_JNT_001
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_elbow_R_JNT_001
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_wrist_L_JNT
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_wrist_R_JNT
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_ball_L_JNT_001
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_ball_R_JNT_001
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_thumb1_L_JNT
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_thumb2_L_JNT
+      humanName: Left Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_thumb3_L_JNT
+      humanName: Left Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_index1_L_JNT
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_index2_L_JNT
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_index3_L_JNT
+      humanName: Left Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_middle1_L_JNT
+      humanName: Left Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_middle2_L_JNT
+      humanName: Left Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_middle3_L_JNT
+      humanName: Left Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_ring1_L_JNT
+      humanName: Left Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_ring2_L_JNT
+      humanName: Left Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_ring3_L_JNT
+      humanName: Left Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_pinky1_L_JNT
+      humanName: Left Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_pinky2_L_JNT
+      humanName: Left Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_pinky3_L_JNT
+      humanName: Left Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_thumb1_R_JNT
+      humanName: Right Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_thumb2_R_JNT
+      humanName: Right Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_thumb3_R_JNT
+      humanName: Right Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_index1_R_JNT
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_index2_R_JNT
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_index3_R_JNT
+      humanName: Right Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_middle1_R_JNT
+      humanName: Right Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_middle2_R_JNT
+      humanName: Right Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_middle3_R_JNT
+      humanName: Right Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_ring1_R_JNT
+      humanName: Right Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_ring2_R_JNT
+      humanName: Right Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_ring3_R_JNT
+      humanName: Right Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_pinky1_R_JNT
+      humanName: Right Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_pinky2_R_JNT
+      humanName: Right Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: character_MASTER:character_pinky3_R_JNT
+      humanName: Right Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: character_shotgun 1(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: character_MASTER:character_GEO1
+      parentName: character_shotgun 1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: character_MASTER:characterRig_all_GRP
+      parentName: character_shotgun 1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: character_MASTER:character_hip_JNT_001
+      parentName: character_MASTER:characterRig_all_GRP
+      position: {x: 2.6288463e-17, y: 0.7960232, z: -0.05329828}
+      rotation: {x: 0.71012497, y: -0.7026633, z: -0.03135249, w: -0.031685423}
+      scale: {x: 1.000001, y: 1.0000011, z: 1.0000014}
+    - name: character_MASTER:character_upperLeg_R_JNT_001
+      parentName: character_MASTER:character_hip_JNT_001
+      position: {x: 0.030989723, y: -0.07420042, z: -0.014557007}
+      rotation: {x: 0.011863768, y: 0.99598527, z: 0.075534336, w: -0.046554714}
+      scale: {x: 1.0000008, y: 1.0000004, z: 0.99999964}
+    - name: character_MASTER:character_knee_R_JNT_001
+      parentName: character_MASTER:character_upperLeg_R_JNT_001
+      position: {x: -0.33124843, y: -1.337843e-17, z: -2.0808467e-18}
+      rotation: {x: -0.00085284957, y: -0.03127024, z: -0.004850147, w: 0.99949884}
+      scale: {x: 1.0000006, y: 1.0000007, z: 1.0000001}
+    - name: character_MASTER:character_ankle_R_JNT_001
+      parentName: character_MASTER:character_knee_R_JNT_001
+      position: {x: -0.35597154, y: 6.5113884e-17, z: -4.591281e-16}
+      rotation: {x: 0.09593871, y: 0.5206713, z: 0.06717876, w: 0.84568566}
+      scale: {x: 1.000001, y: 1.0000004, z: 1.0000006}
+    - name: character_MASTER:character_ball_R_JNT_001
+      parentName: character_MASTER:character_ankle_R_JNT_001
+      position: {x: -0.11089766, y: 1.3183898e-17, z: 6.224188e-17}
+      rotation: {x: 0.01606403, y: 0.19230731, z: -0.007401271, w: 0.9811754}
+      scale: {x: 1.0000014, y: 1.0000011, z: 1.0000004}
+    - name: character_MASTER:character_upperLeg_L_JNT_001
+      parentName: character_MASTER:character_hip_JNT_001
+      position: {x: 0.029415743, y: 0.07483848, z: -0.014557001}
+      rotation: {x: -0.02238351, y: 0.9958042, z: -0.07602314, w: -0.045754235}
+      scale: {x: 1.0000005, y: 0.9999999, z: 0.9999994}
+    - name: character_MASTER:character_knee_L_JNT_001
+      parentName: character_MASTER:character_upperLeg_L_JNT_001
+      position: {x: -0.33124822, y: -1.8722341e-17, z: 1.3953587e-18}
+      rotation: {x: 0.0008528966, y: -0.03127028, z: 0.004850287, w: 0.9994989}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
+    - name: character_MASTER:character_ankle_L_JNT_001
+      parentName: character_MASTER:character_knee_L_JNT_001
+      position: {x: -0.3559714, y: -1.3728304e-16, z: -7.482763e-16}
+      rotation: {x: -0.076621145, y: 0.5504039, z: -0.042474974, w: 0.8302895}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000001}
+    - name: character_MASTER:character_ball_L_JNT_001
+      parentName: character_MASTER:character_ankle_L_JNT_001
+      position: {x: -0.11390574, y: 0.007489324, z: -0.007333269}
+      rotation: {x: -0.0094796745, y: 0.17562352, z: -0.024614483, w: 0.98410404}
+      scale: {x: 1.0000007, y: 1.0000002, z: 1.0000004}
+    - name: character_MASTER:character_root_JNT_001
+      parentName: character_MASTER:character_hip_JNT_001
+      position: {x: -0.09954573, y: 5.5511148e-18, z: 2.6645352e-17}
+      rotation: {x: -0.00000705599, y: -0.043255005, z: -0.010715782, w: -0.9990066}
+      scale: {x: 1.0000005, y: 1.0000002, z: 1.0000005}
+    - name: character_MASTER:characrter_chest_JNT_001
+      parentName: character_MASTER:character_root_JNT_001
+      position: {x: -0.1704504, y: -1.7763568e-17, z: 3.5527136e-17}
+      rotation: {x: 0.000088349465, y: -0.021025902, z: 0.015088041, w: -0.99966514}
+      scale: {x: 0.99999994, y: 0.9999998, z: 0.9999999}
+    - name: character_MASTER:character_neck_JNT_001
+      parentName: character_MASTER:characrter_chest_JNT_001
+      position: {x: -0.14878848, y: -0.0068810056, z: 0.0025163456}
+      rotation: {x: 0.00066122215, y: -0.03825793, z: 0.0020114433, w: 0.9992657}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
+    - name: character_MASTER:character_head1_JNT_001
+      parentName: character_MASTER:character_neck_JNT_001
+      position: {x: -0.06904325, y: -0.00009666384, z: 0.00023520003}
+      rotation: {x: 0.000026417367, y: -0.0034590615, z: -0.0076343585, w: -0.9999649}
+      scale: {x: 1.000001, y: 1.0000008, z: 1.0000013}
+    - name: character_MASTER:character_clav_1_L_JNT
+      parentName: character_MASTER:characrter_chest_JNT_001
+      position: {x: -0.108895555, y: 0.029836062, z: -0.05591737}
+      rotation: {x: -0.3971288, y: 0.53104734, z: -0.41018268, w: 0.62612116}
+      scale: {x: 1, y: 1, z: 1}
+    - name: character_MASTER:character_clav_2__L_JNT
+      parentName: character_MASTER:character_clav_1_L_JNT
+      position: {x: -0.039308757, y: 1.3322676e-17, z: 2.2759572e-17}
+      rotation: {x: 0.05341635, y: -0.04953005, z: 0.057859205, w: 0.9956635}
+      scale: {x: 1, y: 1.0000004, z: 1.0000001}
+    - name: character_MASTER:character_clav_3_L_END
+      parentName: character_MASTER:character_clav_2__L_JNT
+      position: {x: -0.040569935, y: 0.0019413707, z: 0.003910507}
+      rotation: {x: -5.828671e-16, y: 4.718448e-16, z: 5.2041704e-17, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: character_MASTER:character_upperArm_L_JNT_001
+      parentName: character_MASTER:character_clav_3_L_END
+      position: {x: -0.015774116, y: 0.011616512, z: 0.00960101}
+      rotation: {x: 0.19156505, y: 0.9446835, z: 0.225736, w: 0.14113548}
+      scale: {x: 1.0000005, y: 0.99999994, z: 1.0000001}
+    - name: character_MASTER:character_elbow_L_JNT_001
+      parentName: character_MASTER:character_upperArm_L_JNT_001
+      position: {x: 0.21169962, y: 0.045565676, z: -0.052270994}
+      rotation: {x: 0.19088645, y: 0.16647577, z: 0.070810385, w: 0.96479744}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000005}
+    - name: character_MASTER:character_wrist_L_JNT
+      parentName: character_MASTER:character_elbow_L_JNT_001
+      position: {x: 0.21956809, y: 0.0032850462, z: 0.00057558564}
+      rotation: {x: 0.6825848, y: -0.32288724, z: -0.29964587, w: -0.5831245}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000008}
+    - name: character_MASTER:character_pinky1_L_JNT
+      parentName: character_MASTER:character_wrist_L_JNT
+      position: {x: 0.0566933, y: -0.050855543, z: -0.031562563}
+      rotation: {x: -0.01811767, y: -0.1278408, z: 0.8954368, w: 0.42605317}
+      scale: {x: 1.000001, y: 1.0000012, z: 1}
+    - name: character_MASTER:character_pinky2_L_JNT
+      parentName: character_MASTER:character_pinky1_L_JNT
+      position: {x: -0.018130694, y: 4.0965415e-17, z: 2.9369028e-17}
+      rotation: {x: 0.033289842, y: 0.0281562, z: 0.023431854, w: 0.99877423}
+      scale: {x: 1.0000006, y: 1.0000002, z: 1.0000004}
+    - name: character_MASTER:character_pinky3_L_JNT
+      parentName: character_MASTER:character_pinky2_L_JNT
+      position: {x: -0.017398648, y: 1.8576379e-16, z: 6.057935e-17}
+      rotation: {x: -0.0054270104, y: -0.0047206916, z: -0.037300713, w: 0.99927825}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1.0000002}
+    - name: character_MASTER:character_thumb1_L_JNT
+      parentName: character_MASTER:character_wrist_L_JNT
+      position: {x: 0.010665674, y: -0.023131594, z: 0.021645745}
+      rotation: {x: -0.30363816, y: 0.24754637, z: 0.7438615, w: 0.54147464}
+      scale: {x: 1, y: 1.0000006, z: 1.0000005}
+    - name: character_MASTER:character_thumb2_L_JNT
+      parentName: character_MASTER:character_thumb1_L_JNT
+      position: {x: -0.020431688, y: 8.28155e-17, z: -4.086258e-17}
+      rotation: {x: -0.04483316, y: -0.025319653, z: 0.027558066, w: 0.9982933}
+      scale: {x: 1.000001, y: 1.0000002, z: 1.0000005}
+    - name: character_MASTER:character_thumb3_L_JNT
+      parentName: character_MASTER:character_thumb2_L_JNT
+      position: {x: -0.03371428, y: -1.8001462e-17, z: -1.03282446e-16}
+      rotation: {x: 0.041998476, y: 0.06291511, z: 0.006768448, w: 0.99711186}
+      scale: {x: 1.0000007, y: 1.0000006, z: 1.0000012}
+    - name: character_MASTER:character_index1_L_JNT
+      parentName: character_MASTER:character_wrist_L_JNT
+      position: {x: 0.039928723, y: -0.067938335, z: 0.023755621}
+      rotation: {x: -0.06535038, y: -0.009673554, z: 0.9164862, w: 0.3945743}
+      scale: {x: 1.0000002, y: 1.0000002, z: 0.99999994}
+    - name: character_MASTER:character_index2_L_JNT
+      parentName: character_MASTER:character_index1_L_JNT
+      position: {x: -0.025586333, y: 1.6635854e-16, z: -1.7663554e-17}
+      rotation: {x: -0.017471362, y: -0.016734235, z: -0.008681521, w: 0.9996697}
+      scale: {x: 1.0000006, y: 1.000001, z: 1.0000005}
+    - name: character_MASTER:character_index3_L_JNT
+      parentName: character_MASTER:character_index2_L_JNT
+      position: {x: -0.02158991, y: -1.5465227e-16, z: -2.4601422e-17}
+      rotation: {x: 0.001188572, y: 0.0011865697, z: -0.012082724, w: 0.9999257}
+      scale: {x: 1.0000013, y: 1.0000006, z: 1.0000006}
+    - name: character_MASTER:character_ring1_L_JNT
+      parentName: character_MASTER:character_wrist_L_JNT
+      position: {x: 0.05385136, y: -0.05937116, z: -0.011503302}
+      rotation: {x: -0.019616704, y: -0.11412292, z: 0.90612656, w: 0.40684864}
+      scale: {x: 1.0000008, y: 1.0000011, z: 0.9999998}
+    - name: character_MASTER:character_ring2_L_JNT
+      parentName: character_MASTER:character_ring1_L_JNT
+      position: {x: -0.025167687, y: 1.8745305e-16, z: 8.548717e-17}
+      rotation: {x: 0.030496422, y: 0.027974378, z: -0.01169048, w: 0.99907494}
+      scale: {x: 1.0000001, y: 1, z: 1.0000004}
+    - name: character_MASTER:character_ring3_L_JNT
+      parentName: character_MASTER:character_ring2_L_JNT
+      position: {x: -0.01797053, y: 1.1343887e-16, z: -3.7248797e-17}
+      rotation: {x: -0.028975764, y: -0.026757663, z: 0.0083656665, w: 0.9991869}
+      scale: {x: 0.99999976, y: 1.0000001, z: 0.99999976}
+    - name: character_MASTER:character_middle1_L_JNT
+      parentName: character_MASTER:character_wrist_L_JNT
+      position: {x: 0.049708392, y: -0.062328987, z: 0.006957874}
+      rotation: {x: -0.03946912, y: -0.04293451, z: 0.9037185, w: 0.42413652}
+      scale: {x: 1.0000005, y: 1.0000008, z: 1}
+    - name: character_MASTER:character_middle2_L_JNT
+      parentName: character_MASTER:character_middle1_L_JNT
+      position: {x: -0.030901931, y: 7.588919e-17, z: 1.05471186e-16}
+      rotation: {x: -0.03350772, y: -0.0231007, z: 0.033764772, w: 0.99860084}
+      scale: {x: 1.0000006, y: 1.0000002, z: 1.0000002}
+    - name: character_MASTER:character_middle3_L_JNT
+      parentName: character_MASTER:character_middle2_L_JNT
+      position: {x: -0.020165443, y: 6.570788e-17, z: 3.8811885e-18}
+      rotation: {x: 0.009415355, y: 0.009344591, z: -0.085063376, w: 0.9962873}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: character_MASTER:character_clav_1_R_JNT
+      parentName: character_MASTER:characrter_chest_JNT_001
+      position: {x: -0.107728146, y: -0.030444087, z: -0.055917203}
+      rotation: {x: -0.42462042, y: 0.46779132, z: 0.46192354, w: -0.6224913}
+      scale: {x: 1, y: 1, z: 1}
+    - name: character_MASTER:character_clav_2__R_JNT
+      parentName: character_MASTER:character_clav_1_R_JNT
+      position: {x: 0.044815164, y: -0.0041117845, z: 0.0076877614}
+      rotation: {x: 0.025684277, y: -0.0302312, z: 0.07024358, w: 0.9967408}
+      scale: {x: 1.0000001, y: 1.0000007, z: 1.0000007}
+    - name: character_MASTER:character_clav_3_R_JNT
+      parentName: character_MASTER:character_clav_2__R_JNT
+      position: {x: 0.05274213, y: -0.013245743, z: 0.0007859046}
+      rotation: {x: 0.01837141, y: -0.016369043, z: 0.021778084, w: 0.99946}
+      scale: {x: 1, y: 1, z: 1}
+    - name: character_MASTER:character_upperArm_R_JNT_001
+      parentName: character_MASTER:character_clav_3_R_JNT
+      position: {x: 0.0012230447, y: 0.017605059, z: 0.013756808}
+      rotation: {x: 0.12446385, y: 0.86132604, z: 0.42810497, w: 0.24362373}
+      scale: {x: 1.0000008, y: 1.0000002, z: 1.0000006}
+    - name: character_MASTER:character_elbow_R_JNT_001
+      parentName: character_MASTER:character_upperArm_R_JNT_001
+      position: {x: -0.21170123, y: -0.045566585, z: 0.05227242}
+      rotation: {x: 0.19051455, y: 0.17206338, z: 0.072702445, w: 0.96374935}
+      scale: {x: 0.99999917, y: 1.0000004, z: 1.0000002}
+    - name: character_MASTER:character_wrist_R_JNT
+      parentName: character_MASTER:character_elbow_R_JNT_001
+      position: {x: -0.21957263, y: -0.0032848914, z: -0.00057338073}
+      rotation: {x: -0.33908936, y: -0.80981416, z: 0.43621626, w: -0.19731946}
+      scale: {x: 1.0000006, y: 1.0000005, z: 0.99999994}
+    - name: character_MASTER:character_pinky1_R_JNT
+      parentName: character_MASTER:character_wrist_R_JNT
+      position: {x: 0.060273208, y: -0.044576, z: -0.029927699}
+      rotation: {x: -0.018821716, y: -0.12780349, z: 0.896711, w: 0.4233454}
+      scale: {x: 1.0000007, y: 1.0000004, z: 1.0000004}
+    - name: character_MASTER:character_pinky2_R_JNT
+      parentName: character_MASTER:character_pinky1_R_JNT
+      position: {x: -0.018130694, y: 4.0965415e-17, z: 2.9369028e-17}
+      rotation: {x: 0.033289842, y: 0.028156215, z: 0.023431597, w: 0.9987743}
+      scale: {x: 1.0000001, y: 1.0000006, z: 1.0000002}
+    - name: character_MASTER:character_pinky3_R_JNT
+      parentName: character_MASTER:character_pinky2_R_JNT
+      position: {x: -0.017398648, y: 1.8576379e-16, z: 6.057935e-17}
+      rotation: {x: -0.00542692, y: -0.0047206706, z: -0.037300553, w: 0.9992782}
+      scale: {x: 1.0000008, y: 1.0000005, z: 1.0000004}
+    - name: character_MASTER:character_thumb1_R_JNT
+      parentName: character_MASTER:character_wrist_R_JNT
+      position: {x: 0.010850211, y: -0.024336666, z: 0.02146417}
+      rotation: {x: -0.2556962, y: 0.3150642, z: 0.7235431, w: 0.5584257}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
+    - name: character_MASTER:character_thumb2_R_JNT
+      parentName: character_MASTER:character_thumb1_R_JNT
+      position: {x: -0.020431688, y: 8.28155e-17, z: -4.086258e-17}
+      rotation: {x: -0.04483298, y: -0.025320873, z: 0.027552804, w: 0.99829346}
+      scale: {x: 1.0000004, y: 1, z: 1.0000002}
+    - name: character_MASTER:character_thumb3_R_JNT
+      parentName: character_MASTER:character_thumb2_R_JNT
+      position: {x: -0.03371428, y: -1.8001462e-17, z: -1.03282446e-16}
+      rotation: {x: 0.041998174, y: 0.06291523, z: 0.0067684418, w: 0.99711186}
+      scale: {x: 1.0000008, y: 1.0000002, z: 1.0000008}
+    - name: character_MASTER:character_index1_R_JNT
+      parentName: character_MASTER:character_wrist_R_JNT
+      position: {x: 0.044606414, y: -0.065968685, z: 0.02562312}
+      rotation: {x: -0.027175656, y: -0.029064734, z: 0.8956786, w: 0.44291836}
+      scale: {x: 1.0000014, y: 1.000001, z: 1.0000007}
+    - name: character_MASTER:character_index2_R_JNT
+      parentName: character_MASTER:character_index1_R_JNT
+      position: {x: -0.025586333, y: 1.6635854e-16, z: -1.7663554e-17}
+      rotation: {x: -0.017471228, y: -0.016734269, z: -0.008681697, w: 0.9996696}
+      scale: {x: 1.0000001, y: 1.0000007, z: 1.0000007}
+    - name: character_MASTER:character_index3_R_JNT
+      parentName: character_MASTER:character_index2_R_JNT
+      position: {x: -0.02158991, y: -1.5465227e-16, z: -2.4601422e-17}
+      rotation: {x: 0.00118849, y: 0.0011865807, z: -0.012082509, w: 0.9999256}
+      scale: {x: 1.000001, y: 1.0000002, z: 1.0000008}
+    - name: character_MASTER:character_ring1_R_JNT
+      parentName: character_MASTER:character_wrist_R_JNT
+      position: {x: 0.05348582, y: -0.05648052, z: -0.012700933}
+      rotation: {x: -0.029456435, y: -0.110820435, z: 0.91913325, w: 0.37688896}
+      scale: {x: 1.0000014, y: 1.0000013, z: 1.0000005}
+    - name: character_MASTER:character_ring2_R_JNT
+      parentName: character_MASTER:character_ring1_R_JNT
+      position: {x: -0.025167687, y: 1.8745305e-16, z: 8.548717e-17}
+      rotation: {x: 0.03049639, y: 0.02797444, z: -0.011690675, w: 0.99907494}
+      scale: {x: 1.0000005, y: 0.9999999, z: 1.0000005}
+    - name: character_MASTER:character_ring3_R_JNT
+      parentName: character_MASTER:character_ring2_R_JNT
+      position: {x: -0.01797053, y: 1.1343887e-16, z: -3.7248797e-17}
+      rotation: {x: -0.028975852, y: -0.026757767, z: 0.008365658, w: 0.99918693}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1.0000004}
+    - name: character_MASTER:character_middle1_R_JNT
+      parentName: character_MASTER:character_wrist_R_JNT
+      position: {x: 0.05139546, y: -0.06345785, z: 0.0071505588}
+      rotation: {x: -0.0075835995, y: -0.057861008, z: 0.9045482, w: 0.42235893}
+      scale: {x: 1.0000008, y: 1.0000004, z: 1.0000005}
+    - name: character_MASTER:character_middle2_R_JNT
+      parentName: character_MASTER:character_middle1_R_JNT
+      position: {x: -0.030901931, y: 7.588919e-17, z: 1.05471186e-16}
+      rotation: {x: -0.0335079, y: -0.023100613, z: 0.03376383, w: 0.9986009}
+      scale: {x: 1.0000005, y: 0.9999998, z: 1}
+    - name: character_MASTER:character_middle3_R_JNT
+      parentName: character_MASTER:character_middle2_R_JNT
+      position: {x: -0.020165443, y: 6.570788e-17, z: 3.8811885e-18}
+      rotation: {x: 0.009415407, y: 0.009344693, z: -0.085063376, w: 0.9962873}
+      scale: {x: 1.0000002, y: 1.0000008, z: 1.0000002}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 3
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
