@@ -19,7 +19,8 @@ public class ItemContainer : MonoBehaviour
         foreach (var item in avaliable.Where(i => i.parent == transform))
             objs.Add(item.gameObject);
 
-
+        if (objs.Count == 0)
+            return;
         var keep = objs[Random.Range(0, objs.Count)];
 
         foreach (var item in avaliable)

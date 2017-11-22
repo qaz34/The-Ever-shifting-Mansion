@@ -6,6 +6,7 @@ using System.Linq;
 using InControl;
 public class MapMove : MonoBehaviour
 {
+    public GameObject playerLocation;
     private void Update()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
@@ -31,6 +32,6 @@ public class MapMove : MonoBehaviour
         var playerRot = (player.transform.eulerAngles.y + ((int)mapGen.currentRoom.rotation * 90));
         ((RectTransform)transform).pivot = posUnit;
         ((RectTransform)transform).anchoredPosition = new Vector2(0, 0);
-        transform.eulerAngles = new Vector3(0, 0, playerRot);
+        playerLocation.transform.eulerAngles = new Vector3(0, 0, (-player.transform.eulerAngles.y - ((int)mapGen.currentRoom.rotation * 90)));
     }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 
 public class MapGenScriptiable : ScriptableObject
 {
-    public delegate void unPlace(RoomScriptable room);
+    public delegate void unPlace(RoomScriptable room, bool fit);
     unPlace noFit;
     [System.Serializable]
     public struct RoomWithWeighting
@@ -25,6 +25,7 @@ public class MapGenScriptiable : ScriptableObject
     public struct SpecialRoom
     {
         public RoomScriptable room;
+        public int distanceAfter;
         public bool needToBePlaced;
     }
     public List<RoomScriptable> rooms;
@@ -128,16 +129,17 @@ public class MapGenScriptiable : ScriptableObject
                 roomsAvaliable.Remove(room);
         }
     }
-    void DeleteFromList(RoomScriptable room)
+    void DeleteFromList(RoomScriptable room, bool fit)
     {
-        foreach (var roomS in placed)
-        {
-            if (roomS.room == room)
+        if (!fit)
+            foreach (var roomS in placed)
             {
-                placed.Remove(roomS);
-                break;
+                if (roomS.room == room)
+                {
+                    placed.Remove(roomS);
+                    break;
+                }
             }
-        }
         noFit -= DeleteFromList;
     }
     Item GetItemWeighted(RoomScriptable room)
@@ -309,8 +311,8 @@ public class MapGenScriptiable : ScriptableObject
                     else
                         break;
                 }
-                if (!fit)
-                    noFit?.Invoke(roomBase);
+                noFit?.Invoke(roomBase, fit);
+
             }
             if (doors.Count == 0)
             {
@@ -377,11 +379,20 @@ public class MapGenScriptiable : ScriptableObject
             i++;
             NewGrid();
             RandomMap();
-
-            if (!CheckMap())
-                continue;
-            if (!RandomWeapons())
-                continue;
+            if (i < 10)
+            {
+                if (!CheckMap())
+                {
+                    Debug.Log("Failed Map");
+                    Debug.Log(placed.Count);
+                    continue;
+                }
+                if (!RandomWeapons())
+                {
+                    Debug.Log("Failed Wep");
+                    continue;
+                }
+            }
             RandomEnemies();
             RandomConsumables();
             ConnectDoors();
@@ -393,13 +404,23 @@ public class MapGenScriptiable : ScriptableObject
     {
         float percentile = 0;
         float full = 0;
+
         float percent = Random.Range(0, 100);
-        if (distanceFromStart >= 4 && distanceFromStart <= 6 && percent > 80)
+        if (percent > 10)
         {
+            percent = Random.Range(0, 100);
+            var rooms = new List<SpecialRoom>();
             foreach (var room in gen.specialRooms.Where(i => !placed.Contains(i)))
             {
+                if (distanceFromStart >= room.distanceAfter)
+                {
+                    rooms.Add(room);
+                }
+            }
+            foreach (var room in rooms)
+            {
                 percentile++;
-                if ((percentile / gen.specialRooms.Count - gen.placed.Count) * 100 > percent)
+                if ((percentile / rooms.Count) * 100 > percent)
                 {
                     placed.Add(room);
                     noFit += DeleteFromList;
@@ -407,6 +428,7 @@ public class MapGenScriptiable : ScriptableObject
                 }
             }
         }
+
 
         percent = Random.Range(0, 100);
         foreach (var room in gen.useableRooms)

@@ -47,9 +47,7 @@ public class MainMenuGen : MonoBehaviour
         moving = true;
     }
     void StartLoad()
-    {
-        Debug.Log(roomLoading.connectedSceneName);
-        Debug.Log(mapGen.rooms.Count);
+    {    
         StartCoroutine(SceneLoading(roomLoading));
     }
     IEnumerator SceneLoading(RoomScriptable room)
