@@ -288,7 +288,10 @@ ModelImporter:
     400278: wrist_R_IK
     400280: wrist_R_JNT
     4300000: Ghoul
-    7400000: Walk
+    7400000: enemyHusk_walk01
+    7400002: enemyHusk_attack01
+    7400004: enemyHusk_idle01
+    7400006: enemyHusk_death01
     9500000: //RootNode
     13700000: Ghoul
   materials:
@@ -306,9 +309,13 @@ ModelImporter:
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'clav1_L_JNT' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\t'clav1_R_JNT' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n"
+      improve retargeting quality.\n\t'neck_JNT' has translation animation that will
+      be discarded.\n\t'clav1_L_JNT' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'clav1_R_JNT' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'hip_JNT' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'ball_L_JNT'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'ball_R_JNT'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     animationCompression: 3
@@ -320,10 +327,94 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walk
+      name: enemyHusk_walk01
       takeName: Take 001
       firstFrame: 2
       lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: enemyHusk_attack01
+      takeName: Take 001
+      firstFrame: 52
+      lastFrame: 101
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: enemyHusk_idle01
+      takeName: Take 001
+      firstFrame: 102
+      lastFrame: 151
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: enemyHusk_death01
+      takeName: Take 001
+      firstFrame: 152
+      lastFrame: 176
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
