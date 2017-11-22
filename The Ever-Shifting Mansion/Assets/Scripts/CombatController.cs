@@ -115,6 +115,10 @@ public class CombatController : MonoBehaviour
                     if (equipWeapon.Fire(raycastPosition))
                     {
                         GetComponent<Animator>().SetTrigger("Fire");
+
+                        // play the current weapons sounds TODO
+                        //audioSource.clip = equipWeapon.clip;
+                        //audioSource.Play();
                     }
                     if (equipWeapon.type != WepType.MELEE)
                     {
