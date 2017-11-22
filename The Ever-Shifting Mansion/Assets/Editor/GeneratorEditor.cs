@@ -70,7 +70,7 @@ public class GeneratorEditor : Editor
         EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("room"), GUIContent.none);
         posX += width;
         width = EditorGUIUtility.currentViewWidth / 6;
-        EditorGUI.TextField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "Weight", GUIStyle.none);
+        EditorGUI.LabelField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "Weight", GUIStyle.none);
         posX += width;
         width = EditorGUIUtility.currentViewWidth / 6;
         EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("chanceToPlace"), GUIContent.none);
@@ -84,13 +84,13 @@ public class GeneratorEditor : Editor
         EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("room"), GUIContent.none);
         posX += width + 10;
         width = EditorGUIUtility.currentViewWidth / 6;
-        EditorGUI.TextField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "After", GUIStyle.none);
+        EditorGUI.LabelField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "After", GUIStyle.none);
         posX += width - 50;
         width = EditorGUIUtility.currentViewWidth / 6;
         EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("distanceAfter"), GUIContent.none);
         posX += width + 10;
         width = EditorGUIUtility.currentViewWidth / 6;
-        EditorGUI.TextField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "Has to place", GUIStyle.none);
+        EditorGUI.LabelField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "Has to place", GUIStyle.none);
         posX += width;
         width = EditorGUIUtility.currentViewWidth / 6;
         EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("needToBePlaced"), GUIContent.none);
