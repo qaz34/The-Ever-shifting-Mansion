@@ -10,7 +10,6 @@ public class WallPaperSelector : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("MapGen"))
         {
             Random.InitState(GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().currentRoom.seed);
-            Debug.Log(GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().currentRoom.seed);
         }
         var toSwitch = GetComponentsInChildren<MeshRenderer>();
         Material mat = materials[Random.Range(0, materials.Count)];

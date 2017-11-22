@@ -7,7 +7,7 @@ using System.Linq;
 
 public class MapGenScriptiable : ScriptableObject
 {
-    public delegate void unPlace(RoomScriptable room);
+    public delegate void unPlace(RoomScriptable room, bool fit);
     unPlace noFit;
     [System.Serializable]
     public struct RoomWithWeighting
@@ -129,16 +129,17 @@ public class MapGenScriptiable : ScriptableObject
                 roomsAvaliable.Remove(room);
         }
     }
-    void DeleteFromList(RoomScriptable room)
+    void DeleteFromList(RoomScriptable room, bool fit)
     {
-        foreach (var roomS in placed)
-        {
-            if (roomS.room == room)
+        if (!fit)
+            foreach (var roomS in placed)
             {
-                placed.Remove(roomS);
-                break;
+                if (roomS.room == room)
+                {
+                    placed.Remove(roomS);
+                    break;
+                }
             }
-        }
         noFit -= DeleteFromList;
     }
     Item GetItemWeighted(RoomScriptable room)
@@ -310,8 +311,8 @@ public class MapGenScriptiable : ScriptableObject
                     else
                         break;
                 }
-                if (!fit)
-                    noFit?.Invoke(roomBase);
+                noFit?.Invoke(roomBase, fit);
+
             }
             if (doors.Count == 0)
             {
@@ -380,11 +381,17 @@ public class MapGenScriptiable : ScriptableObject
             RandomMap();
             if (i < 10)
             {
-                Debug.Log("Failed");
                 if (!CheckMap())
+                {
+                    Debug.Log("Failed Map");
+                    Debug.Log(placed.Count);
                     continue;
+                }
                 if (!RandomWeapons())
+                {
+                    Debug.Log("Failed Wep");
                     continue;
+                }
             }
             RandomEnemies();
             RandomConsumables();
@@ -399,8 +406,9 @@ public class MapGenScriptiable : ScriptableObject
         float full = 0;
 
         float percent = Random.Range(0, 100);
-        if (percent > 80)
+        if (percent > 10)
         {
+            percent = Random.Range(0, 100);
             var rooms = new List<SpecialRoom>();
             foreach (var room in gen.specialRooms.Where(i => !placed.Contains(i)))
             {
@@ -412,7 +420,7 @@ public class MapGenScriptiable : ScriptableObject
             foreach (var room in rooms)
             {
                 percentile++;
-                if ((percentile / rooms.Count - gen.placed.Count) * 100 > percent)
+                if ((percentile / rooms.Count) * 100 > percent)
                 {
                     placed.Add(room);
                     noFit += DeleteFromList;
