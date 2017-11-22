@@ -25,6 +25,7 @@ public class MapGenScriptiable : ScriptableObject
     public struct SpecialRoom
     {
         public RoomScriptable room;
+        public int distanceAfter;
         public bool needToBePlaced;
     }
     public List<RoomScriptable> rooms;
@@ -377,11 +378,14 @@ public class MapGenScriptiable : ScriptableObject
             i++;
             NewGrid();
             RandomMap();
-
-            if (!CheckMap())
-                continue;
-            if (!RandomWeapons())
-                continue;
+            if (i < 10)
+            {
+                Debug.Log("Failed");
+                if (!CheckMap())
+                    continue;
+                if (!RandomWeapons())
+                    continue;
+            }
             RandomEnemies();
             RandomConsumables();
             ConnectDoors();
@@ -393,13 +397,22 @@ public class MapGenScriptiable : ScriptableObject
     {
         float percentile = 0;
         float full = 0;
+
         float percent = Random.Range(0, 100);
-        if (distanceFromStart >= 4 && distanceFromStart <= 6 && percent > 80)
+        if (percent > 80)
         {
+            var rooms = new List<SpecialRoom>();
             foreach (var room in gen.specialRooms.Where(i => !placed.Contains(i)))
             {
+                if (distanceFromStart >= room.distanceAfter)
+                {
+                    rooms.Add(room);
+                }
+            }
+            foreach (var room in rooms)
+            {
                 percentile++;
-                if ((percentile / gen.specialRooms.Count - gen.placed.Count) * 100 > percent)
+                if ((percentile / rooms.Count - gen.placed.Count) * 100 > percent)
                 {
                     placed.Add(room);
                     noFit += DeleteFromList;
@@ -407,6 +420,7 @@ public class MapGenScriptiable : ScriptableObject
                 }
             }
         }
+
 
         percent = Random.Range(0, 100);
         foreach (var room in gen.useableRooms)

@@ -80,9 +80,15 @@ public class GeneratorEditor : Editor
         var element = SpecialRooms.serializedProperty.GetArrayElementAtIndex(index);
         rect.y += 2;
         float posX = rect.x;
-        float width = EditorGUIUtility.currentViewWidth / 2;
+        float width = EditorGUIUtility.currentViewWidth / 4;
         EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("room"), GUIContent.none);
-        posX += width;
+        posX += width + 10;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.TextField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "After", GUIStyle.none);
+        posX += width - 50;
+        width = EditorGUIUtility.currentViewWidth / 6;
+        EditorGUI.PropertyField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("distanceAfter"), GUIContent.none);
+        posX += width + 10;
         width = EditorGUIUtility.currentViewWidth / 6;
         EditorGUI.TextField(new Rect(posX, rect.y, width, EditorGUIUtility.singleLineHeight), "Has to place", GUIStyle.none);
         posX += width;
