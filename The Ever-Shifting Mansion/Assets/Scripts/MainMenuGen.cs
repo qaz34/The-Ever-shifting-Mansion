@@ -47,7 +47,7 @@ public class MainMenuGen : MonoBehaviour
         moving = true;
     }
     void StartLoad()
-    {    
+    {
         StartCoroutine(SceneLoading(roomLoading));
     }
     IEnumerator SceneLoading(RoomScriptable room)
@@ -74,6 +74,8 @@ public class MainMenuGen : MonoBehaviour
             {
                 spawnPos = go.transform.position;
                 spawnPos.y = 0;
+                player.transform.eulerAngles = Vector3.zero;
+                player.transform.Rotate(transform.up, -90 * (int)door.direction);
             }
             go.transform.Translate(new Vector3(door.Direction(false).x / 2, 0, door.Direction(false).y / 2));
             go.transform.Rotate(transform.up, 90 * (int)door.direction);
