@@ -6,7 +6,7 @@ public class ItemContainer : MonoBehaviour
 {
     void Start()
     {
-        if (!GameObject.FindGameObjectWithTag("MapGen") && transform.parent == null)
+        if (!GameObject.FindGameObjectWithTag("MapGen") && tag == "PropSpawn")
         {
             RollRandom(new List<GameObject>());
         }
