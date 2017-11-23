@@ -1,0 +1,302 @@
+fileFormatVersion: 2
+guid: e1a524a6fd9dfa84d9db7cfc2c93abf6
+timeCreated: 1511416891
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: warewolf_MASTER:ball_L_JNT
+    100002: warewolf_MASTER:ball_L_JNT 1
+    100004: warewolf_MASTER:chest_JNT
+    100006: warewolf_MASTER:elbow_L_JNT
+    100008: warewolf_MASTER:elbow_R_JNT
+    100010: warewolf_MASTER:foot_L_END
+    100012: warewolf_MASTER:foot_L_END 1
+    100014: warewolf_MASTER:foot_L_JNT
+    100016: warewolf_MASTER:foot_L_JNT 1
+    100018: warewolf_MASTER:hand_L_JNT
+    100020: warewolf_MASTER:hand_R_JNT
+    100022: warewolf_MASTER:head_JNT
+    100024: warewolf_MASTER:index_1_L_JNT
+    100026: warewolf_MASTER:index_1_R_JNT
+    100028: warewolf_MASTER:index_2_L_JNT
+    100030: warewolf_MASTER:index_2_R_JNT
+    100032: warewolf_MASTER:index_3_L_JNT
+    100034: warewolf_MASTER:index_3_R_JNT
+    100036: warewolf_MASTER:jaw_JNT
+    100038: warewolf_MASTER:knee_L_JNT
+    100040: warewolf_MASTER:knee_L_JNT 1
+    100042: warewolf_MASTER:middle_1_L_JNT
+    100044: warewolf_MASTER:middle_1_R_JNT
+    100046: warewolf_MASTER:middle_2_L_JNT
+    100048: warewolf_MASTER:middle_2_R_JNT
+    100050: warewolf_MASTER:middle_3_L_JNT
+    100052: warewolf_MASTER:middle_3_R_JNT
+    100054: warewolf_MASTER:neck_JNT
+    100056: warewolf_MASTER:pinky_1_L_JNT
+    100058: warewolf_MASTER:pinky_1_R_JNT
+    100060: warewolf_MASTER:pinky_2_L_JNT
+    100062: warewolf_MASTER:pinky_2_R_JNT
+    100064: warewolf_MASTER:pinky_3_L_JNT
+    100066: warewolf_MASTER:pinky_3_R_JNT
+    100068: warewolf_MASTER:ring_1_L_JNT
+    100070: warewolf_MASTER:ring_1_R_JNT
+    100072: warewolf_MASTER:ring_2_L_JNT
+    100074: warewolf_MASTER:ring_2_R_JNT
+    100076: warewolf_MASTER:ring_3_L_JNT
+    100078: warewolf_MASTER:ring_3_R_JNT
+    100080: warewolf_MASTER:root_JNT
+    100082: warewolf_MASTER:shoulder_1_L_JNT
+    100084: warewolf_MASTER:shoulder_1_R_JNT
+    100086: warewolf_MASTER:shoulder_2_R_END
+    100088: warewolf_MASTER:tail_1_JNT
+    100090: warewolf_MASTER:tail_2_JNT
+    100092: warewolf_MASTER:tail_3_JNT
+    100094: warewolf_MASTER:tail_4_JNT
+    100096: warewolf_MASTER:tail_5_JNT
+    100098: warewolf_MASTER:thumb_1_L_JNT
+    100100: warewolf_MASTER:thumb_1_R_JNT
+    100102: warewolf_MASTER:thumb_2_L_JNT
+    100104: warewolf_MASTER:thumb_2_R_JNT
+    100106: warewolf_MASTER:thumb_3_L_JNT
+    100108: warewolf_MASTER:thumb_3_R_JNT
+    100110: warewolf_MASTER:toe_10_L_JNT
+    100112: warewolf_MASTER:toe_10_R_JNT
+    100114: warewolf_MASTER:toe_11_L_JNT
+    100116: warewolf_MASTER:toe_11_R_JNT
+    100118: warewolf_MASTER:toe_13_L_JNT
+    100120: warewolf_MASTER:toe_13_R_JNT
+    100122: warewolf_MASTER:toe_14_L_JNT
+    100124: warewolf_MASTER:toe_14_R_JNT
+    100126: warewolf_MASTER:toe_15_L_JNT
+    100128: warewolf_MASTER:toe_15_R_JNT
+    100130: warewolf_MASTER:toe_1_L_JNT
+    100132: warewolf_MASTER:toe_1_R_JNT
+    100134: warewolf_MASTER:toe_2_L_JNT
+    100136: warewolf_MASTER:toe_2_R_JNT
+    100138: warewolf_MASTER:toe_3_L_JNT
+    100140: warewolf_MASTER:toe_3_R_JNT
+    100142: warewolf_MASTER:toe_5_L_JNT
+    100144: warewolf_MASTER:toe_5_R_JNT
+    100146: warewolf_MASTER:toe_6_L_JNT
+    100148: warewolf_MASTER:toe_6_R_JNT
+    100150: warewolf_MASTER:toe_7_L_JNT
+    100152: warewolf_MASTER:toe_7_R_JNT
+    100154: warewolf_MASTER:toe_9_L_JNT
+    100156: warewolf_MASTER:toe_9_R_JNT
+    100158: warewolf_MASTER:upperArm_L_JNT
+    100160: warewolf_MASTER:upperArm_R_JNT
+    100162: warewolf_MASTER:upperLeg_L_JNT
+    100164: warewolf_MASTER:upperLeg_L_JNT1
+    100166: warewolf_MASTER:warewolf_mesh
+    100168: warewolf_MASTER:warewolf_RIG
+    100170: warewolf_MASTER:waste_JNT
+    100172: //RootNode
+    400000: warewolf_MASTER:ball_L_JNT
+    400002: warewolf_MASTER:ball_L_JNT 1
+    400004: warewolf_MASTER:chest_JNT
+    400006: warewolf_MASTER:elbow_L_JNT
+    400008: warewolf_MASTER:elbow_R_JNT
+    400010: warewolf_MASTER:foot_L_END
+    400012: warewolf_MASTER:foot_L_END 1
+    400014: warewolf_MASTER:foot_L_JNT
+    400016: warewolf_MASTER:foot_L_JNT 1
+    400018: warewolf_MASTER:hand_L_JNT
+    400020: warewolf_MASTER:hand_R_JNT
+    400022: warewolf_MASTER:head_JNT
+    400024: warewolf_MASTER:index_1_L_JNT
+    400026: warewolf_MASTER:index_1_R_JNT
+    400028: warewolf_MASTER:index_2_L_JNT
+    400030: warewolf_MASTER:index_2_R_JNT
+    400032: warewolf_MASTER:index_3_L_JNT
+    400034: warewolf_MASTER:index_3_R_JNT
+    400036: warewolf_MASTER:jaw_JNT
+    400038: warewolf_MASTER:knee_L_JNT
+    400040: warewolf_MASTER:knee_L_JNT 1
+    400042: warewolf_MASTER:middle_1_L_JNT
+    400044: warewolf_MASTER:middle_1_R_JNT
+    400046: warewolf_MASTER:middle_2_L_JNT
+    400048: warewolf_MASTER:middle_2_R_JNT
+    400050: warewolf_MASTER:middle_3_L_JNT
+    400052: warewolf_MASTER:middle_3_R_JNT
+    400054: warewolf_MASTER:neck_JNT
+    400056: warewolf_MASTER:pinky_1_L_JNT
+    400058: warewolf_MASTER:pinky_1_R_JNT
+    400060: warewolf_MASTER:pinky_2_L_JNT
+    400062: warewolf_MASTER:pinky_2_R_JNT
+    400064: warewolf_MASTER:pinky_3_L_JNT
+    400066: warewolf_MASTER:pinky_3_R_JNT
+    400068: warewolf_MASTER:ring_1_L_JNT
+    400070: warewolf_MASTER:ring_1_R_JNT
+    400072: warewolf_MASTER:ring_2_L_JNT
+    400074: warewolf_MASTER:ring_2_R_JNT
+    400076: warewolf_MASTER:ring_3_L_JNT
+    400078: warewolf_MASTER:ring_3_R_JNT
+    400080: warewolf_MASTER:root_JNT
+    400082: warewolf_MASTER:shoulder_1_L_JNT
+    400084: warewolf_MASTER:shoulder_1_R_JNT
+    400086: warewolf_MASTER:shoulder_2_R_END
+    400088: warewolf_MASTER:tail_1_JNT
+    400090: warewolf_MASTER:tail_2_JNT
+    400092: warewolf_MASTER:tail_3_JNT
+    400094: warewolf_MASTER:tail_4_JNT
+    400096: warewolf_MASTER:tail_5_JNT
+    400098: warewolf_MASTER:thumb_1_L_JNT
+    400100: warewolf_MASTER:thumb_1_R_JNT
+    400102: warewolf_MASTER:thumb_2_L_JNT
+    400104: warewolf_MASTER:thumb_2_R_JNT
+    400106: warewolf_MASTER:thumb_3_L_JNT
+    400108: warewolf_MASTER:thumb_3_R_JNT
+    400110: warewolf_MASTER:toe_10_L_JNT
+    400112: warewolf_MASTER:toe_10_R_JNT
+    400114: warewolf_MASTER:toe_11_L_JNT
+    400116: warewolf_MASTER:toe_11_R_JNT
+    400118: warewolf_MASTER:toe_13_L_JNT
+    400120: warewolf_MASTER:toe_13_R_JNT
+    400122: warewolf_MASTER:toe_14_L_JNT
+    400124: warewolf_MASTER:toe_14_R_JNT
+    400126: warewolf_MASTER:toe_15_L_JNT
+    400128: warewolf_MASTER:toe_15_R_JNT
+    400130: warewolf_MASTER:toe_1_L_JNT
+    400132: warewolf_MASTER:toe_1_R_JNT
+    400134: warewolf_MASTER:toe_2_L_JNT
+    400136: warewolf_MASTER:toe_2_R_JNT
+    400138: warewolf_MASTER:toe_3_L_JNT
+    400140: warewolf_MASTER:toe_3_R_JNT
+    400142: warewolf_MASTER:toe_5_L_JNT
+    400144: warewolf_MASTER:toe_5_R_JNT
+    400146: warewolf_MASTER:toe_6_L_JNT
+    400148: warewolf_MASTER:toe_6_R_JNT
+    400150: warewolf_MASTER:toe_7_L_JNT
+    400152: warewolf_MASTER:toe_7_R_JNT
+    400154: warewolf_MASTER:toe_9_L_JNT
+    400156: warewolf_MASTER:toe_9_R_JNT
+    400158: warewolf_MASTER:upperArm_L_JNT
+    400160: warewolf_MASTER:upperArm_R_JNT
+    400162: warewolf_MASTER:upperLeg_L_JNT
+    400164: warewolf_MASTER:upperLeg_L_JNT1
+    400166: warewolf_MASTER:warewolf_mesh
+    400168: warewolf_MASTER:warewolf_RIG
+    400170: warewolf_MASTER:waste_JNT
+    400172: //RootNode
+    4300000: warewolf_MASTER:warewolf_mesh
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: warewolf_MASTER:warewolf_mesh
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.5679715
+        functionName: Footsteps
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9902135
+        functionName: Footsteps
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
