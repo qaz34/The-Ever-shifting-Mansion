@@ -64,30 +64,35 @@ public class HuskAI : MonoBehaviour
             if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
             {
                 transform.forward = player.transform.position - transform.position;
-              
+
 
                 if (weapon && Time.time - lastAttacked > weapon.fireRate)
                 {
                     lastAttacked = Time.time;
-                    player.GetComponent<Health>().CurrentHealth -= weapon.damage;
                     animator.SetTrigger("AttackWeak");
-                    audioSource.clip = attackClip;
-                    audioSource.Play();
+                    agent.SetDestination(transform.position);
                 }
-                agent.SetDestination(transform.position);
-            }
-            else
-            {
-                agent.SetDestination(player.transform.position);
+                else
+                {
+                    agent.SetDestination(player.transform.position);
 
+                }
             }
+
+            UpdateAnimator();
+            prevPos = transform.position;
+            prevDir = transform.forward;
         }
-
-        UpdateAnimator();
-        prevPos = transform.position;
-        prevDir = transform.forward;
     }
-
+    public void Damage()
+    {
+        if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
+        {
+            player.GetComponent<Health>().CurrentHealth -= weapon.damage;
+            audioSource.clip = attackClip;
+            audioSource.Play();
+        }
+    }
     void UpdateAnimator()
     {
         float speed = (transform.position - prevPos).magnitude / Time.deltaTime;
