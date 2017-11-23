@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(AudioSource))]
 public class HuskAI : MonoBehaviour
 {
     NavMeshAgent agent;
@@ -15,10 +16,16 @@ public class HuskAI : MonoBehaviour
     Vector3 prevPos = new Vector3();
     Vector3 prevDir = new Vector3();
     Animator animator;
+    AudioSource audioSource;
+    public AudioClip attackClip;
+    public AudioClip passiveClip;
+    public AudioClip spotted;
+    public AudioClip death;
 
     // Use this for initialization
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -48,6 +55,8 @@ public class HuskAI : MonoBehaviour
             if (inverseTime > 1 || (hit.transform && (angle < 45 && hit.transform.tag == "Player") && hit.transform.GetComponent<CharacterCont>().currentSpeed > .1f))
             {
                 hasSeen = true;
+                audioSource.clip = spotted;
+                audioSource.Play();
             }
         }
         if (hasSeen)
@@ -55,12 +64,15 @@ public class HuskAI : MonoBehaviour
             if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
             {
                 transform.forward = player.transform.position - transform.position;
+              
 
                 if (weapon && Time.time - lastAttacked > weapon.fireRate)
                 {
                     lastAttacked = Time.time;
                     player.GetComponent<Health>().CurrentHealth -= weapon.damage;
                     animator.SetTrigger("AttackWeak");
+                    audioSource.clip = attackClip;
+                    audioSource.Play();
                 }
                 agent.SetDestination(transform.position);
             }
