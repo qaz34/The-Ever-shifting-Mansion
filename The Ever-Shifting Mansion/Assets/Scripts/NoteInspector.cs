@@ -11,7 +11,7 @@ public class NoteInspector : MonoBehaviour
         if (device.Action1.WasPressed)
         {
             GameObject.FindGameObjectWithTag("Player").SendMessage("SetEnabled", true);
-            Destroy(this);
+            Destroy(this.gameObject);
         }
     }
 }

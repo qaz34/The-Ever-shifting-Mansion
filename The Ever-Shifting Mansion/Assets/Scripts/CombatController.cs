@@ -54,9 +54,10 @@ public class CombatController : MonoBehaviour
         mask = ~mask;
         foreach (var target in hits)
         {
-            if (!Physics.Raycast(transform.position, (target.transform.position - transform.position).normalized, (target.transform.position - transform.position).magnitude, mask))
+            if (!Physics.Raycast(raycastPosition.position, (target.transform.position - transform.position).normalized, (target.transform.position - transform.position).magnitude, mask))
             {
-                validTargets.Add(new Target(Vector3.Distance(transform.position, target.transform.position), target.gameObject));
+                if (target.GetComponent<Health>().alive)
+                    validTargets.Add(new Target(Vector3.Distance(transform.position, target.transform.position), target.gameObject));
             }
         }
         if (validTargets.Count > 0)
@@ -111,27 +112,35 @@ public class CombatController : MonoBehaviour
                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                     }
                 }
-                if (device.RightTrigger.WasPressed)
+                if (device.RightTrigger.IsPressed)
                 {
                     if (equipWeapon.Fire(raycastPosition))
                     {
                         GetComponent<Animator>().SetTrigger("Fire");
 
                         // play the current weapons sounds TODO
-                        audioSource.clip = equipWeapon.soundEffect;
-                        audioSource.Play();
+                        if (equipWeapon.soundEffect)
+                        {
+                            audioSource.clip = equipWeapon.soundEffect;
+                            audioSource.Play();
+                        }
                     }
                     if (equipWeapon.type != WepType.MELEE)
                     {
                         fired?.Invoke();
                     }
                 }
+                else
+                {
+                    equipWeapon.fired = false;
+                }
+
                 if (device.Action3.WasPressed)
                 {
                     if (equipWeapon.type != WepType.MELEE)
                         foreach (var ammo in GetComponent<Inventory>().ammo.Where(i => i.ammoType == ((RangedWep)equipWeapon).ammoType))
                         {
-                            if(((RangedWep)equipWeapon).Reload(ammo) && ((RangedWep)equipWeapon).left != 0)
+                            if (((RangedWep)equipWeapon).Reload(ammo) && ((RangedWep)equipWeapon).left != 0)
                             {
                                 GetComponent<Animator>().SetTrigger("Reload");
                             }

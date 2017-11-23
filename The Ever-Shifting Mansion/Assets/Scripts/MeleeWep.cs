@@ -13,16 +13,28 @@ public class MeleeWep : Weapon
     public float knockBackAngle = 10;
     public override bool Fire(Transform position)
     {
-        var hits = Physics.OverlapSphere(position.position, arcRadius, 1 << LayerMask.NameToLayer("Target"));
-        foreach (var hit in hits)
+        if (!fired)
         {
-            var to = (hit.transform.position - position.position);
-            to.y = 0;
-            if (Vector3.Angle(position.forward, to) < arcAngle)
+            if (fireRate < Time.time - lastFired)
             {
-                hit.transform.GetComponent<Health>().CurrentHealth -= damage;
+                lastFired = Time.time;
+                var hits = Physics.OverlapSphere(position.position, arcRadius, 1 << LayerMask.NameToLayer("Target"));
+                foreach (var hit in hits)
+                {
+                    var to = (hit.transform.position - position.position);
+                    to.y = 0;
+                    if (Vector3.Angle(position.forward, to) < arcAngle)
+                    {
+                        hit.transform.GetComponent<Health>().CurrentHealth -= damage;
+                    }
+                }
+                if (!holdToFire)
+                    fired = true;
+                return true;
             }
+            if (!holdToFire)
+                fired = true;
         }
-        return true;
+        return false;
     }
 }
