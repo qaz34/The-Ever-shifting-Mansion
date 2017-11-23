@@ -82,7 +82,7 @@ public class CombatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (equipWeapon)
+        if (equipWeapon && Time.timeScale == 1)
         {
             GetComponent<Animator>().SetBool("HoldingGun", true);
             InputDevice device = InputManager.ActiveDevice;
