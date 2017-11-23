@@ -1,0 +1,259 @@
+fileFormatVersion: 2
+guid: 00d72c51798f73d4c84d32d574f62ad2
+timeCreated: 1511396161
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: ball_L_JNT
+    100002: ball_L_JNT 1
+    100004: chest_JNT
+    100006: elbow_L_JNT
+    100008: elbow_R_JNT
+    100010: foot_L_END
+    100012: foot_L_END 1
+    100014: foot_L_JNT
+    100016: foot_L_JNT 1
+    100018: hand_L_JNT
+    100020: hand_R_JNT
+    100022: head_JNT
+    100024: index_1_L_JNT
+    100026: index_1_R_JNT
+    100028: index_2_L_JNT
+    100030: index_2_R_JNT
+    100032: index_3_L_JNT
+    100034: index_3_R_JNT
+    100036: jaw_JNT
+    100038: knee_L_JNT
+    100040: knee_L_JNT 1
+    100042: middle_1_L_JNT
+    100044: middle_1_R_JNT
+    100046: middle_2_L_JNT
+    100048: middle_2_R_JNT
+    100050: middle_3_L_JNT
+    100052: middle_3_R_JNT
+    100054: neck_JNT
+    100056: pinky_1_L_JNT
+    100058: pinky_1_R_JNT
+    100060: pinky_2_L_JNT
+    100062: pinky_2_R_JNT
+    100064: pinky_3_L_JNT
+    100066: pinky_3_R_JNT
+    100068: ring_1_L_JNT
+    100070: ring_1_R_JNT
+    100072: ring_2_L_JNT
+    100074: ring_2_R_JNT
+    100076: ring_3_L_JNT
+    100078: ring_3_R_JNT
+    100080: root_JNT
+    100082: shoulder_1_L_JNT
+    100084: shoulder_1_R_JNT
+    100086: shoulder_2_R_END
+    100088: tail_1_JNT
+    100090: tail_2_JNT
+    100092: tail_3_JNT
+    100094: tail_4_JNT
+    100096: tail_5_JNT
+    100098: thumb_1_L_JNT
+    100100: thumb_1_R_JNT
+    100102: thumb_2_L_JNT
+    100104: thumb_2_R_JNT
+    100106: thumb_3_L_JNT
+    100108: thumb_3_R_JNT
+    100110: toe_10_L_JNT
+    100112: toe_10_R_JNT
+    100114: toe_11_L_JNT
+    100116: toe_11_R_JNT
+    100118: toe_13_L_JNT
+    100120: toe_13_R_JNT
+    100122: toe_14_L_JNT
+    100124: toe_14_R_JNT
+    100126: toe_15_L_JNT
+    100128: toe_15_R_JNT
+    100130: toe_1_L_JNT
+    100132: toe_1_R_JNT
+    100134: toe_2_L_JNT
+    100136: toe_2_R_JNT
+    100138: toe_3_L_JNT
+    100140: toe_3_R_JNT
+    100142: toe_5_L_JNT
+    100144: toe_5_R_JNT
+    100146: toe_6_L_JNT
+    100148: toe_6_R_JNT
+    100150: toe_7_L_JNT
+    100152: toe_7_R_JNT
+    100154: toe_9_L_JNT
+    100156: toe_9_R_JNT
+    100158: upperArm_L_JNT
+    100160: upperArm_R_JNT
+    100162: upperLeg_L_JNT
+    100164: upperLeg_L_JNT1
+    100166: warewolf_mesh
+    100168: warewolf_RIG
+    100170: //RootNode
+    100172: waste_JNT
+    400000: ball_L_JNT
+    400002: ball_L_JNT 1
+    400004: chest_JNT
+    400006: elbow_L_JNT
+    400008: elbow_R_JNT
+    400010: foot_L_END
+    400012: foot_L_END 1
+    400014: foot_L_JNT
+    400016: foot_L_JNT 1
+    400018: hand_L_JNT
+    400020: hand_R_JNT
+    400022: head_JNT
+    400024: index_1_L_JNT
+    400026: index_1_R_JNT
+    400028: index_2_L_JNT
+    400030: index_2_R_JNT
+    400032: index_3_L_JNT
+    400034: index_3_R_JNT
+    400036: jaw_JNT
+    400038: knee_L_JNT
+    400040: knee_L_JNT 1
+    400042: middle_1_L_JNT
+    400044: middle_1_R_JNT
+    400046: middle_2_L_JNT
+    400048: middle_2_R_JNT
+    400050: middle_3_L_JNT
+    400052: middle_3_R_JNT
+    400054: neck_JNT
+    400056: pinky_1_L_JNT
+    400058: pinky_1_R_JNT
+    400060: pinky_2_L_JNT
+    400062: pinky_2_R_JNT
+    400064: pinky_3_L_JNT
+    400066: pinky_3_R_JNT
+    400068: ring_1_L_JNT
+    400070: ring_1_R_JNT
+    400072: ring_2_L_JNT
+    400074: ring_2_R_JNT
+    400076: ring_3_L_JNT
+    400078: ring_3_R_JNT
+    400080: root_JNT
+    400082: shoulder_1_L_JNT
+    400084: shoulder_1_R_JNT
+    400086: shoulder_2_R_END
+    400088: tail_1_JNT
+    400090: tail_2_JNT
+    400092: tail_3_JNT
+    400094: tail_4_JNT
+    400096: tail_5_JNT
+    400098: thumb_1_L_JNT
+    400100: thumb_1_R_JNT
+    400102: thumb_2_L_JNT
+    400104: thumb_2_R_JNT
+    400106: thumb_3_L_JNT
+    400108: thumb_3_R_JNT
+    400110: toe_10_L_JNT
+    400112: toe_10_R_JNT
+    400114: toe_11_L_JNT
+    400116: toe_11_R_JNT
+    400118: toe_13_L_JNT
+    400120: toe_13_R_JNT
+    400122: toe_14_L_JNT
+    400124: toe_14_R_JNT
+    400126: toe_15_L_JNT
+    400128: toe_15_R_JNT
+    400130: toe_1_L_JNT
+    400132: toe_1_R_JNT
+    400134: toe_2_L_JNT
+    400136: toe_2_R_JNT
+    400138: toe_3_L_JNT
+    400140: toe_3_R_JNT
+    400142: toe_5_L_JNT
+    400144: toe_5_R_JNT
+    400146: toe_6_L_JNT
+    400148: toe_6_R_JNT
+    400150: toe_7_L_JNT
+    400152: toe_7_R_JNT
+    400154: toe_9_L_JNT
+    400156: toe_9_R_JNT
+    400158: upperArm_L_JNT
+    400160: upperArm_R_JNT
+    400162: upperLeg_L_JNT
+    400164: upperLeg_L_JNT1
+    400166: warewolf_mesh
+    400168: warewolf_RIG
+    400170: //RootNode
+    400172: waste_JNT
+    4300000: warewolf_mesh
+    9500000: //RootNode
+    13700000: warewolf_mesh
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
