@@ -17,6 +17,7 @@ public class CombatController : MonoBehaviour
     float timeLastShot;
     bool switched;
     public Transform raycastPosition;
+    AudioSource audioSource;
     List<Target> validTargetsSorted = new List<Target>();
 
     struct Target
@@ -117,8 +118,8 @@ public class CombatController : MonoBehaviour
                         GetComponent<Animator>().SetTrigger("Fire");
 
                         // play the current weapons sounds TODO
-                        //audioSource.clip = equipWeapon.clip;
-                        //audioSource.Play();
+                        audioSource.clip = equipWeapon.soundEffect;
+                        audioSource.Play();
                     }
                     if (equipWeapon.type != WepType.MELEE)
                     {

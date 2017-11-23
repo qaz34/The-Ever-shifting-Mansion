@@ -39,7 +39,7 @@ public class CameraTrigger : MonoBehaviour
                     player.amIn[player.amIn.Count - 1].connectedCamera.gameObject.SetActive(true);
                 }
             }
-            if (player.amIn[player.amIn.Count - 1].connectedCamera != player.currentCamera)
+            if (player.amIn.Count == 0 || player.amIn[player.amIn.Count - 1].connectedCamera != player.currentCamera || player.currentCamera == null)
                 connectedCamera.gameObject.SetActive(false);
         }
     }

@@ -18,11 +18,13 @@ public enum AmmoType
 
 public class Weapon : Item
 {
+    AudioSource audioSource;
     public int damage = 10;
     [Tooltip("Rounds per second")]
     public float fireRate = 1;
     public bool holdToFire;
     public WepType type;
+    public AudioClip soundEffect;
     protected float lastFired;
     public override void PickUp()
     {
