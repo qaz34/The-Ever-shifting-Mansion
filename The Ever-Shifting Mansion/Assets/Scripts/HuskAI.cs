@@ -84,9 +84,8 @@ public class HuskAI : MonoBehaviour
         else
         {
             agent.enabled = false;
-            if (GetComponent<NavMeshObstacle>())
+            if (GetComponent<Collider>())
             {
-                Destroy(GetComponent<NavMeshObstacle>());
                 Destroy(GetComponent<Collider>());
             }
         }
