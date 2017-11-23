@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using InControl;
+using UnityEngine.UI;
 public class MainMenuGen : MonoBehaviour
 {
     public MapGenScriptiable mapGen;
@@ -14,6 +15,8 @@ public class MainMenuGen : MonoBehaviour
     public GameObject playerPrefab;
     public bool moving = true;
     GameObject player;
+    public GameObject pauseMenu;
+
     public void Start()
     {
     }
@@ -37,8 +40,8 @@ public class MainMenuGen : MonoBehaviour
         player = Instantiate(playerPrefab);
         player.transform.position = new Vector3(-100, -100, -100);
         DontDestroyOnLoad(player);
-        Load(gen.rooms[0]);
 
+        StartCoroutine(ShowControls());
     }
     public void Load(RoomScriptable room)
     {
@@ -129,15 +132,19 @@ public class MainMenuGen : MonoBehaviour
                 go.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
             }
     }
-    //public void SpawnItems()
-    //{
-    //    List<Spawner> spawner = GameObject.FindGameObjectWithTag("ItemSpawn")?.GetComponentsInChildren<Spawner>().ToList();
-    //    if (spawner != null)
-    //        for (int i = 0; i < roomLoading.enemiesInRoom; i++)
-    //        {
-    //            GameObject go = Instantiate(spawner[i].enemy);
-    //            go.transform.position = spawner[i].transform.position;
-    //            spawner.RemoveAt(i);
-    //        }
-    //}
+    IEnumerator ShowControls()
+    {
+        var go = Instantiate(pauseMenu);
+        
+        while (true)
+        {
+            if (InputManager.ActiveDevice.Action1.IsPressed)
+            {
+                break;
+            }
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        go.GetComponent<PauseMenu>().pauseCanvas.SetActive(false);
+        Load(mapGen.rooms[0]);
+    }
 }
