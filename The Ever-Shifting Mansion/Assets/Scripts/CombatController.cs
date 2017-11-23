@@ -56,7 +56,8 @@ public class CombatController : MonoBehaviour
         {
             if (!Physics.Raycast(raycastPosition.position, (target.transform.position - transform.position).normalized, (target.transform.position - transform.position).magnitude, mask))
             {
-                validTargets.Add(new Target(Vector3.Distance(transform.position, target.transform.position), target.gameObject));
+                if (target.GetComponent<Health>().alive)
+                    validTargets.Add(new Target(Vector3.Distance(transform.position, target.transform.position), target.gameObject));
             }
         }
         if (validTargets.Count > 0)
