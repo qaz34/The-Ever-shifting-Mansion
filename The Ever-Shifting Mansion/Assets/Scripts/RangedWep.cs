@@ -46,9 +46,7 @@ public class RangedWep : Weapon
     }
     public override bool Fire(Transform position)
     {
-        if (lastFired > Time.time)
-            lastFired = 0;
-        if (left > 0 && !reloading)
+        if (left > 0 && !reloading && !fired)
         {
             if (fireRate < Time.time - lastFired)
             {
@@ -67,6 +65,8 @@ public class RangedWep : Weapon
                 }
                 return true;
             }
+            if (!holdToFire)
+                fired = true;
         }
         else
         {
@@ -76,7 +76,7 @@ public class RangedWep : Weapon
                     if (ammo.amount > 0)
                     {
                         GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetTrigger("Reload");
-                      
+
                         Reload(ammo);
                     }
                 }

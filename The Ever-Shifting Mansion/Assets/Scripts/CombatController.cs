@@ -112,7 +112,7 @@ public class CombatController : MonoBehaviour
                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                     }
                 }
-                if (device.RightTrigger.WasPressed)
+                if (device.RightTrigger.IsPressed)
                 {
                     if (equipWeapon.Fire(raycastPosition))
                     {
@@ -130,6 +130,11 @@ public class CombatController : MonoBehaviour
                         fired?.Invoke();
                     }
                 }
+                else
+                {
+                    equipWeapon.fired = false;
+                }
+
                 if (device.Action3.WasPressed)
                 {
                     if (equipWeapon.type != WepType.MELEE)
