@@ -10,15 +10,18 @@ public class HuskAI : MonoBehaviour
     public Weapon weapon;
     float lastAttacked;
     public bool hasSeen = false;
+    bool attacking;
 
     public AnimationCurve speedDistanceTrigger;
     Vector3 prevPos = new Vector3();
     Vector3 prevDir = new Vector3();
     Animator animator;
+    float timeBorn;
 
     // Use this for initialization
     void Start()
     {
+        timeBorn = Time.time;
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -33,49 +36,68 @@ public class HuskAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!hasSeen)
+        if (GetComponent<Health>().alive)
         {
-            int mask = 1 << LayerMask.NameToLayer("Ignore Raycast");
-            mask = ~mask;
-            RaycastHit hit;
-            Vector3 toPlayer = player.transform.position - transform.position;
-            Physics.Raycast(transform.position, toPlayer.normalized, out hit, toPlayer.magnitude);
-            CharacterCont cc = player.GetComponent<CharacterCont>();
-            float speed = cc.currentSpeed;
-            float distance = Vector3.Distance(transform.position, player.transform.position);
-            float inverseTime = (speed / distance);
-            float angle = Vector3.Angle(transform.forward, player.transform.position - transform.position);
-            if (inverseTime > 1 || (hit.transform && (angle < 45 && hit.transform.tag == "Player") && hit.transform.GetComponent<CharacterCont>().currentSpeed > .1f))
+            if (!hasSeen)
             {
-                hasSeen = true;
-            }
-        }
-        if (hasSeen)
-        {
-            if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
-            {
-                transform.forward = player.transform.position - transform.position;
-
-                if (weapon && Time.time - lastAttacked > weapon.fireRate)
+                int mask = 1 << LayerMask.NameToLayer("Ignore Raycast");
+                mask = ~mask;
+                RaycastHit hit;
+                Vector3 toPlayer = player.transform.position - transform.position;
+                Physics.Raycast(transform.position, toPlayer.normalized, out hit, toPlayer.magnitude);
+                CharacterCont cc = player.GetComponent<CharacterCont>();
+                float speed = cc.currentSpeed;
+                float distance = Vector3.Distance(transform.position, player.transform.position);
+                float inverseTime = (speed / distance);
+                float angle = Vector3.Angle(transform.forward, player.transform.position - transform.position);
+                if (inverseTime > 1 || (hit.transform && (angle < 45 && hit.transform.tag == "Player") && (hit.transform.GetComponent<CharacterCont>().currentSpeed > .1f) || Time.time - timeBorn > 1))
                 {
-                    lastAttacked = Time.time;
-                    player.GetComponent<Health>().CurrentHealth -= weapon.damage;
-                    animator.SetTrigger("AttackWeak");
+                    hasSeen = true;
                 }
-                agent.SetDestination(transform.position);
             }
-            else
+            if (hasSeen)
             {
-                agent.SetDestination(player.transform.position);
+                if (Time.time - lastAttacked > weapon.fireRate)
+                    attacking = false;
+                if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
+                {
+                    attacking = true;
+                    transform.forward = player.transform.position - transform.position;
+                    if (weapon && Time.time - lastAttacked > weapon.fireRate)
+                    {
+                        lastAttacked = Time.time;
+                        animator.SetTrigger("AttackWeak");
+                    }
+                    agent.SetDestination(transform.position);
+                }
+                else if (!attacking)
+                {
+                    agent.SetDestination(player.transform.position);
 
+                }
+            }
+
+            UpdateAnimator();
+            prevPos = transform.position;
+            prevDir = transform.forward;
+        }
+        else
+        {
+            agent.enabled = false;
+            if (GetComponent<NavMeshObstacle>())
+            {
+                Destroy(GetComponent<NavMeshObstacle>());
+                Destroy(GetComponent<Collider>());
             }
         }
-
-        UpdateAnimator();
-        prevPos = transform.position;
-        prevDir = transform.forward;
     }
-
+    public void Damage()
+    {
+        if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius * 1.5f : 1.5f))
+        {
+            player.GetComponent<Health>().CurrentHealth -= weapon.damage;
+        }
+    }
     void UpdateAnimator()
     {
         float speed = (transform.position - prevPos).magnitude / Time.deltaTime;

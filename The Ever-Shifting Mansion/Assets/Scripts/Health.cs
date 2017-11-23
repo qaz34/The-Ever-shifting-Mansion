@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
 {
     int health;
     public int maxHealth;
+    public bool alive = true;
     public int CurrentHealth
     {
         get
@@ -16,10 +17,15 @@ public class Health : MonoBehaviour
         }
         set
         {
+            if (value < health)
+            {
+                GetComponent<Animator>().SetTrigger("Flinch");
+            }
             health = value;
             if (GameObject.FindGameObjectWithTag("MapGen"))
                 if (health <= 0)
                 {
+                    alive = false;
                     health = 0;
                     isDead = true;
                     if (tag == "Player")
@@ -34,10 +40,11 @@ public class Health : MonoBehaviour
                     }
                     else
                     {
-
+                        GetComponent<Animator>().SetBool("Alive", false);
                         GameObject.FindGameObjectWithTag("MapGen").GetComponent<MainMenuGen>().currentRoom.enemiesInRoom--;
                     }
-                    gameObject.SetActive(false);
+
+                    //gameObject.SetActive(false);
                 }
         }
     }
@@ -48,13 +55,12 @@ public class Health : MonoBehaviour
         health = maxHealth;
     }
 
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    InputDevice device = InputManager.ActiveDevice;
-    //    if (device.DPad.Left.WasPressed)
+    //    void Update()
     //    {
-    //        CurrentHealth -= 10;
+    //        InputDevice device = InputManager.ActiveDevice;
+    //        if (device.DPad.Left.WasPressed)
+    //        {
+    //            CurrentHealth -= 10;
+    //        }
     //    }
-    //}
 }
