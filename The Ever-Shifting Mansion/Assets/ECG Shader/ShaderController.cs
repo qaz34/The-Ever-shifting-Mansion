@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class ShaderController : MonoBehaviour
 {
@@ -42,22 +43,29 @@ public class ShaderController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        mat = GetComponent<MeshRenderer>().material;
+        if (GetComponent<MeshRenderer>())
+            mat = GetComponent<MeshRenderer>().material;
+        else
+            mat = GetComponent<Image>().material;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        mat.SetFloat("_Timer", speedUp * Time.time);
         if (GameObject.FindGameObjectWithTag("Player"))
         {
-            int index = GetCurrentSettings((float)GameObject.FindGameObjectWithTag("Player").GetComponent<Health>().CurrentHealth / (float)GameObject.FindGameObjectWithTag("Player").GetComponent<Health>().maxHealth);
-            if (currentSettingsIndex != index)
+            mat.SetFloat("_Timer", speedUp * Time.time);
+            if (GameObject.FindGameObjectWithTag("Player"))
             {
-                currentSettingsIndex = index;
-                mat.color = settings[currentSettingsIndex].color;
-                mat.mainTexture = settings[currentSettingsIndex].texture;
-                speedUp = settings[currentSettingsIndex].speed;
+                int index = GetCurrentSettings((float)GameObject.FindGameObjectWithTag("Player").GetComponent<Health>().CurrentHealth / (float)GameObject.FindGameObjectWithTag("Player").GetComponent<Health>().maxHealth);
+                if (currentSettingsIndex != index)
+                {
+                    currentSettingsIndex = index;
+                    mat.color = settings[currentSettingsIndex].color;
+                    mat.mainTexture = settings[currentSettingsIndex].texture;
+                    speedUp = settings[currentSettingsIndex].speed;
+                }
             }
         }
     }
