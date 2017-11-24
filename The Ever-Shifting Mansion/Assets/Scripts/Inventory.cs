@@ -36,6 +36,7 @@ public class Inventory : MonoBehaviour
                     currentlyEquipWeapon = (currentlyEquipWeapon + 1) % weapons.Count;
             }
         }
+        GetComponent<CombatController>().ammoChanged?.Invoke();
         Debug.Log("NO WEAPONS");
     }
     void Update()

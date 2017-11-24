@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using InControl;
+using UnityEngine.UI;
 public class MainMenuGen : MonoBehaviour
 {
     public MapGenScriptiable mapGen;
@@ -14,6 +15,8 @@ public class MainMenuGen : MonoBehaviour
     public GameObject playerPrefab;
     public bool moving = true;
     GameObject player;
+    public GameObject pauseMenu;
+
     public void Start()
     {
     }
@@ -28,17 +31,19 @@ public class MainMenuGen : MonoBehaviour
 
     public void NewGame()
     {
-        MapGenScriptiable gen = Instantiate(mapGen);
-        //Instantiate new copies of the rooms into the gen
-        gen.GenMap();
-        mapGen = gen;
-        DontDestroyOnLoad(mapGen);
-        currentRoom = gen.rooms[0];
-        player = Instantiate(playerPrefab);
-        player.transform.position = new Vector3(-100, -100, -100);
-        DontDestroyOnLoad(player);
-        Load(gen.rooms[0]);
-
+        if (!GameObject.FindGameObjectWithTag("Player"))
+        {
+            MapGenScriptiable gen = Instantiate(mapGen);
+            //Instantiate new copies of the rooms into the gen
+            gen.GenMap();
+            mapGen = gen;
+            DontDestroyOnLoad(mapGen);
+            currentRoom = gen.rooms[0];
+            player = Instantiate(playerPrefab);
+            player.transform.position = new Vector3(-100, -100, -100);
+            DontDestroyOnLoad(player);
+            StartCoroutine(ShowControls());
+        }
     }
     public void Load(RoomScriptable room)
     {
@@ -98,7 +103,7 @@ public class MainMenuGen : MonoBehaviour
             if (itemSpawns.Count == 0)
                 break;
             var itemSpawn = itemSpawns[Random.Range(0, itemSpawns.Count)];
-            Debug.Log(currentRoom.grabbedList.Contains(item.Key));
+
             if (!currentRoom.grabbedList.Contains(item.Key))
             {
                 itemSpawn.GetComponent<ItemInScene>().item = item.Value;
@@ -129,15 +134,19 @@ public class MainMenuGen : MonoBehaviour
                 go.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
             }
     }
-    //public void SpawnItems()
-    //{
-    //    List<Spawner> spawner = GameObject.FindGameObjectWithTag("ItemSpawn")?.GetComponentsInChildren<Spawner>().ToList();
-    //    if (spawner != null)
-    //        for (int i = 0; i < roomLoading.enemiesInRoom; i++)
-    //        {
-    //            GameObject go = Instantiate(spawner[i].enemy);
-    //            go.transform.position = spawner[i].transform.position;
-    //            spawner.RemoveAt(i);
-    //        }
-    //}
+    IEnumerator ShowControls()
+    {
+        var go = Instantiate(pauseMenu);
+        yield return new WaitForSeconds(1);
+        while (true)
+        {
+            if (InputManager.ActiveDevice.AnyButton.IsPressed)
+            {
+                break;
+            }
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        go.GetComponent<PauseMenu>().pauseCanvas.SetActive(false);
+        Load(mapGen.rooms[0]);
+    }
 }
