@@ -10,6 +10,7 @@ Shader "Unlit/ECG"
 		_Scale("Scale", float) = 3
 		_Timer("Timer", float) = 0
 		_Color("Color", Color) = (0,1,0,1)
+		_BackgroundColor("Background", Color) = (0,0,0,0.5)
 	}
 		SubShader
 		{
@@ -48,6 +49,7 @@ Shader "Unlit/ECG"
 				float _Scale;
 				float _Timer;
 				fixed4 _Color;
+				fixed4 _BackgroundColor;
 
 				v2f vert(appdata v)
 				{
@@ -67,7 +69,7 @@ Shader "Unlit/ECG"
 					{
 						//trail = 0;
 					}
-					trail = cos(trail);
+					trail = sin(trail);
 
 					float intensity = trail*trail;
 					intensity = 1 - intensity;
@@ -84,7 +86,7 @@ Shader "Unlit/ECG"
 					fixed4 red = fixed4(intensity * 0.1f, 0, 0, 1) * tex2D(_MainTex, i.uv);
 
 					fixed4 col;
-					col = _Color * intensity * tex2D(_MainTex, i.uv);
+					col = lerp(_BackgroundColor, _Color * tex2D(_MainTex, i.uv), intensity);
 					//col.a = 1;
 
 					// apply fog

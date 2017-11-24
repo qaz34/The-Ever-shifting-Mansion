@@ -31,17 +31,19 @@ public class MainMenuGen : MonoBehaviour
 
     public void NewGame()
     {
-        MapGenScriptiable gen = Instantiate(mapGen);
-        //Instantiate new copies of the rooms into the gen
-        gen.GenMap();
-        mapGen = gen;
-        DontDestroyOnLoad(mapGen);
-        currentRoom = gen.rooms[0];
-        player = Instantiate(playerPrefab);
-        player.transform.position = new Vector3(-100, -100, -100);
-        DontDestroyOnLoad(player);
-
-        StartCoroutine(ShowControls());
+        if (!GameObject.FindGameObjectWithTag("Player"))
+        {
+            MapGenScriptiable gen = Instantiate(mapGen);
+            //Instantiate new copies of the rooms into the gen
+            gen.GenMap();
+            mapGen = gen;
+            DontDestroyOnLoad(mapGen);
+            currentRoom = gen.rooms[0];
+            player = Instantiate(playerPrefab);
+            player.transform.position = new Vector3(-100, -100, -100);
+            DontDestroyOnLoad(player);
+            StartCoroutine(ShowControls());
+        }
     }
     public void Load(RoomScriptable room)
     {
@@ -101,7 +103,7 @@ public class MainMenuGen : MonoBehaviour
             if (itemSpawns.Count == 0)
                 break;
             var itemSpawn = itemSpawns[Random.Range(0, itemSpawns.Count)];
-            Debug.Log(currentRoom.grabbedList.Contains(item.Key));
+
             if (!currentRoom.grabbedList.Contains(item.Key))
             {
                 itemSpawn.GetComponent<ItemInScene>().item = item.Value;
@@ -135,10 +137,10 @@ public class MainMenuGen : MonoBehaviour
     IEnumerator ShowControls()
     {
         var go = Instantiate(pauseMenu);
-        
+        yield return new WaitForSeconds(1);
         while (true)
         {
-            if (InputManager.ActiveDevice.Action1.IsPressed)
+            if (InputManager.ActiveDevice.AnyButton.IsPressed)
             {
                 break;
             }

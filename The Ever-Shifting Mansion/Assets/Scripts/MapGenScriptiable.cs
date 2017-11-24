@@ -383,13 +383,11 @@ public class MapGenScriptiable : ScriptableObject
             {
                 if (!CheckMap())
                 {
-                    Debug.Log("Failed Map");
                     Debug.Log(placed.Count);
                     continue;
                 }
                 if (!RandomWeapons())
                 {
-                    Debug.Log("Failed Wep");
                     continue;
                 }
             }
