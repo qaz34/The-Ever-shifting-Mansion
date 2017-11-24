@@ -6,11 +6,13 @@ public class ammoCounter : MonoBehaviour
 {
     void Start()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<CombatController>().ammoChanged += AmmoChange;
+        if (GameObject.FindGameObjectWithTag("Player"))
+            GameObject.FindGameObjectWithTag("Player").GetComponent<CombatController>().ammoChanged += AmmoChange;
     }
     void OnDisable()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<CombatController>().ammoChanged -= AmmoChange;
+        if (GameObject.FindGameObjectWithTag("Player"))
+            GameObject.FindGameObjectWithTag("Player").GetComponent<CombatController>().ammoChanged -= AmmoChange;
     }
     void Update()
     {
