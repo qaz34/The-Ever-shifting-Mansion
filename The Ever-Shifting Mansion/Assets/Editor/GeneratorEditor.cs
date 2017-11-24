@@ -264,10 +264,11 @@ public class GeneratorEditor : Editor
         if (GUILayout.Button("Generate Map"))
         {
             Undo.RecordObject(gen, "gen changed");
-
-            gen.GenMap();
+            
+            gen.GenMap();         
             EditorUtility.SetDirty(gen);
         }
         AssetDatabase.SaveAssets();
     }
+ 
 }
