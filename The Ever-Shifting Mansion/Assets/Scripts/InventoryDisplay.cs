@@ -65,6 +65,7 @@ public class InventoryDisplay : MonoBehaviour
                     if (!minimap)
                     {
                         minimap = Instantiate(minimapPref);
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<CombatController>().ammoChanged?.Invoke();
                     }
                     else
                     {
