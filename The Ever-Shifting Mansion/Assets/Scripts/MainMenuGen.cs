@@ -31,17 +31,19 @@ public class MainMenuGen : MonoBehaviour
 
     public void NewGame()
     {
-        MapGenScriptiable gen = Instantiate(mapGen);
-        //Instantiate new copies of the rooms into the gen
-        gen.GenMap();
-        mapGen = gen;
-        DontDestroyOnLoad(mapGen);
-        currentRoom = gen.rooms[0];
-        player = Instantiate(playerPrefab);
-        player.transform.position = new Vector3(-100, -100, -100);
-        DontDestroyOnLoad(player);
-
-        StartCoroutine(ShowControls());
+        if (!GameObject.FindGameObjectWithTag("Player"))
+        {
+            MapGenScriptiable gen = Instantiate(mapGen);
+            //Instantiate new copies of the rooms into the gen
+            gen.GenMap();
+            mapGen = gen;
+            DontDestroyOnLoad(mapGen);
+            currentRoom = gen.rooms[0];
+            player = Instantiate(playerPrefab);
+            player.transform.position = new Vector3(-100, -100, -100);
+            DontDestroyOnLoad(player);
+            StartCoroutine(ShowControls());
+        }
     }
     public void Load(RoomScriptable room)
     {
@@ -135,7 +137,7 @@ public class MainMenuGen : MonoBehaviour
     IEnumerator ShowControls()
     {
         var go = Instantiate(pauseMenu);
-        
+
         while (true)
         {
             if (InputManager.ActiveDevice.Action1.IsPressed)
