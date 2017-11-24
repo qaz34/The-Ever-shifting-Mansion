@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(AudioSource))]
 public class HuskAI : MonoBehaviour
 {
     NavMeshAgent agent;
@@ -10,24 +11,28 @@ public class HuskAI : MonoBehaviour
     public Weapon weapon;
     float lastAttacked;
     public bool hasSeen = false;
-    bool attacking;
-
+    float spawnTime;
     public AnimationCurve speedDistanceTrigger;
     Vector3 prevPos = new Vector3();
     Vector3 prevDir = new Vector3();
     Animator animator;
-    float timeBorn;
+    AudioSource audioSource;
+    public AudioClip attackClip;
+    public AudioClip passiveClip;
+    public AudioClip spotted;
+    public AudioClip death;
 
     // Use this for initialization
     void Start()
     {
-        timeBorn = Time.time;
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<CombatController>().fired += FiredWeapon;
         prevPos = transform.position;
         prevDir = transform.forward;
+        spawnTime = Time.time;
     }
     void FiredWeapon()
     {
@@ -50,52 +55,55 @@ public class HuskAI : MonoBehaviour
                 float distance = Vector3.Distance(transform.position, player.transform.position);
                 float inverseTime = (speed / distance);
                 float angle = Vector3.Angle(transform.forward, player.transform.position - transform.position);
-                if (inverseTime > 1 || (hit.transform && (angle < 45 && hit.transform.tag == "Player") && (hit.transform.GetComponent<CharacterCont>().currentSpeed > .1f) || Time.time - timeBorn > 1))
+                if (inverseTime > 1 || (hit.transform && (angle < 45 && hit.transform.tag == "Player") && (hit.transform.GetComponent<CharacterCont>().currentSpeed > .1f || Time.time - spawnTime < 3)))
                 {
                     hasSeen = true;
+                    audioSource.clip = spotted;
+                    audioSource.Play();
                 }
             }
             if (hasSeen)
             {
-                if (Time.time - lastAttacked > weapon.fireRate)
-                    attacking = false;
                 if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
                 {
-                    attacking = true;
                     transform.forward = player.transform.position - transform.position;
+
+
                     if (weapon && Time.time - lastAttacked > weapon.fireRate)
                     {
                         lastAttacked = Time.time;
                         animator.SetTrigger("AttackWeak");
+                        agent.SetDestination(transform.position);
                     }
-                    agent.SetDestination(transform.position);
+
                 }
-                else if (!attacking)
+                else
                 {
                     agent.SetDestination(player.transform.position);
 
                 }
-            }
 
-            UpdateAnimator();
-            prevPos = transform.position;
-            prevDir = transform.forward;
+                UpdateAnimator();
+                prevPos = transform.position;
+                prevDir = transform.forward;
+            }
         }
         else
         {
-            agent.enabled = false;
-            if (GetComponent<NavMeshObstacle>())
+            if (GetComponent<Collider>())
             {
-                Destroy(GetComponent<NavMeshObstacle>());
                 Destroy(GetComponent<Collider>());
+                agent.enabled = false;
             }
         }
     }
     public void Damage()
     {
-        if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius * 1.5f : 1.5f))
+        if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius * 2 : 2))
         {
             player.GetComponent<Health>().CurrentHealth -= weapon.damage;
+            audioSource.clip = attackClip;
+            audioSource.Play();
         }
     }
     void UpdateAnimator()

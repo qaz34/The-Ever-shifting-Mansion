@@ -1,0 +1,3 @@
+A nice little First Aid Travel Kit. There are quite a lot of supplies in here and should be able to heal all wounds.
+
+Heals 100 HP

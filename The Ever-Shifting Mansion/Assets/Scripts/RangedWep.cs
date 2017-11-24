@@ -8,7 +8,7 @@ public class RangedWep : Weapon
     public AmmoType ammoType;
     public int ammoCap = 5;
     [HideInInspector]
-    public int left = 1000;
+    public int left = 10;
     [Tooltip("Seconds for full reload")]
     public float reloadSpeed = 1;
     [HideInInspector]
@@ -46,9 +46,7 @@ public class RangedWep : Weapon
     }
     public override bool Fire(Transform position)
     {
-        if (lastFired > Time.time)
-            lastFired = 0;
-        if (left > 0 && !reloading)
+        if (left > 0 && !reloading && !fired)
         {
             if (fireRate < Time.time - lastFired)
             {
@@ -67,19 +65,20 @@ public class RangedWep : Weapon
                 }
                 return true;
             }
+            if (!holdToFire)
+                fired = true;
         }
-        else
+        else if (!fired && !reloading)
         {
-            if (!reloading)
-                foreach (Ammo ammo in GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().ammo.Where(i => i.ammoType == ammoType))
+            foreach (Ammo ammo in GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().ammo.Where(i => i.ammoType == ammoType))
+            {
+                if (ammo.amount > 0)
                 {
-                    if (ammo.amount > 0)
-                    {
-                        GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetTrigger("Reload");
-                      
-                        Reload(ammo);
-                    }
+                    GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetTrigger("Reload");
+
+                    Reload(ammo);
                 }
+            }
         }
         return false;
     }

@@ -26,6 +26,7 @@ public class Weapon : Item
     public WepType type;
     public AudioClip soundEffect;
     protected float lastFired;
+    public bool fired;
     public override void PickUp()
     {
         Inventory inv = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();

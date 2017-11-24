@@ -46,6 +46,13 @@ public class Health : MonoBehaviour
 
                     //gameObject.SetActive(false);
                 }
+                else
+                {
+                    if (tag == "Player")
+                    {
+                        GetComponent<Animator>().SetFloat("health", health);
+                    }
+                }
         }
     }
     public bool isDead = false;
@@ -53,6 +60,10 @@ public class Health : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+        if (tag == "Player")
+        {
+            GetComponent<Animator>().SetFloat("health", health);
+        }
     }
 
     //    void Update()

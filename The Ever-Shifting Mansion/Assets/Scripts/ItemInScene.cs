@@ -45,11 +45,16 @@ public class ItemInScene : MonoBehaviour
             }
             else
             {
+                isLooking = true;               
                 GameObject go = Instantiate(((StoryNote)item).noteCanvas);
                 Instantiate(item.display, go.transform);
                 go.GetComponentInChildren<Text>().text = item.description.text;
                 GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterCont>().SetEnabled(false);
             }
+        }
+        else if (playerIsIn && device.Action1.WasPressed)
+        {
+            isLooking = false;
         }
     }
     void StopLooking(bool interact)

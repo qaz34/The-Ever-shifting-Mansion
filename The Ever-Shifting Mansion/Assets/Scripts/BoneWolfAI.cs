@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(AudioSource))]
 public class BoneWolfAI : MonoBehaviour
 {
     NavMeshAgent agent;
     GameObject player;
     Animator animator;
+    AudioSource audioSource;
     public float walkRadius;
     public State state = State.Wander;
     public float wanderSpeed;
@@ -35,6 +37,7 @@ public class BoneWolfAI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
