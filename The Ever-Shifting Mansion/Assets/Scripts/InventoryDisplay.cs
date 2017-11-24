@@ -64,7 +64,7 @@ public class InventoryDisplay : MonoBehaviour
                 {
                     if (!minimap)
                     {
-                        minimap = Instantiate(minimapPref);                      
+                        minimap = Instantiate(minimapPref);
                     }
                     else
                     {
@@ -137,6 +137,7 @@ public class InventoryDisplay : MonoBehaviour
     }
     public void ToggleInventory()
     {
+        mapInScene.GetComponent<cakeslice.Outline>().enabled = false;
         inventoryCamera.SetActive(!inventoryCamera.activeSelf);
         var player = GameObject.FindGameObjectWithTag("Player");
         player.SendMessage("SetEnabled", !inventoryCamera.activeSelf);
