@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
+
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(AudioSource))]
 public class BoneWolfAI : MonoBehaviour
@@ -10,6 +12,7 @@ public class BoneWolfAI : MonoBehaviour
     GameObject player;
     Animator animator;
     AudioSource audioSource;
+    Health health;
     public float walkRadius;
     public State state = State.Wander;
     public float wanderSpeed;
@@ -41,7 +44,7 @@ public class BoneWolfAI : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
-
+        health = GetComponent<Health>();
     }
 
     // Update is called once per frame
@@ -73,6 +76,12 @@ public class BoneWolfAI : MonoBehaviour
                 break;
 
         }
+        if (health.CurrentHealth <= 0)
+        {
+            SceneManager.LoadScene("GameWin");
+        }
+
+
     }
     void StartSearch()
     {
@@ -190,7 +199,6 @@ public class BoneWolfAI : MonoBehaviour
     {
         stateTimer = 2;
         state = State.Attack;
-
     }
     void UpdateAttack()
     {
@@ -198,18 +206,17 @@ public class BoneWolfAI : MonoBehaviour
         animator.SetFloat("Speed", agent.velocity.magnitude / 2);
         agent.SetDestination(player.transform.position);
         bool withinRange = (Vector3.Distance(transform.position, player.transform.position) < 2f);
-        if (!isAttacking && withinRange)
+        if (!isAttacking && withinRange && stateTimer <= 0)
         {
             stateTimer = 1; //animTime     
             isAttacking = true;
-            animator.SetBool("Attacking", true);
+            animator.SetTrigger("Attacking");
             agent.isStopped = true;
         }
 
         if (isAttacking && !withinRange)
-        { 
-           animator.SetBool("Attacking", false);
-           agent.isStopped = false;
+        {
+            agent.isStopped = false;
         }
 
         if (Vector3.Distance(transform.position, player.transform.position) > 8f)
@@ -220,19 +227,17 @@ public class BoneWolfAI : MonoBehaviour
 
         if (stateTimer <= 0)
         {
-            if (Vector3.Distance(transform.position, player.transform.position) < 3f)
+            if (Vector3.Distance(transform.position, player.transform.position) < 3f && Vector3.Angle(transform.forward, player.transform.position - transform.position) < 30)
             {
                 player.GetComponent<Health>().CurrentHealth -= 20;
                 Debug.Log(player.GetComponent<Health>().CurrentHealth);
-
             }
-
+            stateTimer = 4;
             isAttacking = false;
         }
-        if (isAttacking)
+        if (withinRange && !isAttacking)
         {
-            agent.transform.forward = Vector3.Lerp(agent.transform.forward, chargeDirection, .1f);
-
+            transform.forward = Vector3.Lerp(transform.forward, player.transform.position - transform.position, .01f);
         }
     }
 

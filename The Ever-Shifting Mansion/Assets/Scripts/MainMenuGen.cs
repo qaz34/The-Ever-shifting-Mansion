@@ -33,16 +33,8 @@ public class MainMenuGen : MonoBehaviour
     {
         if (!GameObject.FindGameObjectWithTag("Player"))
         {
-            MapGenScriptiable gen = Instantiate(mapGen);
-            //Instantiate new copies of the rooms into the gen
-            gen.GenMap();
-            mapGen = gen;
-            DontDestroyOnLoad(mapGen);
-            currentRoom = gen.rooms[0];
-            player = Instantiate(playerPrefab);
-            player.transform.position = new Vector3(-100, -100, -100);
-            DontDestroyOnLoad(player);
             StartCoroutine(ShowControls());
+            StartCoroutine(loadMap());
         }
     }
     public void Load(RoomScriptable room)
@@ -146,7 +138,20 @@ public class MainMenuGen : MonoBehaviour
             }
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        go.GetComponent<PauseMenu>().pauseCanvas.SetActive(false);
         Load(mapGen.rooms[0]);
+        go.GetComponent<PauseMenu>().pauseCanvas.SetActive(false);
+    }
+    IEnumerator loadMap()
+    {
+        yield return null;
+        MapGenScriptiable gen = Instantiate(mapGen);
+        //Instantiate new copies of the rooms into the gen
+        gen.GenMap();
+        mapGen = gen;
+        DontDestroyOnLoad(mapGen);
+        currentRoom = gen.rooms[0];
+        player = Instantiate(playerPrefab);
+        player.transform.position = new Vector3(-100, -100, -100);
+        DontDestroyOnLoad(player);
     }
 }
