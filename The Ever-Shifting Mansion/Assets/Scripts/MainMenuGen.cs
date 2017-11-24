@@ -103,7 +103,7 @@ public class MainMenuGen : MonoBehaviour
             if (itemSpawns.Count == 0)
                 break;
             var itemSpawn = itemSpawns[Random.Range(0, itemSpawns.Count)];
-            Debug.Log(currentRoom.grabbedList.Contains(item.Key));
+
             if (!currentRoom.grabbedList.Contains(item.Key))
             {
                 itemSpawn.GetComponent<ItemInScene>().item = item.Value;
