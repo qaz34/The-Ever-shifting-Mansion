@@ -33,6 +33,7 @@ public class MapGenScriptiable : ScriptableObject
     public List<SpecialRoom> specialRooms = new List<SpecialRoom>();
     public List<WeaponTarget> neededWeapons = new List<WeaponTarget>();
     List<SpecialRoom> placed = new List<SpecialRoom>();
+    List<SpecialRoom> specialRoomsTryed = new List<SpecialRoom>();
     public RoomScriptable startRoom;
     [HideInInspector]
     public bool[] grid1D;
@@ -140,7 +141,11 @@ public class MapGenScriptiable : ScriptableObject
                     break;
                 }
             }
-        noFit -= DeleteFromList;
+        else
+        {
+            specialRoomsTryed = new List<SpecialRoom>();
+        }
+
     }
     Item GetItemWeighted(RoomScriptable room)
     {
@@ -279,39 +284,45 @@ public class MapGenScriptiable : ScriptableObject
             doors.RemoveAt(0);
             if (door.room.distanceFromStart < iterations)
             {
-                RoomScriptable roomBase = RollDoor(this, door.room.distanceFromStart + 1);
-                //place room
-                room = Instantiate(roomBase);
-                room.RotateTo((RoomScriptable.Rotated)Random.Range(0, 4));
-                bool fit = false;
-                for (int it = 0; it < 10; it++)
+                for (int i = 0; i < specialRooms.Count - specialRoomsTryed.Count; i++)
                 {
-                    foreach (var connectedDoor in room.doors)
+                    RoomScriptable roomBase = RollDoor(this, door.room.distanceFromStart + 1);
+                    //place room
+                    room = Instantiate(roomBase);
+                    room.RotateTo((RoomScriptable.Rotated)Random.Range(0, 4));
+                    bool fit = false;
+                    for (int it = 0; it < 6; it++)
                     {
-                        if ((door.door.Direction() + connectedDoor.Direction()).magnitude == 0)
+                        foreach (var connectedDoor in room.doors)
                         {
-                            Vector2 pos = door.room.posOnGrid + door.door.GridPos - connectedDoor.GridPos + door.door.Direction();
-                            if (CanFit(this, room, pos))
+                            if ((door.door.Direction() + connectedDoor.Direction()).magnitude == 0)
                             {
-                                door.door.connectedScene = room;
-                                connectedDoor.connectedScene = door.room;
-                                room.posOnGrid = pos;
-                                rooms.Add(room);
-                                foreach (var doorInRoom in room.doors)
-                                    doors.Add(new DoorRoom { room = room, door = doorInRoom });
-                                room.distanceFromStart = door.room.distanceFromStart + 1;
-                                fit = true;
-                                SetMap(this, room, pos);
-                                break;
+                                Vector2 pos = door.room.posOnGrid + door.door.GridPos - connectedDoor.GridPos + door.door.Direction();
+                                if (CanFit(this, room, pos))
+                                {
+                                    door.door.connectedScene = room;
+                                    connectedDoor.connectedScene = door.room;
+                                    room.posOnGrid = pos;
+                                    rooms.Add(room);
+                                    foreach (var doorInRoom in room.doors)
+                                        doors.Add(new DoorRoom { room = room, door = doorInRoom });
+                                    room.distanceFromStart = door.room.distanceFromStart + 1;
+                                    fit = true;
+                                    SetMap(this, room, pos);
+                                    break;
+                                }
                             }
                         }
+                        if (!fit)
+                            room.RotateTo((RoomScriptable.Rotated)Random.Range(0, 4));
+                        else
+                            break;
+
                     }
-                    if (!fit)
-                        room.RotateTo((RoomScriptable.Rotated)Random.Range(0, 4));
-                    else
+                    noFit?.Invoke(roomBase, fit);
+                    if (fit)
                         break;
                 }
-                noFit?.Invoke(roomBase, fit);
 
             }
             if (doors.Count == 0)
@@ -322,8 +333,6 @@ public class MapGenScriptiable : ScriptableObject
     }
     bool CheckMap()
     {
-        if (iterations < 4)
-            return true;
         foreach (var room in specialRooms.Where(i => !placed.Contains(i)))
         {
             if (room.needToBePlaced == true)
@@ -374,16 +383,19 @@ public class MapGenScriptiable : ScriptableObject
     public void GenMap()
     {
         int i = 0;
-        while (true && i < 10)
+        noFit += DeleteFromList;
+        while (true && i < 40)
         {
+
+            specialRoomsTryed = new List<SpecialRoom>();
             i++;
             NewGrid();
             RandomMap();
-            if (i < 10)
+            if (i < 40)
             {
                 if (!CheckMap())
                 {
-                    Debug.Log(placed.Count);
+                    Debug.Log("MapFail");
                     continue;
                 }
                 if (!RandomWeapons())
@@ -397,6 +409,7 @@ public class MapGenScriptiable : ScriptableObject
             GiveSeed();
             break;
         }
+        noFit -= DeleteFromList;
     }
     RoomScriptable RollDoor(MapGenScriptiable gen, int distanceFromStart)
     {
@@ -404,11 +417,11 @@ public class MapGenScriptiable : ScriptableObject
         float full = 0;
 
         float percent = Random.Range(0, 100);
-        if (percent > 10)
+        if (percent > 0)
         {
             percent = Random.Range(0, 100);
             var rooms = new List<SpecialRoom>();
-            foreach (var room in gen.specialRooms.Where(i => !placed.Contains(i)))
+            foreach (var room in gen.specialRooms.Where(i => !placed.Contains(i) && !specialRoomsTryed.Contains(i)))
             {
                 if (distanceFromStart >= room.distanceAfter)
                 {
@@ -421,7 +434,8 @@ public class MapGenScriptiable : ScriptableObject
                 if ((percentile / rooms.Count) * 100 > percent)
                 {
                     placed.Add(room);
-                    noFit += DeleteFromList;
+                    specialRoomsTryed.Add(room);
+
                     return room.room;
                 }
             }
