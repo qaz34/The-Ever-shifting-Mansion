@@ -26,6 +26,7 @@ public class Inventory : MonoBehaviour
                 foreach (Transform trans in weaponLocation)
                     Destroy(trans.gameObject);
                 Instantiate(GetComponent<CombatController>().equipWeapon.inGame, weaponLocation.position, weaponLocation.rotation, weaponLocation);
+                GetComponent<CombatController>().ammoChanged?.Invoke();
                 return;
             }
             else
