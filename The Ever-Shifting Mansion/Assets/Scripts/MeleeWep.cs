@@ -11,6 +11,11 @@ public class MeleeWep : Weapon
 
     public float knockBackForce = 1;
     public float knockBackAngle = 10;
+    public override void Interact()
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().currentlyEquipWeapon = (int)type;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>().Equip(true);
+    }
     public override bool Fire(Transform position)
     {
         if (!fired)
