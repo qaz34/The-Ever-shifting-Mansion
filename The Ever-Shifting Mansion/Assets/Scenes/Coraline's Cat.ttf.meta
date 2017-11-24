@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 5272172bfd3ca2f4ab7bcfc1570888bf
+timeCreated: 1511485615
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Coraline's Cat
+  fontNames:
+  - Coraline's Cat
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

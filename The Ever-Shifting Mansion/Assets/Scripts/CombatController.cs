@@ -6,6 +6,9 @@ using InControl;
 using System.Linq;
 public class CombatController : MonoBehaviour
 {
+    public delegate void AmmoChanged();
+    public AmmoChanged ammoChanged;
+
     public Weapon equipWeapon;
     public float rotateSpeed;
     public float snapAngle = 25;
@@ -114,6 +117,7 @@ public class CombatController : MonoBehaviour
                 }
                 if (device.RightTrigger.IsPressed)
                 {
+
                     if (equipWeapon.Fire(raycastPosition))
                     {
                         GetComponent<Animator>().SetTrigger("Fire");
@@ -129,12 +133,12 @@ public class CombatController : MonoBehaviour
                     {
                         fired?.Invoke();
                     }
+                    ammoChanged?.Invoke();
                 }
                 else
                 {
                     equipWeapon.fired = false;
                 }
-
                 if (device.Action3.WasPressed)
                 {
                     if (equipWeapon.type != WepType.MELEE)
@@ -145,6 +149,7 @@ public class CombatController : MonoBehaviour
                                 GetComponent<Animator>().SetTrigger("Reload");
                             }
                         }
+                    ammoChanged?.Invoke();
                 }
             }
             else

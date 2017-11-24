@@ -24,5 +24,6 @@ public class Ammo : Item
         foreach (var wep in inv.weapons.Where(i => i && i.type != WepType.MELEE))
             if (((RangedWep)wep).ammoType == ammoType)
                 ((RangedWep)wep).InstantReload(this);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<CombatController>().ammoChanged?.Invoke();
     }
 }
