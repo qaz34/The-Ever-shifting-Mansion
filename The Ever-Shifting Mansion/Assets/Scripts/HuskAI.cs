@@ -40,48 +40,59 @@ public class HuskAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!hasSeen)
+        if (GetComponent<Health>().alive)
         {
-            int mask = 1 << LayerMask.NameToLayer("Ignore Raycast");
-            mask = ~mask;
-            RaycastHit hit;
-            Vector3 toPlayer = player.transform.position - transform.position;
-            Physics.Raycast(transform.position, toPlayer.normalized, out hit, toPlayer.magnitude);
-            CharacterCont cc = player.GetComponent<CharacterCont>();
-            float speed = cc.currentSpeed;
-            float distance = Vector3.Distance(transform.position, player.transform.position);
-            float inverseTime = (speed / distance);
-            float angle = Vector3.Angle(transform.forward, player.transform.position - transform.position);
-            if (inverseTime > 1 || (hit.transform && (angle < 45 && hit.transform.tag == "Player") && hit.transform.GetComponent<CharacterCont>().currentSpeed > .1f))
+            if (!hasSeen)
             {
-                hasSeen = true;
-                audioSource.clip = spotted;
-                audioSource.Play();
+                int mask = 1 << LayerMask.NameToLayer("Ignore Raycast");
+                mask = ~mask;
+                RaycastHit hit;
+                Vector3 toPlayer = player.transform.position - transform.position;
+                Physics.Raycast(transform.position, toPlayer.normalized, out hit, toPlayer.magnitude);
+                CharacterCont cc = player.GetComponent<CharacterCont>();
+                float speed = cc.currentSpeed;
+                float distance = Vector3.Distance(transform.position, player.transform.position);
+                float inverseTime = (speed / distance);
+                float angle = Vector3.Angle(transform.forward, player.transform.position - transform.position);
+                if (inverseTime > 1 || (hit.transform && (angle < 45 && hit.transform.tag == "Player") && hit.transform.GetComponent<CharacterCont>().currentSpeed > .1f))
+                {
+                    hasSeen = true;
+                    audioSource.clip = spotted;
+                    audioSource.Play();
+                }
+            }
+            if (hasSeen)
+            {
+                if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
+                {
+                    transform.forward = player.transform.position - transform.position;
+
+
+                    if (weapon && Time.time - lastAttacked > weapon.fireRate)
+                    {
+                        lastAttacked = Time.time;
+                        animator.SetTrigger("AttackWeak");
+                        agent.SetDestination(transform.position);
+                    }
+                    else
+                    {
+                        agent.SetDestination(player.transform.position);
+
+                    }
+                }
+
+                UpdateAnimator();
+                prevPos = transform.position;
+                prevDir = transform.forward;
             }
         }
-        if (hasSeen)
+        else
         {
-            if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius : 1))
+            if (GetComponent<Collider>())
             {
-                transform.forward = player.transform.position - transform.position;
-
-
-                if (weapon && Time.time - lastAttacked > weapon.fireRate)
-                {
-                    lastAttacked = Time.time;
-                    animator.SetTrigger("AttackWeak");
-                    agent.SetDestination(transform.position);
-                }
-                else
-                {
-                    agent.SetDestination(player.transform.position);
-
-                }
+                Destroy(GetComponent<Collider>());
+                agent.enabled = false;
             }
-
-            UpdateAnimator();
-            prevPos = transform.position;
-            prevDir = transform.forward;
         }
     }
     public void Damage()

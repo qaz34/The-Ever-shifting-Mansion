@@ -137,10 +137,10 @@ public class MainMenuGen : MonoBehaviour
     IEnumerator ShowControls()
     {
         var go = Instantiate(pauseMenu);
-
+        yield return new WaitForSeconds(1);
         while (true)
         {
-            if (InputManager.ActiveDevice.Action1.IsPressed)
+            if (InputManager.ActiveDevice.AnyButton.IsPressed)
             {
                 break;
             }
