@@ -75,11 +75,12 @@ public class HuskAI : MonoBehaviour
                         animator.SetTrigger("AttackWeak");
                         agent.SetDestination(transform.position);
                     }
-                    else
-                    {
-                        agent.SetDestination(player.transform.position);
 
-                    }
+                }
+                else
+                {
+                    agent.SetDestination(player.transform.position);
+
                 }
 
                 UpdateAnimator();

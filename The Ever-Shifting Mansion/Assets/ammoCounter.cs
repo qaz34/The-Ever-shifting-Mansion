@@ -17,12 +17,12 @@ public class ammoCounter : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("Player").GetComponent<CombatController>().equipWeapon.type != WepType.MELEE)
         {
             RangedWep wep = (RangedWep)GameObject.FindGameObjectWithTag("Player").GetComponent<CombatController>().equipWeapon;
-            GetComponentInChildren<Text>().text = wep.name + ": " + wep.left.ToString() + "/" + wep.ammoCap.ToString();
+            GetComponentInChildren<Text>().text = wep.name.Remove(wep.name.Length - 8, 7) + ": " + wep.left.ToString() + "/" + wep.ammoCap.ToString();
         }
         else
         {
             MeleeWep wep = (MeleeWep)GameObject.FindGameObjectWithTag("Player").GetComponent<CombatController>().equipWeapon;
-            GetComponentInChildren<Text>().text = wep.name;
+            GetComponentInChildren<Text>().text = wep.name.Remove(wep.name.Length - 8, 7);
         }
     }
 }
