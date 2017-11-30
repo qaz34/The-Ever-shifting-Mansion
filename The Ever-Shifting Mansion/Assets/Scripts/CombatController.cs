@@ -47,6 +47,7 @@ public class CombatController : MonoBehaviour
     void Start()
     {
         charCont = GetComponent<CharacterCont>();
+        audioSource = GetComponent<AudioSource>();
     }
     void GetValidTargets()
     {

@@ -101,9 +101,9 @@ public class HuskAI : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) < (weapon ? ((MeleeWep)weapon).arcRadius * 2 : 2))
         {
-            player.GetComponent<Health>().CurrentHealth -= weapon.damage;
             audioSource.clip = attackClip;
             audioSource.Play();
+            player.GetComponent<Health>().CurrentHealth -= weapon.damage;
         }
     }
     void UpdateAnimator()
